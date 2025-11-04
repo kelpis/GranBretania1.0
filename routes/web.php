@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\TranslationRequest;
 use App\Http\Controllers\StripeWebhookController;
+use App\Http\Middleware\VerifyCsrfToken;
+
+use Illuminate\Support\Facades\Log;
 
 
 Route::get('/', function () {
@@ -61,8 +64,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/reservar/ok', [ClassBookingController::class, 'success'])
     ->name('bookings.success');
 
-// Stripe webhook (no CSRF token expected)
-Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])->name('stripe.webhook');
+
 
 // Ruta para unirse a la videollamada asociada a una reserva
 Route::get('/reservas/{booking}/unirse', [App\Http\Controllers\ClassBookingController::class, 'join'])
@@ -149,3 +151,11 @@ Route::middleware(['auth', AdminMiddleware::class])
 
 
 require __DIR__ . '/auth.php';
+
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
+    ->name('stripe.webhook')
+    ->withoutMiddleware([VerifyCsrfToken::class]);   // <- clave
+
+
+
+

@@ -6,7 +6,7 @@
     <div class="py-6">
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white p-6 shadow sm:rounded-lg">
-                <form method="POST" action="{{ route('user.bookings.update', $booking) }}">
+                <form id="booking-edit-form" method="POST" action="{{ route('user.bookings.update', $booking) }}">
                     @csrf
                     @method('PUT')
 
@@ -23,7 +23,7 @@
 
                     <div class="mb-4">
                         <label class="block font-medium">Fecha</label>
-                        <input type="date" name="class_date" value="{{ old('class_date', $booking->class_date) }}" class="w-full border rounded p-2" required>
+                        <input type="date" name="class_date" data-availability-url="{{ route('bookings.availability') }}" data-except="{{ $booking->id }}" value="{{ old('class_date', $booking->class_date) }}" class="w-full border rounded p-2" required>
                         @error('class_date')
                             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -31,7 +31,7 @@
 
                     <div class="mb-4">
                         <label class="block font-medium">Hora</label>
-                        <select id="class_time" name="class_time" class="w-full border rounded p-2" required>
+                        <select id="class_time" data-old-time="{{ old('class_time', substr($booking->class_time,0,5)) }}" name="class_time" class="w-full border rounded p-2" required>
                             <option value="">— Selecciona hora —</option>
                             @foreach(range(9,21) as $h)
                                 @php $hh = str_pad($h, 2, '0', STR_PAD_LEFT) . ':00'; @endphp
@@ -54,7 +54,7 @@
 
                     <div class="mb-4">
                         <label class="block font-medium">Teléfono</label>
-                        <input type="text" name="phone" value="{{ old('phone', $booking->phone) }}" class="w-full border rounded p-2">
+                        <input type="tel" name="phone" value="{{ old('phone', $booking->phone) }}" class="w-full border rounded p-2">
                         @error('phone')
                             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -76,43 +76,5 @@
             </div>
         </div>
     </div>
-    <script>
-        (function(){
-            const dateInput = document.querySelector('input[name="class_date"]');
-            const timeSelect = document.getElementById('class_time');
-            const help = document.getElementById('time-help');
-            const url = '{{ route('bookings.availability') }}';
-            const except = '{{ $booking->id }}';
-
-            async function loadTimesFor(date) {
-                if (!date) return;
-                help.textContent = 'Comprobando disponibilidad...';
-                try {
-                    const res = await fetch(url + '?date=' + encodeURIComponent(date) + '&except=' + encodeURIComponent(except));
-                    if (!res.ok) throw new Error('Error');
-                    const data = await res.json();
-                    // repoblar select
-                    timeSelect.innerHTML = '<option value="">— Selecciona hora —</option>';
-                    if ((data.available || []).length === 0) {
-                        help.textContent = 'No hay horas disponibles para esta fecha.';
-                        return;
-                    }
-                    help.textContent = '';
-                    data.available.forEach(t => {
-                        const opt = document.createElement('option');
-                        opt.value = t;
-                        opt.textContent = t;
-                        if ('{{ old('class_time', substr($booking->class_time,0,5)) }}' === t) opt.selected = true;
-                        timeSelect.appendChild(opt);
-                    });
-                } catch (e) {
-                    help.textContent = 'No se pudo comprobar disponibilidad.';
-                }
-            }
-
-            dateInput.addEventListener('change', function(){ loadTimesFor(this.value); });
-            // load on page load
-            if (dateInput.value) loadTimesFor(dateInput.value);
-        })();
-    </script>
+    <script src="/js/user-bookings.js"></script>
 </x-app-layout>

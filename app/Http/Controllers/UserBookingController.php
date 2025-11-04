@@ -54,7 +54,8 @@ class UserBookingController extends Controller
             'class_date' => 'required|date',
             'class_time' => 'required',
             'name' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:50',
+            // phone: allow digits, spaces, +, parentheses and hyphens
+            'phone' => ['nullable', 'string', 'max:50', 'regex:/^[0-9+\\s\\-()]+$/'],
             'notes' => 'nullable|string|max:1000',
         ]);
 

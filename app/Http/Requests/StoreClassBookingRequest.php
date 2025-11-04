@@ -23,7 +23,8 @@ class StoreClassBookingRequest extends FormRequest
             'class_time' => ['required', 'date_format:H:i'],
             'name'       => ['required', 'string', 'max:120'],
             'email'      => ['required', 'email'],
-            'phone'      => ['nullable', 'string', 'max:40'],
+            // Allow common phone characters: digits, spaces, +, parentheses and hyphens
+            'phone'      => ['nullable', 'string', 'max:40', 'regex:/^[0-9+\\s\\-()]+$/'],
             'notes'      => ['nullable', 'string', 'max:255'],
             'gdpr'       => ['accepted'],
             // validate reCAPTCHA v3 with a conservative threshold (0.5) and expected action 'booking'
@@ -73,6 +74,7 @@ class StoreClassBookingRequest extends FormRequest
             'availability_slot_id.exists'   => 'La franja no está disponible o incumple las reglas (L–V, 09:00–21:00).',
             'class_date.required' => 'Selecciona una fecha válida.',
             'class_date.date' => 'La fecha no tiene un formato válido.',
+            'phone.regex' => 'El teléfono solo puede contener dígitos, espacios, +, paréntesis y guiones.',
         ];
     }
 }

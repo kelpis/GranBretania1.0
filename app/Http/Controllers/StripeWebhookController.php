@@ -22,6 +22,17 @@ class StripeWebhookController extends Controller
 
         try {
             $event = Webhook::constructEvent($payload, $sigHeader, $endpointSecret);
+            // Log básico para diagnóstico: evento recibido y headers principales
+            try {
+                Log::info('Stripe webhook constructed', [
+                    'type' => $event->type ?? null,
+                    'headers' => [
+                        'stripe-signature' => $sigHeader,
+                    ],
+                ]);
+            } catch (\Throwable $e) {
+                // no bloquear el flujo si falla el logging
+            }
         } catch (\UnexpectedValueException $e) {
             Log::warning('Stripe webhook invalid payload: ' . $e->getMessage());
             return response()->json(['error' => 'Invalid payload'], 400);
@@ -32,10 +43,26 @@ class StripeWebhookController extends Controller
 
         if ($event->type === 'checkout.session.completed') {
             $session = $event->data->object;
-            $bookingId = $session->metadata->booking_id ?? null;
+            $metadata = $session->metadata ?? null;
+            $bookingId = $metadata->booking_id ?? ($metadata['booking_id'] ?? null);
+
+            // Registrar metadata recibida para depuración
+            try {
+                Log::info('Stripe checkout.session.completed received', [
+                    'booking_id_meta' => $bookingId,
+                    'metadata' => is_object($metadata) ? (array)$metadata : $metadata,
+                    'session_id' => $session->id ?? null,
+                ]);
+            } catch (\Throwable $e) {
+                // ignore logging errors
+            }
 
             if ($bookingId) {
                 $booking = ClassBooking::find($bookingId);
+                if (! $booking) {
+                    Log::warning('Stripe webhook: booking not found', ['booking_id' => $bookingId]);
+                }
+
                 if ($booking && ! $booking->paid) {
                     $booking->paid = true;
                     $booking->paid_at = now();
@@ -43,6 +70,13 @@ class StripeWebhookController extends Controller
                     $booking->amount_paid = $session->amount_total ?? null;
                     $booking->currency = $session->currency ?? null;
                     $booking->save();
+
+                    // Confirmar en logs que la reserva fue marcada
+                    try {
+                        Log::info('Stripe webhook: booking marked paid', ['booking_id' => $booking->id]);
+                    } catch (\Throwable $e) {
+                        // ignore
+                    }
 
                     // Notificar al usuario y al admin
                     try {

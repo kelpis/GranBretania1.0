@@ -18,7 +18,7 @@
       @endif
 
       <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-        <form method="POST" action="{{ route('translation.store') }}" enctype="multipart/form-data" class="space-y-4" data-grecaptcha="v3" data-recaptcha-action="translation">
+        <form id="translation-form" method="POST" action="{{ route('translation.store') }}" enctype="multipart/form-data" class="space-y-4" data-grecaptcha="v3" data-recaptcha-action="translation">
           @csrf
 
           <div>
@@ -52,7 +52,8 @@
 
           <div>
             <label class="block mb-1 font-medium">Archivo</label>
-            <input type="file" name="file" class="w-full" required>
+            <input type="file" name="file" class="w-full" accept=".pdf,.doc,.docx,.odt,.txt,.rtf" required>
+            <p class="text-sm text-gray-500 mt-1">Formatos permitidos: PDF, DOC, DOCX, ODT, TXT, RTF. Tamaño máximo: 10MB.</p>
           </div>
 
           <div>
@@ -68,10 +69,10 @@
           </div>
 
           {{-- reCAPTCHA v3: token se inyecta por JS desde layout cuando data-grecaptcha="v3" está presente --}}
-
-          <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Enviar</button>
+          <button id="tr-submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Enviar</button>
         </form>
       </div>
     </div>
   </div>
+  <script src="/js/translation.js"></script>
 </x-app-layout>

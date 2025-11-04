@@ -21,13 +21,13 @@
     @endif
 
     {{-- Formulario de reserva --}}
-    <form method="POST" action="{{ route('bookings.store') }}" class="space-y-5" data-grecaptcha="v3" data-recaptcha-action="booking">
+    <form id="booking-form" method="POST" action="{{ route('bookings.store') }}" class="space-y-5" data-grecaptcha="v3" data-recaptcha-action="booking">
       @csrf
 
       {{-- Fecha y hora --}}
       <div>
         <label class="block text-sm font-medium mb-1">Fecha*</label>
-        <select id="class_date" name="class_date" class="w-full border rounded p-2" required aria-describedby="date-help">
+        <select id="class_date" data-availability-url="{{ route('bookings.availability') }}" data-old-date="{{ old('class_date') }}" name="class_date" class="w-full border rounded p-2" required aria-describedby="date-help">
           <option value="">— Selecciona fecha —</option>
           {{-- JS rellenará las próximas fechas (excluyendo fines de semana) --}}
         </select>
@@ -37,7 +37,7 @@
         @enderror
 
         <label class="block text-sm font-medium mb-1 mt-4">Hora*</label>
-        <select id="class_time" name="class_time" class="w-full border rounded p-2" required>
+        <select id="class_time" data-old-time="{{ old('class_time') }}" name="class_time" class="w-full border rounded p-2" required>
           <option value="">— Selecciona hora —</option>
           @foreach (range(9, 21) as $h)
             @php $hh = str_pad($h, 2, '0', STR_PAD_LEFT) . ':00'; @endphp
@@ -73,7 +73,7 @@
       {{-- Teléfono --}}
       <div>
         <label class="block text-sm font-medium mb-1">Teléfono</label>
-        <input type="text" name="phone" value="{{ old('phone') }}" class="w-full border rounded p-2"
+        <input type="tel" name="phone" value="{{ old('phone') }}" class="w-full border rounded p-2"
           placeholder="(opcional)">
         @error('phone')
           <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
@@ -106,68 +106,5 @@
       </div>
     </form>
   </div>
-      <script>
-    (function(){
-      const dateSelect = document.getElementById('class_date');
-      const timeSelect = document.getElementById('class_time');
-      const help = document.getElementById('time-help');
-      const url = '{{ route('bookings.availability') }}';
-
-      // Generar próximas N fechas (excluyendo fines de semana)
-      function pad(n){ return n < 10 ? '0'+n : n }
-      function formatYMD(d){ return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()); }
-      function formatDisplay(d){ return pad(d.getDate()) + '/' + pad(d.getMonth()+1) + '/' + d.getFullYear(); }
-
-      const DAYS = 30; // buscar 30 días hacia adelante
-      const oldDate = '{{ old('class_date') }}';
-
-      (function populateDates(){
-        const today = new Date();
-        for (let i = 0, added = 0; added < DAYS; i++) {
-          const d = new Date(today);
-          d.setDate(today.getDate() + i);
-          const dow = d.getDay(); // 0 = dom, 6 = sab
-          if (dow === 0 || dow === 6) continue; // saltar fines de semana
-
-          const val = formatYMD(d);
-          const opt = document.createElement('option');
-          opt.value = val;
-          opt.textContent = formatDisplay(d) + ' (' + ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][dow] + ')';
-          if (oldDate === val) opt.selected = true;
-          dateSelect.appendChild(opt);
-          added++;
-        }
-      })();
-
-      async function loadTimesFor(date) {
-        if (!date) return;
-        help.textContent = 'Comprobando disponibilidad...';
-        try {
-          const res = await fetch(url + '?date=' + encodeURIComponent(date));
-          if (!res.ok) throw new Error('Error');
-          const data = await res.json();
-          // repoblar select
-          timeSelect.innerHTML = '<option value="">— Selecciona hora —</option>';
-          if ((data.available || []).length === 0) {
-            help.textContent = 'No hay horas disponibles para esta fecha.';
-            return;
-          }
-          help.textContent = '';
-          data.available.forEach(t => {
-            const opt = document.createElement('option');
-            opt.value = t;
-            opt.textContent = t;
-            if ('{{ old('class_time') }}' === t) opt.selected = true;
-            timeSelect.appendChild(opt);
-          });
-        } catch (e) {
-          help.textContent = 'No se pudo comprobar disponibilidad.';
-        }
-      }
-
-      dateSelect.addEventListener('change', function(){ loadTimesFor(this.value); });
-      // load on page load if date present
-      if (dateSelect.value) loadTimesFor(dateSelect.value);
-    })();
-  </script>
+      <script src="/js/bookings.js"></script>
 </x-app-layout>
