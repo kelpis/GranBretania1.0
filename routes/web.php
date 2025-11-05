@@ -152,9 +152,6 @@ Route::middleware(['auth', AdminMiddleware::class])
 
 require __DIR__ . '/auth.php';
 
-Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
-    ->name('stripe.webhook')
-    ->withoutMiddleware([VerifyCsrfToken::class]);   // <- clave
 
 
 

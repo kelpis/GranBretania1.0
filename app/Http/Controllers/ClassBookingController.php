@@ -88,7 +88,12 @@ class ClassBookingController extends Controller
 
         // Crear sesión de Stripe Checkout y redirigir al usuario para pagar
         try {
-            $stripe = new StripeClient(config('services.stripe.secret'));
+            $stripeSecret = config('services.stripe.secret');
+            // advertencia temprana si la secret parece ausente o no tiene el prefijo esperado
+            if (empty($stripeSecret) || !preg_match('/^sk_/', $stripeSecret)) {
+                Log::warning('Stripe secret looks missing or unusual', ['secret_present' => empty($stripeSecret) ? false : true]);
+            }
+            $stripe = new StripeClient($stripeSecret);
             $session = $stripe->checkout->sessions->create([
                 'payment_method_types' => ['card'],
                 'mode' => 'payment',
@@ -109,6 +114,19 @@ class ClassBookingController extends Controller
                 'success_url' => route('bookings.success') . '?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => route('bookings.create'),
             ]);
+            $booking->stripe_session_id = $session->id;
+            $booking->save();
+            // Log session details for traceability (no datos sensibles)
+            try {
+                Log::info('Stripe Checkout created', [
+                    'session_id' => $session->id ?? null,
+                    'session_url' => $session->url ?? null,
+                    'booking_id' => $booking->id,
+                    'metadata' => is_object($session->metadata) ? (array)$session->metadata : $session->metadata,
+                ]);
+            } catch (\Throwable $e) {
+                // no bloquear el flujo por errores de logging
+            }
 
             // redirect to Stripe Checkout page
             return redirect($session->url);

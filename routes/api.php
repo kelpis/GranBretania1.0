@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StripeWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,5 +14,6 @@ use Illuminate\Support\Facades\Route;
 | If you need API routes in the future, re-add them here.
 |
 */
-
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
+->name('stripe.webhook');
 // No API routes defined. See routes/web.php for the Stripe webhook endpoint.
