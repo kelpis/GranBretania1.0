@@ -35,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($confirmadas as $b)
+                        @forelse ($pendientes as $b)
                             <tr class="border-b">
                                 <td class="py-2 pr-3">{{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}</td>
                                 <td class="py-2 pr-3">{{ substr($b->class_time, 0, 5) }}</td>
@@ -109,6 +109,65 @@
                                 <td colspan="7" class="py-3 text-gray-500 text-center">
                                     No hay reservas confirmadas o pagadas.
                                 </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {{-- Ya confirmadas --}}
+        <div class="bg-white p-4 rounded shadow">
+            <h3 class="font-semibold mb-3">Reservas ya confirmadas</h3>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                    <thead>
+                        <tr class="text-left border-b">
+                            <th class="py-2 pr-3">Fecha</th>
+                            <th class="py-2 pr-3">Hora</th>
+                            <th class="py-2 pr-3">Nombre</th>
+                            <th class="py-2 pr-3">Email</th>
+                            <th class="py-2 pr-3">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            // Filtra las confirmadas por estado si $confirmadas es una colección
+                            $ya_confirmadas = isset($confirmadas) && method_exists($confirmadas, 'where')
+                                ? $confirmadas->where('status', 'confirmed')
+                                : (array_filter($confirmadas ?? [], fn($x) => (isset($x->status) ? $x->status === 'confirmed' : false)) );
+                        @endphp
+
+                        @forelse ($ya_confirmadas as $b)
+                            <tr class="border-b">
+                                <td class="py-2 pr-3">{{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}</td>
+                                <td class="py-2 pr-3">{{ substr($b->class_time, 0, 5) }}</td>
+                                <td class="py-2 pr-3">{{ $b->name }}</td>
+                                <td class="py-2 pr-3">
+                                    <a href="mailto:{{ $b->email }}" class="underline text-blue-600">{{ $b->email }}</a>
+                                </td>
+                                <td class="py-2 pr-3">
+                                    @php
+                                        $fechaHoraClase = \Carbon\Carbon::parse($b->class_date.' '.substr($b->class_time,0,5));
+                                    @endphp
+                                    @if($b->paid && !$b->refunded && $fechaHoraClase->isFuture())
+                                        <form method="POST" action="{{ route('admin.bookings.refund', $b) }}">
+                                            @csrf
+                                            <button type="submit"
+                                                    onclick="return confirm('¿Devolver el pago y cancelar esta reserva?');"
+                                                    class="px-3 py-1 rounded bg-red-700 text-white hover:bg-red-800">
+                                                Cancelar y devolver
+                                            </button>
+                                        </form>
+                                    @else
+                                        <span class="text-gray-500 text-sm">No aplicable</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="py-3 text-gray-500 text-center">No hay reservas ya confirmadas.</td>
                             </tr>
                         @endforelse
                     </tbody>

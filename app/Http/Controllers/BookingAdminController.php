@@ -14,7 +14,9 @@ class BookingAdminController extends Controller
 {
      public function index()
     {
+        // Mostrar aquí SOLO reservas pagadas que todavía están en 'pending'
         $pendientes = ClassBooking::where('status','pending')
+            ->where('paid', true)
             ->orderBy('class_date')->orderBy('class_time')->get();
 
         // Order all lists by class_date then class_time (ascending)

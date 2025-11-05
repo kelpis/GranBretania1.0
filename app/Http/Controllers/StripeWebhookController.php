@@ -97,9 +97,10 @@ class StripeWebhookController extends Controller
                 $booking->amount_paid = $session->amount_total ?? null;
                 $booking->currency = $session->currency ?? null;
 
-                // Opcional: actualizar estado
+                // Mantener la reserva en 'pending' tras el pago para que el admin
+                // revise y confirme manualmente (a menos que estuviera cancelada).
                 if ($booking->status !== 'cancelled') {
-                    $booking->status = 'confirmed';
+                    $booking->status = 'pending';
                 }
 
                 $booking->save();
@@ -170,8 +171,10 @@ class StripeWebhookController extends Controller
                 $booking->amount_paid = $obj->amount ?? ($obj->amount_received ?? null);
                 $booking->currency = $obj->currency ?? null;
 
+                // Mantener en 'pending' para que el admin confirme la clase y ponga
+                // la URL de la videollamada.
                 if ($booking->status !== 'cancelled') {
-                    $booking->status = 'confirmed';
+                    $booking->status = 'pending';
                 }
 
                 $booking->save();

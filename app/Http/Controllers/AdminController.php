@@ -5,6 +5,8 @@ use Stripe\StripeClient;
 use App\Http\Requests\StoreClassBookingRequest;
 use App\Models\ClassBooking;
 use Illuminate\Support\Facades\Log;
+use App\Notifications\BookingCancelledNotification;
+use Illuminate\Support\Facades\Notification;
 
 class AdminController extends Controller
 {
@@ -38,6 +40,24 @@ class AdminController extends Controller
             $booking->refunded_at = now();
             $booking->status = 'cancelled';
             $booking->save();
+
+            // Enviar notificación al usuario informándole de la cancelación y reembolso
+            try {
+                if ($booking->user) {
+                    $booking->user->notify(new BookingCancelledNotification($booking));
+                } else {
+                    // Si no hay relación con user, envía por email usando la dirección almacenada
+                    Notification::route('mail', $booking->email)->notify(new BookingCancelledNotification($booking));
+                }
+
+                Log::info('Booking cancelled notification sent', [
+                    'booking_id' => $booking->id,
+                    'user_id' => $booking->user?->id ?? null,
+                ]);
+            } catch (\Throwable $e) {
+                // No bloqueamos el flujo por un fallo en la notificación; lo registramos para revisión
+                Log::error('Failed to send booking cancelled notification', ['booking_id' => $booking->id, 'error' => $e->getMessage()]);
+            }
 
             Log::info('Stripe refund successful', [
                 'booking_id' => $booking->id,
