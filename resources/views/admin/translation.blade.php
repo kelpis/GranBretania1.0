@@ -4,6 +4,27 @@
     </x-slot>
     <div class="py-6 max-w-5xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white shadow sm:rounded-lg p-6">
+            <div id="translation-calculator" class="mb-6 border rounded p-4 bg-gray-50">
+                <h3 class="font-medium mb-2">Calculadora rápida de traducción</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+                    <div>
+                        <label class="block text-xs text-gray-600">Número de palabras</label>
+                        <input id="calc-words" type="number" min="0" step="1" value="0" class="mt-1 block w-full rounded border-gray-300" />
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-600">Precio por palabra (€)</label>
+                        <input id="calc-price" type="number" min="0" step="0.01" value="0.10" class="mt-1 block w-full rounded border-gray-300" />
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-600">Resultado</label>
+                        <div id="calc-result" class="mt-1 text-lg font-semibold">€0.00</div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button id="calc-reset" type="button" class="px-3 py-1 bg-gray-200 rounded text-sm">Reset</button>
+                </div>
+            </div>
+            
             <table class="w-full text-sm">
                 <thead>
                     <tr class="text-left">

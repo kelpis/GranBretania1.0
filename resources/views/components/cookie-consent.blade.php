@@ -1,13 +1,13 @@
 <div id="cookie-consent" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] sm:w-auto max-w-lg bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] p-4 rounded shadow-md" style="display: none;">
     <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-        <div class="flex-1 text-sm text-[#1b1b18] dark:text-[#EDEDEC]">
+        <div class="flex-1 text-sm text-[#1b1b18] dark:text-[#EDEDEC] leading-relaxed">
             Usamos cookies propias y de terceros para mejorar tu experiencia y análisis. Puedes aceptar todas las cookies o rechazarlas. Más información en
-            <a href="{{ url('/cookies') }}" class="underline text-[#f53003] dark:text-[#FF4433]">la política de cookies</a>.
+            <a href="{{ url('/cookies') }}" class="underline text-[#f53003] dark:text-[#FF6A5A]">la política de cookies</a>.
         </div>
 
         <div class="flex items-center gap-2">
-            <button id="cookie-accept" class="px-3 py-2 bg-[#1b1b18] text-white rounded">Aceptar</button>
-            <button id="cookie-reject" class="px-3 py-2 border rounded">Rechazar</button>
+            <button id="cookie-accept" class="px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600">Aceptar</button>
+            <button id="cookie-reject" class="px-3 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded hover:opacity-95 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Rechazar</button>
         </div>
     </div>
 
