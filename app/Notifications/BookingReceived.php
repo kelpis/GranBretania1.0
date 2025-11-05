@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -9,7 +10,7 @@ use App\Models\ClassBooking;
 
 class BookingReceived extends Notification implements ShouldQueue
 {
-  use Queueable;
+    use Queueable;
 
     public function __construct(public ClassBooking $booking) {}
 
@@ -21,13 +22,13 @@ class BookingReceived extends Notification implements ShouldQueue
     public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Hemos recibido tu solicitud de clase')
+            ->subject('Tu clase ha sido reservada con éxito 🎉')
             ->greeting("Hola {$this->booking->name} 👋")
-            ->line("Hemos recibido tu solicitud para el día ".
-                   \Carbon\Carbon::parse($this->booking->class_date)->format('d/m/Y').
-                   " a las ".substr($this->booking->class_time,0,5).".")
-            ->line('Tu reserva está en estado **pendiente**.')
-            ->line('En breve la administradora te confirmará la cita.')
+            ->line("Hemos recibido correctamente tu pago para la clase del " .
+                \Carbon\Carbon::parse($this->booking->class_date)->format('d/m/Y') .
+                " a las " . substr($this->booking->class_time, 0, 5) . ".")
+            ->line('En breve recibirás otro correo con el enlace para acceder a la videollamada.')
+            ->line('¡Gracias por confiar en nosotros para seguir mejorando tu inglés!')
             ->salutation('— El equipo de Gran Bretania');
     }
 }

@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/reservar', [ClassBookingController::class, 'store'])
         ->name('bookings.store');
-    
+
     // Endpoint para consultar horas disponibles para una fecha
     Route::get('/reservar/disponibilidad', [ClassBookingController::class, 'availability'])
         ->name('bookings.availability');
@@ -147,12 +147,14 @@ Route::middleware(['auth', AdminMiddleware::class])
         Route::post('/disponibilidad/generar', [AvailabilityAdminController::class, 'generate'])->name('availability.generate');
         Route::patch('/disponibilidad/{slot}/toggle', [AvailabilityAdminController::class, 'toggle'])->name('availability.toggle');
         Route::delete('/disponibilidad/{slot}', [AvailabilityAdminController::class, 'destroy'])->name('availability.destroy');
+
+
+        //Devolver pago
+        Route::post('/bookings/{booking}/refund', [AdminController::class, 'refund'])
+            ->name('bookings.refund');
     });
 
 
+
+
 require __DIR__ . '/auth.php';
-
-
-
-
-
