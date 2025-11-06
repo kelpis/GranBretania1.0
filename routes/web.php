@@ -75,6 +75,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/mis-reservas', [UserBookingController::class, 'index'])->name('user.bookings.index');
     Route::get('/mis-reservas/{booking}/editar', [UserBookingController::class, 'edit'])->name('user.bookings.edit');
     Route::put('/mis-reservas/{booking}', [UserBookingController::class, 'update'])->name('user.bookings.update');
+    //Redirige
+    Route::get('/mis-reservas/editar/exito', fn () => view('user.bookings.edit_success'))
+        ->name('user.bookings.edit_success');
     Route::delete('/mis-reservas/{booking}', [UserBookingController::class, 'destroy'])->name('user.bookings.destroy');
 
     // Permitir al usuario descargar su propio archivo de traducción (si subió uno)

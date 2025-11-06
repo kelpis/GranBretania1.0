@@ -75,16 +75,7 @@
                                             </div>
                                         </form>
 
-                                        {{-- Cancelar (sin devolución) --}}
-                                        <form method="POST" action="{{ route('admin.bookings.cancel', $b) }}">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit"
-                                                    onclick="return confirm('¿Seguro que deseas cancelar esta reserva sin devolución?')"
-                                                    class="px-3 py-1 rounded bg-gray-500 text-white hover:bg-gray-600">
-                                                Cancelar
-                                            </button>
-                                        </form>
+
 
                                         {{-- Cancelar y devolver --}}
                                         @php
@@ -128,7 +119,8 @@
                             <th class="py-2 pr-3">Hora</th>
                             <th class="py-2 pr-3">Nombre</th>
                             <th class="py-2 pr-3">Email</th>
-                            <th class="py-2 pr-3">Acciones</th>
+                            <th class="py-2 pr-3">Enlace</th>
+                            <th class="py-2 pr-3"></th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -146,6 +138,13 @@
                                 <td class="py-2 pr-3">{{ $b->name }}</td>
                                 <td class="py-2 pr-3">
                                     <a href="mailto:{{ $b->email }}" class="underline text-blue-600">{{ $b->email }}</a>
+                                </td>
+                                <td class="py-2 pr-3">
+                                    @if(!empty($b->meeting_url))
+                                        <a href="{{ route('bookings.join', $b) }}" target="_blank" class="underline text-blue-600 break-all">{{ $b->meeting_url }}</a>
+                                    @else
+                                        <span class="text-gray-500">Sin enlace</span>
+                                    @endif
                                 </td>
                                 <td class="py-2 pr-3">
                                     @php

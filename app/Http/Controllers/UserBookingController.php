@@ -7,6 +7,9 @@ use App\Models\TranslationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use Stripe\StripeClient;
+use App\Notifications\BookingCancelledNonRefundableNotification;
+use App\Notifications\BookingCancelledByUserRefundableNotification;
 use App\Notifications\BookingUpdatedNotification;
 use App\Notifications\BookingAdminUpdatedNotification;
 use App\Notifications\BookingCancelledNotification;
@@ -92,32 +95,102 @@ class UserBookingController extends Controller
 
         $booking->update($data);
 
-        // Notificar al usuario y al admin del cambio
-        Notification::route('mail', $booking->email)
-            ->notify(new BookingUpdatedNotification($booking));
+        // Notificar al usuario y al admin del cambio (proteger contra errores de envío)
+        try {
+            Notification::route('mail', $booking->email)
+                ->notify(new BookingUpdatedNotification($booking));
 
-        Notification::route('mail', env('ADMIN_EMAIL', config('mail.from.address')))
-            ->notify(new BookingAdminUpdatedNotification($booking));
+            Notification::route('mail', env('ADMIN_EMAIL', config('mail.from.address')))
+                ->notify(new BookingAdminUpdatedNotification($booking));
+        } catch (\Throwable $e) {
+            // Silenciar errores de envío de notificaciones para no escribir en logs aquí
+        }
 
-        return redirect()->route('user.bookings.index')->with('ok', 'Reserva actualizada correctamente.');
+        // Mostrar la vista de éxito tras la edición (ubicada en user/bookings) y permitir volver al dashboard
+        return redirect()->route('user.bookings.edit_success')
+            ->with('ok', 'Reserva actualizada correctamente.');
     }
 
-    // Cancela (soft change status) la reserva
+    // Cancela (soft change status) la reserva. Si se cancela con >=24h de antelación y existe pago,
+    // se intenta reembolsar automáticamente; en caso contrario se cancela sin reembolso.
     public function destroy(ClassBooking $booking)
     {
         $this->authorizeBooking($booking);
 
+    // Construir fecha/hora de la clase y calcular horas restantes
+    $classDateTime = \Carbon\Carbon::parse($booking->class_date . ' ' . substr($booking->class_time, 0, 5));
+    $now = now();
+
+    // diffInHours con absolute=false devuelve positivo si classDateTime está en el futuro
+    $hoursUntil = $now->diffInHours($classDateTime, false);
+
+    // Reembolsable si quedan 24 horas o más hasta la clase, y la reserva está pagada con payment_intent
+    $isRefundable = ($hoursUntil >= 24) && ($booking->paid === true) && !empty($booking->payment_intent);
+
+        if ($isRefundable) {
+            // Intentar reembolso vía Stripe
+            try {
+                $stripe = new StripeClient(config('services.stripe.secret'));
+
+                $refund = $stripe->refunds->create([
+                    'payment_intent' => $booking->payment_intent,
+                    'reason' => 'requested_by_customer',
+                ]);
+
+                // Actualizar BD
+                $booking->refunded = true;
+                $booking->refund_id = $refund->id;
+                $booking->refunded_at = now();
+                $booking->status = 'cancelled';
+                $booking->save();
+
+                // Notificar al usuario de la cancelación y reembolso (usuario la canceló)
+                try {
+                    if ($booking->user) {
+                        $booking->user->notify(new BookingCancelledByUserRefundableNotification($booking));
+                    } else {
+                        Notification::route('mail', $booking->email)->notify(new BookingCancelledByUserRefundableNotification($booking));
+                    }
+                } catch (\Throwable $e) {
+                    // Silenciar errores de notificación
+                }
+
+                // Notificar al admin
+                try {
+                    Notification::route('mail', env('ADMIN_EMAIL', config('mail.from.address')))
+                        ->notify(new BookingAdminCancelledNotification($booking));
+                } catch (\Throwable $e) {
+                    // Silenciar
+                }
+
+                return redirect()->route('user.bookings.index')->with('ok', 'Reserva cancelada y reembolsada.');
+            } catch (\Throwable $e) {
+                // Si el reembolso falla, informar al usuario sin exponer detalles técnicos
+                return back()->with('error', 'No se pudo procesar el reembolso. Contacta con soporte.');
+            }
+        }
+
+        // No reembolsable: marcar cancelada y avisar con la notificación correspondiente
         $booking->update(['status' => 'cancelled']);
 
-        // Notificar al usuario (confirmación de cancelación)
-        Notification::route('mail', $booking->email)
-            ->notify(new BookingCancelledNotification($booking));
+        try {
+            if ($booking->user) {
+                $booking->user->notify(new BookingCancelledNonRefundableNotification($booking));
+            } else {
+                Notification::route('mail', $booking->email)->notify(new BookingCancelledNonRefundableNotification($booking));
+            }
+        } catch (\Throwable $e) {
+            // Silenciar errores de notificación
+        }
 
-        // Notificar al admin de que el usuario ha cancelado
-        Notification::route('mail', env('ADMIN_EMAIL', config('mail.from.address')))
-            ->notify(new BookingAdminCancelledNotification($booking));
+        try {
+            Notification::route('mail', env('ADMIN_EMAIL', config('mail.from.address')))
+                ->notify(new BookingAdminCancelledNotification($booking));
+        } catch (\Throwable $e) {
+            // Silenciar
+        }
 
-        return redirect()->route('user.bookings.index')->with('ok', 'Reserva cancelada.');
+        return redirect()->route('user.bookings.index')->with('ok', 'Reserva cancelada. No procede reembolso.');
     }
 
     protected function authorizeBooking(ClassBooking $booking)

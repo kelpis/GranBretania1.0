@@ -41,7 +41,9 @@
                         <tr class="border-t">
                             <td class="p-2">{{ $tr->created_at->format('d/m/Y H:i') }}</td>
                             <td class="p-2">{{ $tr->name }}</td>
-                            <td class="p-2">{{ $tr->email }}</td>
+                            <td class="p-2">
+                                <a href="mailto:{{ $tr->email }}" class="text-blue-600 hover:underline">{{ $tr->email }}</a>
+                            </td>
                             <td class="p-2">{{ $tr->source_lang }} → {{ $tr->target_lang }}</td>
                             <td class="p-2">{{ ucfirst($tr->urgency) }}</td>
                             <td class="p-2">
