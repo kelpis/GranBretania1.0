@@ -26,6 +26,14 @@
                         </x-nav-link>
                     @endauth
 
+                    @auth
+                        @if(auth()->user()->is_admin)
+                            <x-nav-link :href="route('admin.availability.index')" :active="request()->routeIs('admin.availability.*')">
+                                {{ __('Disponibilidad') }}
+                            </x-nav-link>
+                        @endif
+                    @endauth
+
                     <x-nav-link :href="(auth()->check() && auth()->user()->is_admin) ? route('admin.index') : route('contact.create')" :active="request()->routeIs('contact.create') || request()->routeIs('admin.index')">
                         {{ __('Contacto') }}
                     </x-nav-link>

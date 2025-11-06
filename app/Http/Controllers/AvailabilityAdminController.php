@@ -29,13 +29,17 @@ class AvailabilityAdminController extends Controller
         ]);
 
         // si se quiere bloquear y hay reserva confirmada (en ese rango), evitarlo
-        $hasConfirmed = ClassBooking::where('class_date', $data['date'])
-            ->where('class_time', $data['start_time'])
-            ->where('status','confirmed')
-            ->exists();
+        if ($data['status'] === 'blocked') {
+            // comprobar bookings cuyo class_time cae dentro del rango [start_time, end_time)
+            $hasConfirmed = ClassBooking::where('class_date', $data['date'])
+                ->where('status','confirmed')
+                ->where('class_time', '>=', $data['start_time'])
+                ->where('class_time', '<', $data['end_time'])
+                ->exists();
 
-        if ($data['status'] === 'blocked' && $hasConfirmed) {
-            return back()->with('error','No se puede bloquear: existe una reserva confirmada en esa franja.');
+            if ($hasConfirmed) {
+                return back()->with('error','No se puede bloquear: existe una reserva confirmada en esa franja.');
+            }
         }
 
         $slot->status = $data['status'];
@@ -76,45 +80,82 @@ class AvailabilityAdminController extends Controller
             }
         }
 
-        for ($date = $from->copy(); $date->lte($to); $date->addDay()) {
-            // Excluir fines de semana siempre (validación centralizada en requests / reglas de negocio)
-            if ($date->isWeekend()) continue;
+    // PRE-CHECK: Recorrer todas las fechas/franjas que se van a crear y recopilar conflictos
+    $conflicts = [];
+    for ($date = $from->copy(); $date->lte($to); $date->addDay()) {
+        if ($date->isWeekend()) continue;
 
-            if ($isFullDay) {
-                // Crear una franja que cubra todo el día
-                $start = '00:00';
-                $end = '24:00';
+        if ($isFullDay) {
+            // Si hay alguna reserva confirmada en ese día, considerarlo conflicto
+            $hasConfirmedAny = ClassBooking::where('class_date', $date->toDateString())
+                ->where('status', 'confirmed')
+                ->exists();
 
-                AvailabilitySlot::updateOrCreate(
-                    ['date'=>$date->toDateString(),'start_time'=>$start,'end_time'=>$end],
-                    ['status'=>$request->status]
-                );
-                $count++;
-                $created[] = $date->toDateString() . ' ' . $start . '-' . $end;
-                continue;
+            if ($hasConfirmedAny) {
+                $conflicts[] = $date->toDateString();
             }
-
-            for ($h = (int)$request->start_hour; $h < (int)$request->end_hour; $h++) {
-                $start = sprintf('%02d:00', $h);
-                $end   = sprintf('%02d:00', $h+1);
-
-                AvailabilitySlot::updateOrCreate(
-                    ['date'=>$date->toDateString(),'start_time'=>$start,'end_time'=>$end],
-                    ['status'=>$request->status]
-                );
-                $count++;
-                $created[] = $date->toDateString() . ' ' . $start . '-' . $end;
-            }
+            continue;
         }
 
-        // Devolvemos en la sesión el detalle de las franjas creadas para depuración en UI.
-        return back()->with('ok', "Generadas/actualizadas {$count} franjas.")->with('generated', $created);
+        for ($h = (int)$request->start_hour; $h < (int)$request->end_hour; $h++) {
+            $start = sprintf('%02d:00', $h);
+
+            $hasConfirmedSlot = ClassBooking::where('class_date', $date->toDateString())
+                ->where('class_time', $start)
+                ->where('status', 'confirmed')
+                ->exists();
+
+            if ($hasConfirmedSlot) {
+                $conflicts[] = $date->toDateString() . ' ' . $start;
+            }
+        }
+    }
+
+    if (count($conflicts) > 0) {
+        $msg = 'No se han creado franjas porque existen reservas confirmadas en las siguientes fechas/franjas: ' . implode(', ', $conflicts) . '.';
+        return back()->with('error', $msg)->with('conflicts', $conflicts);
+    }
+
+    // Si no hay conflictos, proceder a generar las franjas
+    for ($date = $from->copy(); $date->lte($to); $date->addDay()) {
+        if ($date->isWeekend()) continue;
+
+        if ($isFullDay) {
+            // Crear una franja que cubra todo el día
+            $start = '00:00';
+            $end = '24:00';
+
+            AvailabilitySlot::updateOrCreate(
+                ['date'=>$date->toDateString(),'start_time'=>$start,'end_time'=>$end],
+                ['status'=>$request->status]
+            );
+            $count++;
+            $created[] = $date->toDateString() . ' ' . $start . '-' . $end;
+            continue;
+        }
+
+        for ($h = (int)$request->start_hour; $h < (int)$request->end_hour; $h++) {
+            $start = sprintf('%02d:00', $h);
+            $end   = sprintf('%02d:00', $h+1);
+
+            AvailabilitySlot::updateOrCreate(
+                ['date'=>$date->toDateString(),'start_time'=>$start,'end_time'=>$end],
+                ['status'=>$request->status]
+            );
+            $count++;
+            $created[] = $date->toDateString() . ' ' . $start . '-' . $end;
+        }
+    }
+
+    // Devolvemos en la sesión el detalle de las franjas creadas para depuración en UI.
+    $msg = "Generadas/actualizadas {$count} franjas.";
+    return back()->with('ok', $msg)->with('generated', $created);
     }
 
     // Toggle rápido available/blocked
     public function toggle(AvailabilitySlot $slot)
     {
-        // evitar bloquear si hay confirmada
+        // evitar bloquear si hay confirmada (comparación por start_time para franjas horarias)
         $hasConfirmed = ClassBooking::where('class_date', $slot->date)
             ->where('class_time', $slot->start_time)
             ->where('status','confirmed')
