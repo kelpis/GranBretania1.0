@@ -19,7 +19,7 @@
 
         {{-- Confirmadas / pagadas --}}
         <div class="bg-white p-4 rounded shadow">
-            <h3 class="font-semibold mb-3">Reservas pagadas pendientes de confirmar</h3>
+            <h3 class="font-semibold mb-3">Reservas pendientes de confirmar</h3>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
@@ -98,7 +98,7 @@
                         @empty
                             <tr>
                                 <td colspan="7" class="py-3 text-gray-500 text-center">
-                                    No hay reservas confirmadas o pagadas.
+                                    No hay reservas nuevas.
                                 </td>
                             </tr>
                         @endforelse
@@ -109,7 +109,7 @@
 
         {{-- Ya confirmadas --}}
         <div class="bg-white p-4 rounded shadow">
-            <h3 class="font-semibold mb-3">Reservas ya confirmadas</h3>
+            <h3 class="font-semibold mb-3">Reservas confirmadas</h3>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">

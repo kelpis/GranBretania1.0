@@ -25,6 +25,7 @@ class ClassBooking extends Model
         'payment_intent',
         'amount_paid',
         'currency',
+        'edit_count',
     ];
 
     protected $casts = [
@@ -32,6 +33,7 @@ class ClassBooking extends Model
         'gdpr_at' => 'datetime',
         'paid' => 'boolean',
         'paid_at' => 'datetime',
+        'edit_count' => 'integer',
     ];
 
     // Relación con el usuario (opcional)

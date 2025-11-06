@@ -7,6 +7,7 @@ use App\Models\TranslationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Log;
 use Stripe\StripeClient;
 use App\Notifications\BookingCancelledNonRefundableNotification;
 use App\Notifications\BookingCancelledByUserRefundableNotification;
@@ -93,7 +94,28 @@ class UserBookingController extends Controller
             return back()->withErrors(['class_time' => 'Esa franja está bloqueada por el administrador.'])->withInput();
         }
 
+        // Regla 1: edición permitida sólo si faltan >= 24h para la clase
+        // ✅ Regla: no se puede editar si faltan <24h para la reserva actual
+        $originalDT = \Carbon\Carbon::parse("{$booking->class_date} {$booking->class_time}");
+        if (now()->diffInHours($originalDT, false) < 24) {
+            return back()->withErrors(['general' => 'No puedes editar la reserva con menos de 24 horas de antelación.'])->withInput();
+        }
+
+        // ✅ Extra: la nueva fecha/hora debe ser futura
+        $newDT = \Carbon\Carbon::parse($data['class_date'] . ' ' . substr($data['class_time'], 0, 5));
+        if ($newDT->isPast()) {
+            return back()->withErrors(['class_time' => 'Selecciona una fecha y hora futuras.'])->withInput();
+        }
+
+        // Regla 2: límite de ediciones por reserva (2)
+        if (($booking->edit_count ?? 0) >= 2) {
+            return back()->withErrors(['general' => 'Has alcanzado el límite de ediciones para esta reserva.'])->withInput();
+        }
+
+        // Nota: editar no implica reembolso ni cambio en los campos de pago
         $booking->update($data);
+        // Incrementar contador de ediciones
+        $booking->increment('edit_count');
 
         // Notificar al usuario y al admin del cambio (proteger contra errores de envío)
         try {
@@ -111,21 +133,30 @@ class UserBookingController extends Controller
             ->with('ok', 'Reserva actualizada correctamente.');
     }
 
+
+
+
+
+    public function editSuccess()
+{
+    return view('user.bookings.edit_success');
+}
+
     // Cancela (soft change status) la reserva. Si se cancela con >=24h de antelación y existe pago,
     // se intenta reembolsar automáticamente; en caso contrario se cancela sin reembolso.
     public function destroy(ClassBooking $booking)
     {
         $this->authorizeBooking($booking);
 
-    // Construir fecha/hora de la clase y calcular horas restantes
-    $classDateTime = \Carbon\Carbon::parse($booking->class_date . ' ' . substr($booking->class_time, 0, 5));
-    $now = now();
+        // Construir fecha/hora de la clase y calcular horas restantes
+        $classDateTime = \Carbon\Carbon::parse($booking->class_date . ' ' . substr($booking->class_time, 0, 5));
+        $now = now();
 
-    // diffInHours con absolute=false devuelve positivo si classDateTime está en el futuro
-    $hoursUntil = $now->diffInHours($classDateTime, false);
+        // diffInHours con absolute=false devuelve positivo si classDateTime está en el futuro
+        $hoursUntil = $now->diffInHours($classDateTime, false);
 
-    // Reembolsable si quedan 24 horas o más hasta la clase, y la reserva está pagada con payment_intent
-    $isRefundable = ($hoursUntil >= 24) && ($booking->paid === true) && !empty($booking->payment_intent);
+        // Reembolsable si quedan 24 horas o más hasta la clase, y la reserva está pagada con payment_intent
+        $isRefundable = ($hoursUntil >= 24) && ($booking->paid === true) && !empty($booking->payment_intent);
 
         if ($isRefundable) {
             // Intentar reembolso vía Stripe
@@ -190,7 +221,7 @@ class UserBookingController extends Controller
             // Silenciar
         }
 
-        return redirect()->route('user.bookings.index')->with('ok', 'Reserva cancelada. No procede reembolso.');
+        return redirect()->route('user.bookings.index')->with('ok', 'Reserva cancelada. En breves recibiras un email con los detalles de la cancelación.');
     }
 
     protected function authorizeBooking(ClassBooking $booking)
