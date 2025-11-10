@@ -159,6 +159,7 @@ Route::middleware(['auth', AdminMiddleware::class])
     });
 
 
-
+// La vista de inicio está en resources/views/layouts/home.blade.php
+Route::view('/', 'layouts.home')->name('home');
 
 require __DIR__ . '/auth.php';

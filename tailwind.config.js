@@ -11,9 +11,22 @@ export default {
 
     theme: {
         extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            colors: {
+                azul: '#011A6B',
+                rojo: '#D51C3B',
+                beige: '#F3E8D0',
+                beige2: '#F9F9F9',
+                negro: '#0E0D0D',
+                ok: '#2E7D32',
+                info: '#FBC02D',
             },
+            fontFamily: {
+                sans: ['Raleway', ...defaultTheme.fontFamily.sans],
+                mono: ['Inconsolata', ...defaultTheme.fontFamily.mono],
+            },
+            borderRadius: {
+                card: '12px',
+            }
         },
     },
 
