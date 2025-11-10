@@ -11,69 +11,91 @@
         <section id="clases" class="bg-beige2 py-16">
             <div class="container mx-auto px-4 text-left">
                 {{-- Título encima del contenido (parrafo + imagen) --}}
-                <h2 class="text-azul text-left md:text-left mb-8">Clases de inglés personalizadas</h2>
+                <h2 class="text-azul text-left md:text-left mb-8">Clases de inglés online personalizadas</h2>
 
-            <div class="grid md:grid-cols-2 gap-10 items-stretch">
+                <div class="grid md:grid-cols-2 gap-10 items-stretch">
 
-                {{-- Texto --}}
-                <div class="h-full flex flex-col justify-start min-h-0">
-                    <p class="mt-4 text-left md:text-left">
-                        En <span class="font-semibold">Gran Bretania</span> las clases de inglés se adaptan a ti.
-                        Con un enfoque práctico y cercano, aprenderás a comunicarte con seguridad desde el primer día.
-                        Trabajamos con una metodología flexible que combina conversación, gramática aplicada y recursos
-                        personalizados según tus objetivos.
-                    </p>
+                    {{-- Texto --}}
+                    <div class="h-full flex flex-col justify-start min-h-0">
+                        <div class="w-full max-w-2xl mx-auto">
+                            <p class="mt-0 text-left md:text-left">
+                                En <span class="font-semibold">Gran Bretania</span> las clases de inglés se adaptan a ti.
+                                Con un enfoque práctico y cercano, aprenderás a comunicarte con seguridad desde el primer
+                                día.
+                                Trabajamos con una metodología flexible que combina conversación, gramática aplicada y
+                                recursos
+                                personalizados según tus objetivos.
+                            </p>
 
-                    {{-- Tipos de clases (resumen) --}}
-                    <ul class="mt-6 grid sm:grid-cols-2 gap-4 text-[16px]">
-                        <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
-                            <span aria-hidden="true">🗣️</span>
-                            <div>
-                                <h3 class="font-semibold">Conversación práctica</h3>
-                                <p class="opacity-80">Gana fluidez y naturalidad al hablar.</p>
-                            </div>
-                        </li>
-                        <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
-                            <span aria-hidden="true">🎯</span>
-                            <div>
-                                <h3 class="font-semibold">Preparación de exámenes</h3>
-                                <p class="opacity-80">Cambridge, IELTS u objetivos académicos.</p>
-                            </div>
-                        </li>
-                        <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
-                            <span aria-hidden="true">💼</span>
-                            <div>
-                                <h3 class="font-semibold">Inglés profesional</h3>
-                                <p class="opacity-80">Trabajo, presentaciones y entrevistas.</p>
-                            </div>
-                        </li>
-                        <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
-                            <span aria-hidden="true">📚</span>
-                            <div>
-                                <h3 class="font-semibold">Refuerzo general</h3>
-                                <p class="opacity-80">Comprensión, escritura y gramática.</p>
-                            </div>
-                        </li>
-                    </ul>
+                            {{-- Tipos de clases (resumen) --}}
+                            <ul class="mt-6 grid sm:grid-cols-2 gap-4 text-[16px]">
+                                <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
+                                    <span aria-hidden="true">🗣️</span>
+                                    <div>
+                                        <h3 class="font-semibold">Conversación práctica</h3>
+                                        <p class="opacity-80">Gana fluidez y naturalidad al hablar.</p>
+                                    </div>
+                                </li>
+                                <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
+                                    <span aria-hidden="true">🎯</span>
+                                    <div>
+                                        <h3 class="font-semibold">Preparación de exámenes</h3>
+                                        <p class="opacity-80">Cambridge, IELTS u objetivos académicos.</p>
+                                    </div>
+                                </li>
+                                <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
+                                    <span aria-hidden="true">💼</span>
+                                    <div>
+                                        <h3 class="font-semibold">Inglés profesional</h3>
+                                        <p class="opacity-80">Trabajo, presentaciones y entrevistas.</p>
+                                    </div>
+                                </li>
+                                <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
+                                    <span aria-hidden="true">📚</span>
+                                    <div>
+                                        <h3 class="font-semibold">Refuerzo general</h3>
+                                        <p class="opacity-80">Comprensión, escritura y gramática.</p>
+                                    </div>
+                                </li>
+                            </ul>
 
-                    {{-- CTA --}}
-                    <div class="mt-8">
-                        <a class="btn-secondary">Reservar clase</a>
+                            {{-- CTA --}}
+                            <div class="mt-8 flex flex-col sm:flex-row sm:justify-evenly items-center gap-4">
+                                <a class="btn-secondary">Reservar clase</a>
+                                <a class="btn-secondary">Saber más</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Imagen / ilustración (opcional) --}}
+                    <div class="order-first md:order-none h-full">
+                        <img src="{{ asset('images/alumnoOnline.png') }}" alt="Clase de inglés personalizada online"
+                            class="w-full h-full object-cover rounded-card shadow-sm">
                     </div>
                 </div>
+        </section>
 
-                {{-- Imagen / ilustración (opcional) --}}
-                    <div class="order-first md:order-none h-full">
-                    <img src="{{ asset('images/alumnoOnline.png') }}" alt="Clase de inglés personalizada online"
-                        class="w-full h-full object-cover rounded-card shadow-sm">
+
+    <section class="relative py-16 text-center transform-gpu transition-transform duration-200 hover:scale-105 bg-cover bg-center rounded-xl overflow-hidden" style="background-image: url('{{ asset('images/learn-english.jpg') }}')">
+            <div class="absolute inset-0 bg-black/40" aria-hidden="true"></div>
+            <div class="container mx-auto px-6 md:px-8 relative z-10 text-left">
+                <h2 class="text-3xl md:text-4xl font-semibold text-azul mb-4 text-left">
+                    ¿Tu primera vez?
+                </h2>
+                <p class="text-beige2 text-lg max-w-2xl mb-8 leading-relaxed">
+                    Empieza con una clase gratuita para conocer tu nivel y objetivos.
+                </p>
+                <div class="flex flex-col sm:flex-row sm:justify-start items-start gap-4">
+                    <a
+                        href="{{ route('contact.create') . '?subject=' . urlencode('Clase de prueba gratuita') }}"
+                        class="inline-block bg-beige2 text-azul font-semibold px-8 py-3 rounded-xl shadow-md hover:bg-rojo hover:text-white hover:shadow-lg transition">
+                        Solicitar clase de prueba
+                    </a>
                 </div>
             </div>
         </section>
 
-        <div class="mt-8 flex items-center justify-center gap-4">
-            <a class="btn-primary">Reservar clase</a>
-            <a class="btn-secondary">Solicitar traducción</a>
-        </div>
+
     </section>
 
     <section class="bg-beige2 py-12">

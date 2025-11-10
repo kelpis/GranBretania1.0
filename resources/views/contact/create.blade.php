@@ -33,12 +33,14 @@
 
           <div>
             <label class="block mb-1 font-medium" for="subject">Asunto (opcional)</label>
-            <input id="subject" name="subject" class="w-full border rounded p-2" value="{{ old('subject') }}">
+            {{-- If the form was opened from the homepage CTA, the link includes a ?subject=... query string. Use it as default only when present. --}}
+            <input id="subject" name="subject" class="w-full border rounded p-2" value="{{ old('subject', request('subject')) }}">
           </div>
 
           <div>
             <label class="block mb-1 font-medium" for="message">Mensaje</label>
-            <textarea id="message" name="message" rows="5" class="w-full border rounded p-2" required>{{ old('message') }}</textarea>
+            {{-- Mostrar placeholder solo si venimos desde el CTA (la URL incluye ?subject=...) --}}
+            <textarea id="message" name="message" rows="5" class="w-full border rounded p-2" @if(request('subject')) placeholder="Cuéntame tu nivel, objetivos y horarios preferidos para agendar la clase de prueba." @endif required>{{ old('message') }}</textarea>
           </div>
 
           <div class="flex items-start gap-3">

@@ -77,6 +77,28 @@
             <div class="text-sm">
                 <p class="opacity-80">info@granbretania.test</p>
                 <p class="opacity-80">+34 000 000 000</p>
+
+                {{-- Iconos redes sociales --}}
+                <div class="mt-4 flex items-center gap-3" aria-label="Redes sociales">
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
+                        <img src="{{ asset('images/instagram.svg') }}" alt="Instagram" class="w-5 h-5 object-contain">
+                    </a>
+
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
+                        <img src="{{ asset('images/facebook.svg') }}" alt="Facebook" class="w-5 h-5 object-contain">
+                    </a>
+
+                    <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X" class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
+                        <img src="{{ asset('images/x.svg') }}" alt="X" class="w-5 h-5 object-contain">
+                    </a>
+
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="text-white hover:opacity-80">
+                        <!-- LinkedIn icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 fill-current" aria-hidden="true">
+                            <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.6v1.7h.05c.5-.95 1.7-1.95 3.5-1.95 3.75 0 4.45 2.47 4.45 5.67V21H16v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z" />
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
     </footer>

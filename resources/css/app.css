@@ -14,7 +14,22 @@
 }
 
 @layer components{
-  .btn-primary   { @apply inline-flex items-center justify-center px-5 py-3 rounded-xl bg-azul text-white font-semibold hover:opacity-90 focus:ring-2 focus:ring-azul; }
-  .btn-secondary { @apply inline-flex items-center justify-center px-5 py-3 rounded-xl bg-rojo text-white font-semibold hover:opacity-90 focus:ring-2 focus:ring-rojo; }
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-5 py-3 rounded-xl bg-azul text-white font-semibold;
+    transition: transform .15s ease, background-color .15s ease, opacity .15s ease;
+  }
+  .btn-primary:hover {
+    transform: scale(1.05);
+    @apply bg-rojo text-white opacity-100;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-5 py-3 rounded-xl bg-rojo text-white font-semibold;
+    transition: transform .15s ease, background-color .15s ease, opacity .15s ease;
+  }
+  .btn-secondary:hover {
+    transform: scale(1.05);
+    @apply bg-azul text-white opacity-100;
+  }
   .card          { @apply bg-beige2 rounded-card shadow-sm p-6; }
 }
