@@ -22,37 +22,40 @@
 </head>
 
 <body class="min-h-dvh flex flex-col bg-beige2">
-    {{-- Top bar idiomas --}}
-    <div class="w-full text-sm text-right px-4 py-2">
-        <nav class="inline-flex gap-3 uppercase tracking-wider">
-            <a href="{{ url('?lang=es') }}" class="hover:underline">ES</a>
-            <span>/</span>
-            <a href="{{ url('?lang=en') }}" class="hover:underline">EN</a>
-            <a class="btn-secondary text-white !px-4 !py-2 lowercase">Acceder</a>
-        </nav>
-    </div>
 
-    {{-- Header inspirado en tu referencia --}}
-    <!-- Reducido el padding vertical para acercar logo y menú -->
-    <header class="py-4">
-        <div class="container mx-auto px-4 text-center">
-            <a href="{{ route('home') }}" class="inline-block">
-                {{-- Sustituye por tu SVG/PNG --}}
-                <!-- Logo aumentado: h-64 en móvil, h-80 en pantallas md (~256px / 320px) -->
-                <img src="{{ asset('images/logoSinMargen.png') }}" alt="Gran Bretania" class="mx-auto h-64 md:h-80 w-auto">
-            </a>
+    @section('header')
+    <header class="sticky top-0 z-40 bg-beige/95 backdrop-blur supports-[backdrop-filter]:bg-beige/80 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="h-20 flex items-center justify-between gap-4">
 
-            <!-- Reducida la separación superior para pegar el menú al logo -->
-            <nav class="mt-2 flex flex-wrap items-center justify-center gap-16 text-azul tracking-wider">
-                <a class="hover:underline text-lg md:text-xl font-medium px-2">Inicio</a>
-                <a class="hover:underline text-lg md:text-xl font-medium px-2">Clases</a>
-                <a class="hover:underline text-lg md:text-xl font-medium px-2">Traducciones</a>
-                <a class="hover:underline text-lg md:text-xl font-medium px-2">Sobre mí</a>
-                <a class="hover:underline text-lg md:text-xl font-medium px-2">FAQ</a>
-                <a href="{{ route('contact.create') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Contacto</a>
-            </nav>
+                {{-- LEFT: logo + enlaces --}}
+                <div class="flex items-center gap-6">
+                    {{-- LOGO --}}
+                    <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
+                        <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania" class="h-16 w-auto">
+                    </a>
+
+                    {{-- ENLACES (izquierda) --}}
+                    <nav class="hidden lg:flex items-center gap-6 text-azul tracking-wide">
+                        <a href="{{ route('home') }}" class="hover:underline">Inicio</a>
+                        <a href="{{ route('clases') }}" class="hover:underline">Clases</a>
+                        <a href="{{ route('traducciones') }}" class="hover:underline">Traducciones</a>
+                        <a href="{{ route('sobremi') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Sobre mí</a>
+                        <a href="{{ route('faq') }}" class="hover:underline">FAQ</a>
+                        <a href="{{ route('contact.create') }}" class="hover:underline">Contacto</a>
+                    </nav>
+                </div>
+
+                {{-- RIGHT: botón Acceder --}}
+                <div class="hidden lg:block">
+                    <a href="{{ route('login') }}" class="btn-secondary text-beige2 !py-2 !px-4">Acceder</a>
+                </div>
+
+            </div>
         </div>
     </header>
+    @show
+
 
     {{-- Contenido --}}
     <main class="flex-1">
@@ -80,22 +83,28 @@
 
                 {{-- Iconos redes sociales --}}
                 <div class="mt-4 flex items-center gap-3" aria-label="Redes sociales">
-                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                        class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
                         <img src="{{ asset('images/instagram.svg') }}" alt="Instagram" class="w-5 h-5 object-contain">
                     </a>
 
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                        class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
                         <img src="{{ asset('images/facebook.svg') }}" alt="Facebook" class="w-5 h-5 object-contain">
                     </a>
 
-                    <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X" class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
+                    <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X"
+                        class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
                         <img src="{{ asset('images/x.svg') }}" alt="X" class="w-5 h-5 object-contain">
                     </a>
 
-                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="text-white hover:opacity-80">
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+                        class="text-white hover:opacity-80">
                         <!-- LinkedIn icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 fill-current" aria-hidden="true">
-                            <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.6v1.7h.05c.5-.95 1.7-1.95 3.5-1.95 3.75 0 4.45 2.47 4.45 5.67V21H16v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 fill-current"
+                            aria-hidden="true">
+                            <path
+                                d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.6v1.7h.05c.5-.95 1.7-1.95 3.5-1.95 3.75 0 4.45 2.47 4.45 5.67V21H16v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z" />
                         </svg>
                     </a>
                 </div>

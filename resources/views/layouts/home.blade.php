@@ -1,16 +1,41 @@
 @extends('layouts.site')
 
 @section('title', 'Inicio · Gran Bretania')
+@section('header')
 
+    <header class="py-4">
+        <div class="hidden lg:block text-right pl-4 pr-8">
+            <a href="{{ route('login') }}" class="btn-secondary text-beige2 !py-2 !px-4">Acceder</a>
+        </div>
+        <div class="container mx-auto px-4 text-center">
+
+            <a href="{{ route('home') }}" class="inline-block">         
+                <img src="{{ asset('images/logoSinMargen.png') }}" alt="Gran Bretania"
+                    class="mx-auto h-64 md:h-80 w-auto">
+            </a>
+
+
+            <nav class="my-[30px] flex flex-wrap items-center justify-center gap-16 text-azul tracking-wider">
+                <a href="{{ route('home') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Inicio</a>
+                <a href="{{ route('clases') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Clases</a>
+                <a href="{{ route('traducciones') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Traducciones</a>
+                <a href="{{ route('sobremi') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Sobre mí</a>
+                <a href="{{ route('faq') }}" class="hover:underline text-lg md:text-xl font-medium px-2">FAQ</a>
+                <a href="{{ route('contact.create') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Contacto</a>
+            </nav>
+        </div>
+    </header>
+@endsection
 @section('content')
-    <section class="container mx-auto px-4 py-14 text-center">
-        <h1 class="bg-azul text-beige2 inline-block px-8 py-4 rounded-xl">
-            Formación y traducción con las misma pasión por el idioma
+
+    <section class="container mx-auto px-4 pt-0 pb-14 text-center">
+        <h1 class="mt-0 bg-azul text-beige2 inline-block px-8 py-4 rounded-xl">
+            Enseñanza de inglés y traducciones
         </h1>
         {{-- BLOQUE: Clases de inglés --}}
         <section id="clases" class="bg-beige2 py-16 mt-[100px]">
             <div class="container mx-auto px-4 text-left">
-                {{-- Título encima del contenido (parrafo + imagen) --}}
+
                 <h2 class="text-azul text-left md:text-left mb-8">Clases de inglés online</h2>
 
                 <div class="grid md:grid-cols-2 gap-10 items-stretch">
@@ -32,37 +57,37 @@
                                 <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
                                     <span aria-hidden="true">🗣️</span>
                                     <div>
-                                        <h3 class="font-semibold">Conversación práctica</h3>
-                                        <p class="opacity-80">Gana fluidez y naturalidad al hablar.</p>
+                                        <h3 class="font-semibold mb-2">Conversación práctica</h3>
+                                        <p class="opacity-80 leading-snug">Gana fluidez y naturalidad al hablar.</p>
                                     </div>
                                 </li>
                                 <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
                                     <span aria-hidden="true">🎯</span>
                                     <div>
-                                        <h3 class="font-semibold">Preparación de exámenes</h3>
-                                        <p class="opacity-80">Cambridge, IELTS u objetivos académicos.</p>
+                                        <h3 class="font-semibold mb-2">Preparación de exámenes</h3>
+                                        <p class="opacity-80 leading-snug">Cambridge, IELTS u objetivos académicos.</p>
                                     </div>
                                 </li>
                                 <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
                                     <span aria-hidden="true">💼</span>
                                     <div>
-                                        <h3 class="font-semibold">Inglés profesional</h3>
-                                        <p class="opacity-80">Trabajo, presentaciones y entrevistas.</p>
+                                        <h3 class="font-semibold mb-2">Inglés profesional</h3>
+                                        <p class="opacity-80 leading-snug">Trabajo, presentaciones y entrevistas.</p>
                                     </div>
                                 </li>
                                 <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
                                     <span aria-hidden="true">📚</span>
                                     <div>
-                                        <h3 class="font-semibold">Refuerzo general</h3>
-                                        <p class="opacity-80">Comprensión, escritura y gramática.</p>
+                                        <h3 class="font-semibold mb-2">Refuerzo general</h3>
+                                        <p class="opacity-80 leading-snug">Comprensión, escritura y gramática.</p>
                                     </div>
                                 </li>
                             </ul>
 
                             {{-- CTA --}}
                             <div class="mt-8 flex flex-col sm:flex-row sm:justify-evenly items-center gap-4">
-                                <a class="btn-secondary">Reservar clase</a>
-                                <a class="btn-secondary">Saber más</a>
+                                <a class="btn-primary">Reservar clase</a>
+                                <a href="{{ route('clases') }}" class="btn-secondary">Saber más</a>
                             </div>
                         </div>
                     </div>
@@ -76,25 +101,64 @@
         </section>
 
 
+        {{-- BLOQUE: Por qué elegirnos (Home) --}}
+        <section class="bg-beige2 py-16">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-azul">¿Por qué elegirnos?</h2>
+                <p class="mt-2 opacity-80">Tres razones para empezar hoy mismo</p>
 
+                <div class="mt-10 grid md:grid-cols-3 gap-10">
+                    <div>
+                        <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full border-2 border-azul">
+                            <span class="text-3xl" aria-hidden="true">🌐</span>
+                        </div>
+                        <h3 class="mt-5 font-semibold tracking-wide">Totalmente online</h3>
+                        <p class="mt-2 opacity-80">Clases flexibles según tu disponibilidad.</p>
+                    </div>
+                    {{-- clamp font-size --}}
+                    <div>
+                        <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full border-2 border-azul">
+                            <span class="text-3xl" aria-hidden="true">💬</span>
+                        </div>
+                        <h3 class="mt-5 font-semibold tracking-wide">Seguimiento personalizado</h3>
+                        <p class="mt-2 opacity-80">Plan y feedback adaptados a tus objetivos.</p>
+                    </div>
+
+                    <div>
+                        <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full border-2 border-azul">
+                            <span class="text-3xl" aria-hidden="true">📘</span>
+                        </div>
+                        <h3 class="mt-5 font-semibold tracking-wide">Material actualizado</h3>
+                        <p class="mt-2 opacity-80">Recursos actuales y prácticos para progresar.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
 
         <section
             class="relative py-16 text-center transform-gpu transition-transform duration-200 hover:scale-105 bg-cover bg-center rounded-xl overflow-hidden mt-[50px]"
             style="background-image: url('{{ asset('images/learn-english.jpg') }}')">
-            <div class="absolute inset-0 bg-black/40" aria-hidden="true"></div>
-            <div class="container mx-auto px-6 md:px-8 relative z-10 text-left">
-                <h2 class="text-3xl md:text-4xl font-semibold text-azul mb-4 text-left">
-                    ¿Tu primera vez?
-                </h2>
-                <p class="text-beige2 text-lg max-w-2xl mb-8 leading-relaxed">
-                    Empieza con una clase gratuita para conocer tu nivel y objetivos.
-                </p>
-                <div class="flex flex-col sm:flex-row sm:justify-start items-start gap-4">
-                    <a href="{{ route('contact.create') . '?subject=' . urlencode('Clase de prueba gratuita') }}"
-                        class="inline-block bg-beige2 text-azul font-semibold px-8 py-3 rounded-xl shadow-md hover:bg-rojo hover:text-white hover:shadow-lg transition">
-                        Solicitar clase de prueba
-                    </a>
+            <!-- Gradient overlay: aún más claro para un aspecto luminoso y aireado -->
+            <div class="absolute inset-0" aria-hidden="true"
+                style="background: linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.04) 40%, rgba(0,0,0,0.18) 100%);">
+            </div>
+            <div class="container mx-auto px-6 md:px-8 relative z-10 text-center">
+                <!-- Text background: degradado muy claro para mantener contraste sin oscurecer demasiado -->
+                <div
+                    class="inline-block px-6 py-6 rounded-2xl bg-gradient-to-r from-black/20 via-black/05 to-transparent backdrop-blur-sm">
+                    <h2 class="text-3xl md:text-4xl font-semibold text-white mb-4">
+                        ¿Tu primera vez?
+                    </h2>
+                    <p class="text-beige2 text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
+                        Empieza con una clase gratuita para conocer tu nivel y objetivos.
+                    </p>
+                    <div class="flex flex-col sm:flex-row sm:justify-center items-center gap-4">
+                        <a href="{{ route('contact.create') . '?subject=' . urlencode('Clase de prueba gratuita') }}"
+                            class="inline-block bg-beige2 text-azul font-semibold px-8 py-3 rounded-xl shadow-md hover:bg-rojo hover:text-white hover:shadow-lg transition">
+                            Solicitar clase de prueba
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -106,7 +170,7 @@
     {{-- BLOQUE: Traducciones --}}
     <section id="traducciones" class="bg-beige2 py-16">
         <div class="container mx-auto px-4">
-            {{-- Coloca el título alineado con la columna de texto --}}
+
             <div class="grid md:grid-cols-2">
                 <div></div>
                 <div>
@@ -116,13 +180,13 @@
 
             <div class="grid md:grid-cols-2 gap-10 items-stretch">
 
-                {{-- Imagen / ilustración (opcional) --}}
+                {{-- Imagen--}}
                 <div class="h-full">
                     <img src="{{ asset('images/definicion.jpg') }}" alt="Servicio de traducciones profesionales"
                         class="w-full h-full object-cover rounded-card shadow-sm">
                 </div>
 
-                {{-- Texto (p + lista) --}}
+                {{-- Texto --}}
                 <div class="h-full">
                     <div class="flex flex-col h-full">
                         <div class="flex-1 max-w-2xl">
@@ -141,29 +205,31 @@
                                 <li class="card flex items-start gap-3 bg-beige">
                                     <span aria-hidden="true">⚖️</span>
                                     <div>
-                                        <h3 class="font-semibold">Jurídica</h3>
-                                        <p class="opacity-80">Contratos, documentos legales y certificados.</p>
+                                        <h3 class="font-semibold mb-2">Jurídica</h3>
+                                        <p class="opacity-80 leading-snug">Contratos, documentos legales y certificados.</p>
                                     </div>
                                 </li>
                                 <li class="card flex items-start gap-3 bg-beige">
                                     <span aria-hidden="true">💊</span>
                                     <div>
-                                        <h3 class="font-semibold">Médica</h3>
-                                        <p class="opacity-80">Informes clínicos y documentación sanitaria.</p>
+                                        <h3 class="font-semibold mb-2">Médica</h3>
+                                        <p class="opacity-80 leading-snug">Informes clínicos y documentación sanitaria.</p>
                                     </div>
                                 </li>
                                 <li class="card flex items-start gap-3 bg-beige">
                                     <span aria-hidden="true">🎓</span>
                                     <div>
-                                        <h3 class="font-semibold">Académica</h3>
-                                        <p class="opacity-80">Artículos, proyectos y trabajos de investigación.</p>
+                                        <h3 class="font-semibold mb-2">Académica</h3>
+                                        <p class="opacity-80 leading-snug">Artículos, proyectos y trabajos de investigación.
+                                        </p>
                                     </div>
                                 </li>
                                 <li class="card flex items-start gap-3 bg-beige">
                                     <span aria-hidden="true">🎬</span>
                                     <div>
-                                        <h3 class="font-semibold">Audiovisual</h3>
-                                        <p class="opacity-80">Subtitulación y guiones adaptados al público objetivo.</p>
+                                        <h3 class="font-semibold mb-2">Audiovisual</h3>
+                                        <p class="opacity-80 leading-snug">Subtitulación y guiones adaptados al público
+                                            objetivo.</p>
                                     </div>
                                 </li>
                             </ul>
@@ -178,12 +244,63 @@
                 <div class="mt-8">
                     <div class="max-w-2xl ml-auto flex justify-evenly items-center">
                         <a class="btn-primary">Solicitar traducción</a>
-                        <a class="btn-secondary">Ver más información</a>
+                        <a href="{{ route('traducciones') }}" class="btn-secondary">Ver más información</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    {{-- BLOQUE: Opiniones --}}
+    <section id="opiniones" class="bg-beige py-16 mt-[100px]">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-azul mb-10">Opiniones de nuestros alumnos y clientes</h2>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {{-- Opinión 1 --}}
+                <div class="card bg-white">
+                    <div class="flex flex-col items-center text-center">
+                        <span class="text-5xl text-rojo mb-4">“</span>
+                        <p class="italic text-[16px]">
+                            Las clases con Tania me ayudaron a ganar confianza hablando en inglés.
+                            El ambiente es cercano y muy profesional.
+                        </p>
+                        <p class="mt-4 font-semibold text-azul">María L.</p>
+                        <p class="text-sm opacity-80">Estudiante de conversación</p>
+                    </div>
+                </div>
+
+                {{-- Opinión 2 --}}
+                <div class="card bg-white">
+                    <div class="flex flex-col items-center text-center">
+                        <span class="text-5xl text-rojo mb-4">“</span>
+                        <p class="italic text-[16px]">
+                            Encargué una traducción médica y quedé encantada con la precisión
+                            y rapidez. Muy recomendable.
+                        </p>
+                        <p class="mt-4 font-semibold text-azul">Laura G.</p>
+                        <p class="text-sm opacity-80">Cliente de traducción</p>
+                    </div>
+                </div>
+
+                {{-- Opinión 3 --}}
+                <div class="card bg-white">
+                    <div class="flex flex-col items-center text-center">
+                        <span class="text-5xl text-rojo mb-4">“</span>
+                        <p class="italic text-[16px]">
+                            Las clases online son dinámicas y se adaptan a mis horarios.
+                            Aprender inglés así da gusto.
+                        </p>
+                        <p class="mt-4 font-semibold text-azul">David R.</p>
+                        <p class="text-sm opacity-80">Alumno de inglés profesional</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
 
     <section class="bg-beige2 py-12">
         <div class="container mx-auto px-4 grid md:grid-cols-3 gap-6">

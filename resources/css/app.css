@@ -29,7 +29,8 @@
   }
   .btn-secondary:hover {
     transform: scale(1.05);
-    @apply bg-azul text-white opacity-100;
+    /* Al pasar el ratón, fondo beige y texto negro para mejor contraste */
+    @apply bg-beige text-negro opacity-100;
   }
   .card          { @apply bg-beige2 rounded-card shadow-sm p-6; }
 }

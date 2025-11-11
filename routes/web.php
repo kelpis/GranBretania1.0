@@ -162,4 +162,10 @@ Route::middleware(['auth', AdminMiddleware::class])
 // La vista de inicio está en resources/views/layouts/home.blade.php
 Route::view('/', 'layouts.home')->name('home');
 
+// Páginas estáticas creadas como vistas en resources/views/layouts
+Route::view('/clases', 'layouts.class')->name('clases');
+Route::view('/traducciones', 'layouts.translate')->name('traducciones');
+Route::view('/sobremi', 'layouts.aboutme')->name('sobremi');
+Route::view('/faq', 'layouts.faq')->name('faq');
+
 require __DIR__ . '/auth.php';

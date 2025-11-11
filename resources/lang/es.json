@@ -1,0 +1,23 @@
+{
+	"Email": "Correo electrónico",
+	"Password": "Contraseña",
+	"Remember me": "Recuérdame",
+	"Forgot your password?": "¿Olvidaste tu contraseña?",
+	"Log in": "Acceder",
+	"Already registered?": "¿Ya estás registrado?",
+	"Register": "Registrarse",
+	"Email Password Reset Link": "Enviar enlace para restablecer contraseña",
+	"Reset Password": "Restablecer contraseña",
+	"Confirm": "Confirmar",
+    "Confirm Password": "Confirmar contraseña",
+	"No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.": "No hay problema. Indícanos tu correo y te enviaremos un enlace para restablecerla.",
+	"This is a secure area of the application. Please confirm your password before continuing.": "Esta es un área segura de la aplicación. Por favor confirma tu contraseña antes de continuar.",
+	"Resend Verification Email": "Reenviar correo de verificación",
+	"A new verification link has been sent to the email address you provided during registration.": "Se ha enviado un nuevo enlace de verificación al correo que proporcionaste durante el registro.",
+	"Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.": "¡Gracias por registrarte! Antes de empezar, ¿podrías verificar tu correo haciendo clic en el enlace que te hemos enviado? Si no lo recibiste, con gusto te enviaremos otro.",
+	"Verify Email": "Verificar correo",
+	"Name": "Nombre",
+	"Message": "Mensaje",
+	"Subject": "Asunto",
+	"Send": "Enviar"
+}
