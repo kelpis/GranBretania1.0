@@ -72,6 +72,17 @@
                     <p class="mt-2 text-gray-700">Sí. Todos los archivos y datos personales se manejan con total
                         confidencialidad y conforme a la normativa de protección de datos vigente.</p>
                 </details>
+
+                <details class="bg-white rounded-lg shadow p-4">
+                    <summary class="font-semibold text-azul cursor-pointer">
+                        ¿Ofreces servicios de interpretación además de traducción?
+                    </summary>
+                    <p class="mt-2 text-gray-700">
+                        Sí. Ofrezco interpretación consecutiva y simultánea para reuniones, conferencias o eventos online,
+                        garantizando una comunicación clara y profesional entre los participantes.
+                    </p>
+                </details>
+
             </div>
         </div>
     </section>
@@ -80,13 +91,13 @@
     <section id="cta-final" class="relative py-24">
         {{-- Imagen de fondo --}}
         <div class="absolute inset-0">
-            <img src="{{ asset('images/panoramicaChica.jpg') }}" {{-- Cambia por tu imagen --}}
-                alt="panoramicaChica" class="w-full h-full object-cover object-top brightness-75">
+            <img src="{{ asset('images/panoramicaChica.jpg') }}" alt="panoramicaChica"
+                class="w-full h-full object-cover object-top brightness-75">
         </div>
 
-       
 
- 
+
+
         <div class="relative container mx-auto px-6 text-left text-white">
             <h2 class="text-3xl md:text-4xl font-semibold mb-4">¿Más dudas?</h2>
             <p class="text-lg mb-10 max-w-2xl text-white/90">
@@ -96,12 +107,10 @@
 
             {{-- Botones de acción --}}
             <div class="flex flex-wrap justify-left gap-4">
-                <a href="{{ route('contact.create') }}"
-                    class="btn-primary">
+                <a href="{{ route('contact.create') }}" class="btn-primary">
                     Contacto
                 </a>
-                <a href="{{ route('clases') }}"
-                    class="btn-secondary">
+                <a href="{{ route('clases') }}" class="btn-secondary">
                     Clases
                 </a>
                 <a href="{{ route('traducciones') }}"

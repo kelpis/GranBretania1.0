@@ -1,4 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.site')
+
+@section('title', 'Cookies · Gran Bretania')
+
+@section('content')
+
 
 @section('content')
   <div class="max-w-4xl mx-auto py-12 px-4">

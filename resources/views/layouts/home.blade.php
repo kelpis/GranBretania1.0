@@ -9,19 +9,20 @@
         </div>
         <div class="container mx-auto px-4 text-center">
 
-            <a href="{{ route('home') }}" class="inline-block">         
-                <img src="{{ asset('images/logoSinMargen.png') }}" alt="Gran Bretania"
-                    class="mx-auto h-64 md:h-80 w-auto">
+            <a href="{{ route('home') }}" class="inline-block">
+                <img src="{{ asset('images/logoSinMargen.png') }}" alt="Gran Bretania" class="mx-auto h-64 md:h-80 w-auto">
             </a>
 
 
-            <nav class="my-[30px] flex flex-wrap items-center justify-center gap-16 text-azul tracking-wider">
+            <nav class="my-8 flex flex-wrap items-center justify-center gap-16 text-azul tracking-wider">
                 <a href="{{ route('home') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Inicio</a>
                 <a href="{{ route('clases') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Clases</a>
-                <a href="{{ route('traducciones') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Traducciones</a>
+                <a href="{{ route('traducciones') }}"
+                    class="hover:underline text-lg md:text-xl font-medium px-2">Traducciones</a>
                 <a href="{{ route('sobremi') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Sobre mí</a>
                 <a href="{{ route('faq') }}" class="hover:underline text-lg md:text-xl font-medium px-2">FAQ</a>
-                <a href="{{ route('contact.create') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Contacto</a>
+                <a href="{{ route('contact.create') }}"
+                    class="hover:underline text-lg md:text-xl font-medium px-2">Contacto</a>
             </nav>
         </div>
     </header>
@@ -33,10 +34,10 @@
             Enseñanza de inglés y traducciones
         </h1>
         {{-- BLOQUE: Clases de inglés --}}
-        <section id="clases" class="bg-beige2 py-16 mt-[100px]">
+    <section id="clases" class="bg-beige2 py-16 mt-24">
             <div class="container mx-auto px-4 text-left">
 
-                <h2 class="text-azul text-left md:text-left mb-8">Clases de inglés online</h2>
+                <h2 class="text-azul mb-8">Clases de inglés online</h2>
 
                 <div class="grid md:grid-cols-2 gap-10 items-stretch">
 
@@ -53,7 +54,7 @@
                             </p>
 
                             {{-- Tipos de clases (resumen) --}}
-                            <ul class="mt-6 grid sm:grid-cols-2 gap-4 text-[16px]">
+                            <ul class="mt-6 grid sm:grid-cols-2 gap-4 text-base">
                                 <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
                                     <span aria-hidden="true">🗣️</span>
                                     <div>
@@ -102,7 +103,7 @@
 
 
         {{-- BLOQUE: Por qué elegirnos (Home) --}}
-        <section class="bg-beige2 py-16">
+    <section class="bg-beige2 py-16 mt-6">
             <div class="container mx-auto px-4 text-center">
                 <h2 class="text-azul">¿Por qué elegirnos?</h2>
                 <p class="mt-2 opacity-80">Tres razones para empezar hoy mismo</p>
@@ -137,7 +138,7 @@
 
 
         <section
-            class="relative py-16 text-center transform-gpu transition-transform duration-200 hover:scale-105 bg-cover bg-center rounded-xl overflow-hidden mt-[50px]"
+            class="relative py-16 text-center transform-gpu transition-transform duration-200 hover:scale-105 bg-cover bg-center rounded-xl overflow-hidden mt-24"
             style="background-image: url('{{ asset('images/learn-english.jpg') }}')">
             <!-- Gradient overlay: aún más claro para un aspecto luminoso y aireado -->
             <div class="absolute inset-0" aria-hidden="true"
@@ -168,7 +169,7 @@
     </section>
 
     {{-- BLOQUE: Traducciones --}}
-    <section id="traducciones" class="bg-beige2 py-16">
+    <section id="traducciones" class="bg-beige2 py-16 mt-24">
         <div class="container mx-auto px-4">
 
             <div class="grid md:grid-cols-2">
@@ -201,7 +202,7 @@
                             </p>
 
                             {{-- Tipos de traducción (resumen) --}}
-                            <ul class="mt-6 grid sm:grid-cols-2 gap-4 text-[16px]">
+                            <ul class="mt-6 grid sm:grid-cols-2 gap-4 text-base">
                                 <li class="card flex items-start gap-3 bg-beige">
                                     <span aria-hidden="true">⚖️</span>
                                     <div>
@@ -251,8 +252,104 @@
         </div>
     </section>
 
+
+
+
+    <section id="empresas" class="relative py-20 text-white overflow-hidden mt-24">
+        {{-- Imagen de fondo --}}
+
+        <div class="absolute inset-0">
+            <img src="{{ asset('images/empresarios.jpg') }}" alt="Solución integral en inglés para empresas"
+                class="w-full h-full object-cover brightness-90">
+        </div>
+
+        {{-- Capa azul translúcida (suave) --}}
+        <div class="absolute inset-0 bg-gradient-to-r from-azul/60 via-azul/40 to-transparent"></div>
+
+
+        {{-- Contenido principal --}}
+        <div class="relative container mx-auto px-4">
+            <div class="text-left max-w-4xl">
+                <h2 class="text-3xl md:text-4xl font-semibold mb-4">Solución integral para tu empresa</h2>
+                <p class="mt-3 text-white/90 leading-relaxed">
+                    Traducciones especializadas, interpretación en tiempo real y formación en inglés profesional para
+                    equipos.<br>
+                    Un único proveedor, procesos ágiles y resultados medibles.
+                </p>
+
+            </div>
+
+            {{-- Servicios clave --}}
+            <div class="mt-10 grid md:grid-cols-3 gap-6">
+                <article class="bg-black/40 hover:bg-black/50 rounded-xl p-6 backdrop-blur-sm transition">
+                    <h3 class="font-semibold text-xl text-white">Traducción especializada</h3>
+                    <p class="mt-2 text-white/90 leading-snug">
+                        Jurídica, médica, académica y audiovisual. Terminología precisa, control de calidad y entregas
+                        puntuales.
+                    </p>
+                    <ul class="mt-3 text-sm text-white/80 list-disc ml-5">
+                        <li>Memorias y glosarios de empresa</li>
+                        <li>Revisión y maquetación</li>
+                    </ul>
+                    <a href="{{ route('traducciones') }}" class="mt-4 inline-block btn-secondary">
+                        Ver traducciones →
+                    </a>
+                </article>
+
+                <article class="bg-black/40 hover:bg-black/50 rounded-xl p-6 backdrop-blur-sm transition">
+                    <h3 class="font-semibold text-xl text-white">Interpretación</h3>
+                    <p class="mt-2 text-white/90 leading-snug">
+                        Consecutiva o simultánea para reuniones, webinars y eventos online. Comunicación fluida entre
+                        equipos y clientes.
+                    </p>
+                    <ul class="mt-3 text-sm text-white/80 list-disc ml-5">
+                        <li>Briefing previo y guía terminológica</li>
+                        <li>Soporte técnico de sala virtual</li>
+                    </ul>
+                    <a href="{{ route('contact.create') }}" class="mt-4 inline-block btn-secondary">
+                        Solicitar intérprete →
+                    </a>
+                </article>
+
+                <article class="bg-black/40 hover:bg-black/50 rounded-xl p-6 backdrop-blur-sm transition">
+                    <h3 class="font-semibold text-xl text-white">Formación in-company</h3>
+                    <p class="mt-2 text-white/90 leading-snug">
+                        Inglés profesional para equipos: reuniones, presentaciones, email y entrevistas. Programas a medida.
+                    </p>
+                    <ul class="mt-3 text-sm text-white/80 list-disc ml-5">
+                        <li>Diagnóstico de nivel y objetivos</li>
+                        <li>KPIs de progreso y reportes</li>
+                    </ul>
+                    <a href="{{ route('clases') }}" class="mt-4 inline-block btn-secondary">
+                        Ver formación →
+                    </a>
+                </article>
+            </div>
+
+
+        </div>
+    </section>
+
+
+    <section class="bg-beige2 py-16 mt-24">
+        <div class="container mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
+            <img src="{{ asset('images/profesora.jpg') }}" alt="Tania Morais Villar"
+                class="rounded-xl shadow-md object-cover h-80 w-full">
+            <div>
+                <h2 class="text-azul text-3xl font-semibold mb-4">Sobre mí</h2>
+                <p class="text-gray-700 leading-relaxed">
+                    Soy Tania, profesora de inglés y traductora profesional.
+                    En <strong>Gran Bretania</strong> combino años de experiencia docente con una atención personalizada,
+                    adaptando cada clase o proyecto a las necesidades de mis alumnos y clientes.
+                </p>
+                <a href="{{ route('sobremi') }}" class="btn-secondary mt-6 inline-block">Conóceme mejor</a>
+            </div>
+        </div>
+    </section>
+
+
     {{-- BLOQUE: Opiniones --}}
-    <section id="opiniones" class="bg-beige py-16 mt-[100px]">
+    <section id="opiniones" class="bg-beige py-16 mt-24">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-azul mb-10">Opiniones de nuestros alumnos y clientes</h2>
 
@@ -261,7 +358,7 @@
                 <div class="card bg-white">
                     <div class="flex flex-col items-center text-center">
                         <span class="text-5xl text-rojo mb-4">“</span>
-                        <p class="italic text-[16px]">
+                        <p class="italic text-base">
                             Las clases con Tania me ayudaron a ganar confianza hablando en inglés.
                             El ambiente es cercano y muy profesional.
                         </p>
@@ -274,7 +371,7 @@
                 <div class="card bg-white">
                     <div class="flex flex-col items-center text-center">
                         <span class="text-5xl text-rojo mb-4">“</span>
-                        <p class="italic text-[16px]">
+                        <p class="italic text-base">
                             Encargué una traducción médica y quedé encantada con la precisión
                             y rapidez. Muy recomendable.
                         </p>
@@ -287,7 +384,7 @@
                 <div class="card bg-white">
                     <div class="flex flex-col items-center text-center">
                         <span class="text-5xl text-rojo mb-4">“</span>
-                        <p class="italic text-[16px]">
+                        <p class="italic text-base">
                             Las clases online son dinámicas y se adaptan a mis horarios.
                             Aprender inglés así da gusto.
                         </p>
@@ -302,20 +399,5 @@
 
 
 
-    <section class="bg-beige2 py-12">
-        <div class="container mx-auto px-4 grid md:grid-cols-3 gap-6">
-            <div class="card">
-                <h3 class="mb-2">Clases</h3>
-                <p>Dinámicas, objetivos claros y horarios flexibles.</p>
-            </div>
-            <div class="card">
-                <h3 class="mb-2">Traducciones</h3>
-                <p>Documentos en PDF/DOCX con entrega pactada.</p>
-            </div>
-            <div class="card">
-                <h3 class="mb-2">Opiniones</h3>
-                <p>La confianza de nuestros alumnos nos avala.</p>
-            </div>
-        </div>
-    </section>
+
 @endsection

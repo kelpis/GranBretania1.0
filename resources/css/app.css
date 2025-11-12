@@ -5,7 +5,8 @@
 
 @layer base{
   html { scroll-behavior: smooth; }
-  body { @apply bg-beige text-negro font-sans; }
+  /* Aplicar márgenes/padding horizontales globales para heredar en las vistas */
+  body { @apply m-0 px-4 sm:px-6 lg:px-8 bg-beige text-negro font-sans; }
   h1 { @apply text-4xl md:text-5xl font-bold leading-tight; }
   h2 { @apply text-3xl md:text-4xl font-semibold; }
   h3 { @apply text-2xl font-semibold; }

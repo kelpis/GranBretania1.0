@@ -4,7 +4,7 @@
 
 @section('content')
 <section id="contacto" class="py-16">
-  <div class="container mx-auto px-4 grid md:grid-cols-2 gap-8 items-stretch min-h-[560px]">
+  <div class="container mx-auto px-4 grid md:grid-cols-2 gap-8 items-stretch min-h-[35rem]">
 
     {{-- Columna izquierda: imagen + texto arriba --}}
     <div class="relative rounded-xl overflow-hidden h-full">
