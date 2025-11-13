@@ -83,10 +83,10 @@
     </div>
     <section class="mx-auto max-w-7xl px-4 py-12">
 
-        <!-- GRID PRINCIPAL: 1 columna en móvil, 3 columnas en ≥md -->
+
         <div class="grid gap-6 md:grid-cols-3">
 
-            <!-- Imagen lateral (ocupa 2 filas en pantallas medianas o mayores) -->
+            
             <figure class="overflow-hidden rounded-3xl md:row-span-2 bg-gray-200 max-h-96">
                 <img src="images/claseOnline.jpg" alt="Clases de inglés personalizadas"
                     class="h-full w-full object-cover object-top" />
@@ -138,10 +138,8 @@
     </section>
 
 
-    {{-- Colócalo en la sección Clases, en un grid de 3 columnas o al final como callout --}}
-    <!-- Outer blue band -->
-    <div class="mt-10 lg:mt-0  lg:top-6 bg-azul py-8 rounded-2xl shadow">
-        <!-- Inner beige card centered -->
+    <div class="mt-16 lg:mt-6 lg:top-6 bg-azul py-8 rounded-2xl shadow">
+
         <div class="mx-auto max-w-md bg-beige2 rounded-2xl p-6">
             <h3 class="text-azul text-xl font-semibold text-center">Tarifas</h3>
 
@@ -175,7 +173,7 @@
 
 
 
-    {{-- SECCIÓN: Proceso - ¿Cómo empezar a aprender? (horizontal) --}}
+    {{-- SECCIÓN: Proceso --}}
     <section id="proceso" class="py-16 bg-beige2">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-azul text-3xl md:text-4xl font-semibold mb-4">¿Cómo empezar a aprender?</h2>
@@ -185,7 +183,7 @@
 
             {{-- Proceso horizontal --}}
             <div class="relative flex flex-col md:flex-row justify-between items-center md:items-start gap-10 md:gap-0">
-                {{-- Línea conectora (visible solo en desktop) --}}
+
                 <div class="hidden md:block absolute top-8 left-0 w-full h-0.5 bg-gray-200 z-0"></div>
 
                 {{-- Paso 1 --}}

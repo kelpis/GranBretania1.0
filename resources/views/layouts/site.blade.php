@@ -24,7 +24,7 @@
 <body class="min-h-dvh flex flex-col bg-beige2">
 
     @section('header')
-    <header class="sticky top-0 z-40 bg-beige/95 backdrop-blur supports-[backdrop-filter]:bg-beige/80 shadow-sm">
+    <header class="sticky top-0 z-40 bg-beige/95 backdrop-blur supports-[backdrop-filter]:bg-beige/80 shadow-sm -mx-4 sm:-mx-6 lg:-mx-8">
         <div class="container mx-auto px-4">
             <div class="h-20 flex items-center justify-between gap-4">
 
@@ -63,13 +63,14 @@
     </main>
 
     {{-- Footer azul corporativo --}}
-    <footer class="bg-azul text-white mt-12">
-        <div class="container mx-auto px-4 py-10 grid md:grid-cols-3 gap-8">
-            <div>
+    <footer class="bg-azul text-white mt-12 -mx-4 sm:-mx-6 lg:-mx-8">
+        <div class="px-4 sm:px-6 lg:px-8">
+            <div class="container mx-auto px-4 py-10 flex flex-col md:flex-row gap-8">
+            <div class="md:basis-1/2">
                 <h3 class="font-semibold mb-3">Gran Bretania</h3>
                 <p class="text-sm opacity-80">Enseñanza de inglés y traducciones.</p>
             </div>
-            <div>
+            <div class="md:basis-1/4">
                 <ul class="space-y-2 text-sm">
                     <li><a href="{{ route('privacy') }}" class="hover:underline">Política de privacidad</a>
                     </li>
@@ -77,7 +78,7 @@
                     <li><a class="hover:underline">Aviso legal</a></li>
                 </ul>
             </div>
-            <div class="text-sm">
+            <div class="text-sm md:basis-1/4">
                 <p class="opacity-80">info@granbretania.test</p>
                 <p class="opacity-80">+34 000 000 000</p>
 
@@ -108,6 +109,7 @@
                         </svg>
                     </a>
                 </div>
+            </div>
             </div>
         </div>
     </footer>
