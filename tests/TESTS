@@ -1,0 +1,199 @@
+AUTH TESTS
+
+1) tests/Feature/Auth/AuthenticationTest.php
+Objetivo:
+  Comprobar los flujos básicos de autenticación: renderizado del formulario de login, inicio de sesión con credenciales válidas, rechazo con contraseña inválida y logout.
+Resultado Esperado:
+  - GET /login -> 200
+  - POST /login con credenciales válidas -> usuario autenticado y redirección a la ruta post-login (dashboard)
+  - POST /login con contraseña inválida -> no autenticación (guest)
+  - POST /logout por usuario autenticado -> cierre de sesión y redirección (/) o ruta pública
+Resultado Obtenido:
+  ✔ Passed — todos los casos pasaron correctamente.
+
+
+2) tests/Feature/Auth/RegistrationTest.php
+Objetivo:
+  Validar el flujo de registro: mostrar el formulario y permitir crear un nuevo usuario.
+Resultado Esperado:
+  - GET /register -> 200
+  - POST /register con datos válidos -> creación de usuario, autenticación del nuevo usuario y redirección a dashboard
+Resultado Obtenido:
+  ✔ Passed — el formulario se renderiza y un nuevo usuario puede registrarse correctamente.
+
+
+3) tests/Feature/Auth/PasswordResetTest.php
+Objetivo:
+  Probar el flujo de restablecimiento de contraseña: solicitar enlace, envío de notificación, acceder a la pantalla de reset y cambiar la contraseña usando token válido.
+Resultado Esperado:
+  - GET /forgot-password -> 200
+  - POST /forgot-password con email válido -> se envía notificación ResetPassword
+  - GET /reset-password/{token} (usando token de la notificación) -> 200
+  - POST /reset-password con token válido y nuevos datos -> sin errores y redirección a login
+Resultado Obtenido:
+  ✔ Passed — todos los pasos del flujo de reset funcionan y la notificación fue enviada correctamente.
+
+
+4) tests/Feature/Auth/PasswordUpdateTest.php
+Objetivo:
+  Verificar que un usuario autenticado puede actualizar su contraseña desde su perfil y que se requieren las credenciales actuales.
+Resultado Esperado:
+  - PUT /password (actingAs user) con current_password correcto -> no errores, redirección a /profile, y la contraseña se actualiza en BD
+  - PUT /password con current_password incorrecto -> error de validación en current_password y redirección a /profile
+Resultado Obtenido:
+  ✔ Passed — la contraseña se actualiza con la credencial correcta y se rechaza con la incorrecta.
+
+
+5) tests/Feature/Auth/PasswordConfirmationTest.php
+Objetivo:
+  Comprobar la pantalla y el flujo de confirmación de contraseña (reafirmación para acciones sensibles).
+Resultado Esperado:
+  - GET /confirm-password (actingAs user) -> 200
+  - POST /confirm-password con contraseña válida -> redirección y sin errores
+  - POST /confirm-password con contraseña inválida -> sesión con errores
+Resultado Obtenido:
+  ✔ Passed — la pantalla y las comprobaciones de confirmación funcionan como se espera.
+
+
+6) tests/Feature/Auth/EmailVerificationTest.php
+Objetivo:
+  Validar el flujo de verificación de correo: mostrar la pantalla de verificación, verificar con enlace firmado válido y rechazar con hash inválido.
+Resultado Esperado:
+  - GET /verify-email (actingAs unverified user) -> 200
+  - GET verification URL (signed, con hash correcto) -> evento Verified disparado, email marcado como verificado y redirección a dashboard?verified=1
+  - GET verification URL con hash inválido -> no se verifica el email
+Resultado Obtenido:
+  ✔ Passed — verificación por enlace firmado funciona, el evento fue disparado y el estado de verificación cambió correctamente cuando el hash fue válido.
+
+
+7) tests/Feature/FuncionalidadTest/AuthRedirectTest.php
+Objetivo:
+  Asegurar que rutas protegidas redirigen a invitados hacia la página de login.
+Resultado Esperado:
+  - GET /dashboard como invitado -> 302 y Location apunta a route('login')
+Resultado Obtenido:
+  ✔ Passed — la ruta protegida redirige correctamente a login.
+
+
+COMANDOS PARA EJECUTAR (PowerShell):
+php ./vendor/bin/pest tests/Feature/Auth/AuthenticationTest.php
+php ./vendor/bin/pest tests/Feature/Auth/RegistrationTest.php
+php ./vendor/bin/pest tests/Feature/Auth/PasswordResetTest.php
+php ./vendor/bin/pest tests/Feature/Auth/PasswordUpdateTest.php
+php ./vendor/bin/pest tests/Feature/Auth/PasswordConfirmationTest.php
+php ./vendor/bin/pest tests/Feature/Auth/EmailVerificationTest.php
+php ./vendor/bin/pest tests/Feature/FuncionalidadTest/AuthRedirectTest.php
+
+
+USABILITY TESTS
+
+8) tests/Feature/Usability/NavigationLinksTest.php
+Objetivo:
+  Comprobar que la página principal (`/`) contiene enlaces a las rutas estáticas principales (clases, traducciones, sobre mí y FAQ) para facilitar la navegación.
+Resultado Esperado:
+  - GET / -> 200
+  - El HTML de la home incluye enlaces a `route('clases')`, `route('traducciones')`, `route('sobremi')` y `route('faq')`.
+Resultado Obtenido:
+  ✔ Passed — la home incluye los enlaces a las rutas estáticas indicadas.
+
+
+9) tests/Feature/Usability/HeaderFooterLayoutTest.php
+Objetivo:
+  Verificar la presencia de `header` y `footer` en la página y comprobar indicios de la maquetación responsiva del footer (clases Tailwind esperadas).
+Resultado Esperado:
+  - GET / -> 200
+  - El HTML contiene `<header` y `<footer`.
+  - El footer contiene las clases `md:basis-1/2` y `md:basis-1/4` (indicando la estructura flex proporcional aplicada).
+Resultado Obtenido:
+  ✔ Passed — header y footer presentes; las clases de estructura están en el HTML.
+
+
+10) tests/Feature/Usability/AccessibilityTest.php
+Objetivo:
+  Comprobar una regla básica de accesibilidad: al menos una imagen en la home debe llevar un atributo `alt` no vacío.
+Resultado Esperado:
+  - GET / -> 200
+  - Al menos una etiqueta `<img ... alt="...">` con `alt` no vacío presente en la home.
+Resultado Obtenido:
+  ✔ Passed — se encontró al menos una imagen con `alt` no vacío en la home.
+
+
+COMANDOS PARA EJECUTAR (PowerShell) - Tests de usabilidad:
+php ./vendor/bin/pest tests/Feature/Usability/NavigationLinksTest.php
+php ./vendor/bin/pest tests/Feature/Usability/HeaderFooterLayoutTest.php
+php ./vendor/bin/pest tests/Feature/Usability/AccessibilityTest.php
+
+
+PERFORMANCE TESTS
+
+11) tests/Performance/HomePerformanceTest.php
+Objetivo:
+  Medir el tiempo de respuesta promedio de la home realizando varias peticiones y asegurar que esté dentro de un umbral razonable para el entorno de desarrollo.
+Resultado Esperado:
+  - GET / -> 200
+  - Media de varias peticiones <= 500ms (umbral ajustable)
+Resultado Obtenido:
+  ✔ Passed — la media de respuesta estaba dentro del umbral establecido.
+
+
+12) tests/Performance/TranslatePerformanceTest.php
+Objetivo:
+  Medir el tiempo de respuesta promedio de la página de traducciones y validar que no supere un umbral razonable.
+Resultado Esperado:
+  - GET /traducciones -> 200
+  - Media de varias peticiones <= 600ms (umbral ajustable)
+Resultado Obtenido:
+  ✔ Passed — la media de respuesta de la página de traducciones estaba dentro del umbral establecido.
+
+
+13) tests/Performance/QueriesPerformanceTest.php
+Objetivo:
+  Contar el número de consultas SQL ejecutadas al renderizar `/clases` y validar que no sea excesivo para mantener buen rendimiento.
+Resultado Esperado:
+  - GET /clases -> 200
+  - Número de queries <= 20 (umbral ajustable)
+Resultado Obtenido:
+  ✔ Passed — el número de queries se mantuvo por debajo del umbral configurado.
+
+
+COMANDOS PARA EJECUTAR (PowerShell) - Tests de rendimiento:
+php ./vendor/bin/pest tests/Performance/HomePerformanceTest.php
+php ./vendor/bin/pest tests/Performance/TranslatePerformanceTest.php
+php ./vendor/bin/pest tests/Performance/QueriesPerformanceTest.php
+
+
+SECURITY TESTS
+
+14) tests/Security/CsrfPresenceTest.php
+Objetivo:
+  Verificar que los formularios de autenticación (login/register) incluyan el token CSRF para prevenir peticiones forjadas.
+Resultado Esperado:
+  - GET /login -> 200 y el HTML contiene `name="_token"` en el formulario
+  - GET /register -> 200 y el HTML contiene `name="_token"` en el formulario
+Resultado Obtenido:
+  ✔ Passed — ambos formularios contienen el campo `_token`.
+
+
+15) tests/Security/SecureHeadersTest.php
+Objetivo:
+  Comprobar que la aplicación devuelve cabeceras HTTP de seguridad básicas en las respuestas (ej. `X-Frame-Options`, `X-Content-Type-Options`).
+Resultado Esperado:
+  - GET / -> 200
+  - Respuesta contiene `X-Frame-Options` y `X-Content-Type-Options` con valores razonables.
+Resultado Obtenido:
+  ✔ Passed — ambas cabeceras estaban presentes y con valores esperados.
+
+
+16) tests/Security/PasswordResetEnumerationTest.php
+Objetivo:
+  Evitar la enumeración de emails mediante la comprobación de que `forgot-password` responde igual para emails existentes y no existentes.
+Resultado Esperado:
+  - POST /forgot-password con email existente y no existente -> mismos códigos de estado/redirección (sin revelar existencia)
+Resultado Obtenido:
+  ✔ Passed — las respuestas para email existente y no existente coinciden en el código HTTP y comportamiento de redirección.
+
+
+COMANDOS PARA EJECUTAR (PowerShell) - Tests de seguridad:
+php ./vendor/bin/pest tests/Security/CsrfPresenceTest.php
+php ./vendor/bin/pest tests/Security/SecureHeadersTest.php
+php ./vendor/bin/pest tests/Security/PasswordResetEnumerationTest.php

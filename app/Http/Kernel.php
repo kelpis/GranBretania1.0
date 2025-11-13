@@ -7,7 +7,8 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
 {
     protected $middleware = [
-        // vacío está bien
+        // Security headers for all responses
+        \App\Http\Middleware\SecurityHeaders::class,
     ];
 
     protected $middlewareGroups = [
