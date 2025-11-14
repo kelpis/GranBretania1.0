@@ -2,45 +2,173 @@
 
 @section('title', 'Cookies · Gran Bretania')
 
-@section('content')
+  @section('content')
 
+    <section class="container mx-auto px-4 py-10">
 
-@section('content')
-  <div class="max-w-4xl mx-auto py-12 px-4">
-    <h1 class="text-3xl font-bold mb-4">Política de cookies</h1>
+      {{-- MIGAS DE PAN --}}
+      <nav class="text-sm text-gray-600 mb-6" aria-label="Breadcrumb">
+        <ol class="list-none p-0 inline-flex">
+          <li class="flex items-center">
+            <a href="{{ route('home') }}" class="text-azul hover:text-rojo">Inicio</a>
+            <svg class="w-4 h-4 mx-2 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </li>
+          <li class="flex items-center text-gray-500" aria-current="page">
+            Política de cookies
+          </li>
+        </ol>
+      </nav>
 
-    <p class="mb-4 text-gray-700 dark:text-gray-300">En esta web utilizamos cookies propias y de terceros para mejorar la experiencia del usuario, ofrecer funcionalidades y realizar análisis estadísticos. A continuación explicamos qué tipos de cookies usamos, por qué y cómo puedes gestionar o revocar tu consentimiento.</p>
+      {{-- TÍTULO PRINCIPAL --}}
+      <header class="max-w-3xl mb-8">
+        <h1 class="text-azul text-3xl md:text-4xl font-semibold mb-3">
+          Política de cookies
+        </h1>
+        <p class="text-gray-700">
+          En <strong>Gran Bretania</strong> utilizamos cookies para mejorar tu experiencia de navegación, analizar el uso
+          del sitio y, en su caso, mostrar contenidos adaptados a tus intereses. En esta página te explicamos qué son las
+          cookies, qué tipos utilizamos y cómo puedes gestionarlas.
+        </p>
+      </header>
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">¿Qué son las cookies?</h2>
-    <p class="text-gray-700 dark:text-gray-300 mb-4">Las cookies son pequeños archivos de texto que se almacenan en tu dispositivo cuando visitas un sitio web. Permiten que el sitio recuerde tus preferencias y, en algunos casos, recopilen información anónima sobre cómo interactúas con la web.</p>
+      {{-- LAYOUT DOS COLUMNAS --}}
+      <div class="grid lg:grid-cols-4 gap-10">
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">Tipos de cookies que utilizamos</h2>
-    <ul class="list-disc ml-6 mb-4 text-gray-700 dark:text-gray-300">
-      <li><strong>Esenciales:</strong> necesarias para el funcionamiento del sitio (p. ej. sesiones). No requieren consentimiento y se activan automáticamente.</li>
-      <li><strong>Preferencias:</strong> recuerdan tus opciones (idioma, apariencia) para mejorar la experiencia.</li>
-      <li><strong>Estadísticas / Analytics:</strong> se usan para recopilar datos anónimos sobre el uso (p. ej. Google Analytics). Estas cookies se activan únicamente si aceptas su uso.</li>
-      <li><strong>Marketing:</strong> se usan para personalizar publicidad a través de proveedores externos. Se activan solo con tu consentimiento.</li>
-    </ul>
+        {{-- ÍNDICE LATERAL --}}
+        <aside class="lg:col-span-1">
+          <div class="bg-beige2 rounded-2xl p-4 text-sm sticky top-24">
+            <h2 class="text-azul font-semibold mb-3 text-base">Contenido</h2>
+            <ul class="space-y-2">
+              <li><a href="#que-son" class="text-gray-700 hover:text-azul">1. ¿Qué son las cookies?</a></li>
+              <li><a href="#tipos" class="text-gray-700 hover:text-azul">2. Tipos de cookies utilizadas</a></li>
+              <li><a href="#finalidad" class="text-gray-700 hover:text-azul">3. Finalidad de las cookies</a></li>
+              <li><a href="#terceros" class="text-gray-700 hover:text-azul">4. Cookies de terceros</a></li>
+              <li><a href="#gestion" class="text-gray-700 hover:text-azul">5. Cómo configurar o desactivar cookies</a></li>
+              <li><a href="#consecuencias" class="text-gray-700 hover:text-azul">6. ¿Qué ocurre si las desactivas?</a></li>
+              <li><a href="#actualizacion" class="text-gray-700 hover:text-azul">7. Actualización de la política de
+                  cookies</a></li>
+              <li><a href="#contacto" class="text-gray-700 hover:text-azul">8. Contacto</a></li>
+            </ul>
+          </div>
+        </aside>
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">Proveedores y ejemplos</h2>
-    <p class="text-gray-700 dark:text-gray-300 mb-4">Podemos utilizar proveedores de terceros como Google (Analytics) o plataformas de vídeo que pueden establecer cookies cuando reproduces contenido incrustado. Los proveedores y la lista exacta pueden cambiar; si necesitas detalles específicos sobre cada cookie puedes contactarnos (ver abajo).</p>
+        {{-- CONTENIDO PRINCIPAL --}}
+        <div class="lg:col-span-3 space-y-8 text-sm md:text-base leading-relaxed text-gray-800">
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">¿Cómo gestionar o revocar el consentimiento?</h2>
-    <p class="text-gray-700 dark:text-gray-300 mb-4">Puedes aceptar o rechazar las cookies desde el banner que aparece la primera vez que visitas la página. Para revocar o cambiar tu elección:</p>
-    <ol class="list-decimal ml-6 mb-4 text-gray-700 dark:text-gray-300">
-      <li>Busca la cookie <code>cookies_consent</code> en las cookies del navegador y elimínala, o</li>
-      <li>Haz clic en el enlace de la política en el pie de página y sigue las instrucciones para revocar el consentimiento, o</li>
-      <li>Si estás registrado y tu cuenta lo permite, podremos almacenar tu elección en tu perfil. Contacta con nosotros para más información.</li>
-    </ol>
+          {{-- 1. QUÉ SON --}}
+          <section id="que-son" class="bg-white rounded-2xl shadow p-6">
+            <h2 class="text-azul font-semibold text-lg mb-3">1. ¿Qué son las cookies?</h2>
+            <p>
+              Las cookies son pequeños archivos de texto que se descargan en tu dispositivo cuando visitas
+              determinadas páginas web. Permiten, entre otras cosas, recordar tus preferencias de navegación,
+              entender cómo utilizas el sitio y, en algunos casos, reconocer tu dispositivo en visitas posteriores.
+            </p>
+          </section>
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">Duración de las cookies</h2>
-    <p class="text-gray-700 dark:text-gray-300 mb-4">La cookie de consentimiento que usamos se guarda durante 365 días. Las cookies de sesión se eliminan al cerrar el navegador; otras cookies de terceros pueden tener sus propias fechas de expiración.</p>
+          {{-- 2. TIPOS UTILIZADAS --}}
+          <section id="tipos" class="bg-white rounded-2xl shadow p-6">
+            <h2 class="text-azul font-semibold text-lg mb-3">2. Tipos de cookies utilizadas</h2>
+            <p class="mb-2">En <strong>Gran Bretania</strong> podemos utilizar las siguientes categorías de cookies:</p>
+            <ul class="list-disc ml-5 space-y-1">
+              <li><strong>Cookies técnicas o necesarias</strong>: imprescindibles para el funcionamiento básico del sitio
+                (por ejemplo, mantener la sesión iniciada o recordar el contenido de un formulario).</li>
+              <li><strong>Cookies de preferencias</strong>: permiten recordar tus ajustes (idioma, región, etc.).</li>
+              <li><strong>Cookies estadísticas o de análisis</strong>: nos ayudan a comprender cómo se utiliza la web
+                (páginas más visitadas, tiempo de permanencia, etc.) para mejorar contenidos y usabilidad.</li>
+              <li><strong>Cookies de marketing</strong> (solo si las usas): se utilizan para mostrarte contenidos o
+                anuncios relacionados con tus intereses en función de tu navegación.</li>
+            </ul>
+          </section>
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">Contacto</h2>
-    <p class="text-gray-700 dark:text-gray-300 mb-4">Si tienes dudas sobre nuestra política de cookies o quieres que borremos tus consentimientos almacenados, escríbenos a <a href="mailto:info@example.com" class="underline">info@example.com</a>. Sustituye este correo por el real si procede.</p>
+          {{-- 3. FINALIDAD --}}
+          <section id="finalidad" class="bg-white rounded-2xl shadow p-6">
+            <h2 class="text-azul font-semibold text-lg mb-3">3. Finalidad de las cookies</h2>
+            <p class="mb-2">Las cookies que utilizamos tienen como finalidad principal:</p>
+            <ul class="list-disc ml-5 space-y-1">
+              <li>Garantizar el correcto funcionamiento del sitio web y sus formularios.</li>
+              <li>Mejorar la experiencia de usuario recordando ciertas preferencias básicas.</li>
+              <li>Obtener estadísticas anónimas de uso para mejorar los contenidos y servicios.</li>
+              <li>En su caso, mostrar información relevante sobre nuestros servicios (clases, traducciones, interpretación).
+              </li>
+            </ul>
+          </section>
 
-    <div class="mt-8">
-      <a href="/" class="px-4 py-2 border rounded">Volver al inicio</a>
-    </div>
-  </div>
-@endsection
+          {{-- 4. TERCEROS --}}
+          <section id="terceros" class="bg-white rounded-2xl shadow p-6">
+            <h2 class="text-azul font-semibold text-lg mb-3">4. Cookies de terceros</h2>
+            <p class="mb-2">
+              Algunas cookies pueden ser gestionadas por terceros proveedores, por ejemplo:
+            </p>
+            <ul class="list-disc ml-5 space-y-1">
+              <li><strong>Herramientas de analítica web</strong> (como Google Analytics), que recopilan información
+                anónima sobre el uso del sitio.</li>
+              <li><strong>Plataformas de vídeo o contenido embebido</strong> (por ejemplo, YouTube, Vimeo), si se
+                insertan vídeos en la web.</li>
+            </ul>
+            <p class="mt-2 text-xs text-gray-600">
+              Estos terceros pueden utilizar sus propias cookies bajo sus respectivas políticas de privacidad.
+              Te recomendamos consultarlas para obtener más información.
+            </p>
+          </section>
+
+          {{-- 5. GESTIÓN --}}
+          <section id="gestion" class="bg-white rounded-2xl shadow p-6">
+            <h2 class="text-azul font-semibold text-lg mb-3">5. Cómo configurar o desactivar las cookies</h2>
+            <p class="mb-2">
+              Puedes permitir, bloquear o eliminar las cookies instaladas en tu dispositivo mediante la configuración
+              de opciones del navegador que utilices. A continuación encontrarás enlaces a la ayuda de los navegadores
+              más habituales:
+            </p>
+            <ul class="list-disc ml-5 space-y-1">
+              <li>Google Chrome</li>
+              <li>Mozilla Firefox</li>
+              <li>Microsoft Edge</li>
+              <li>Safari</li>
+            </ul>
+            <p class="mt-2 text-xs text-gray-600">
+              La ruta exacta puede variar según la versión del navegador. Normalmente se encuentra en
+              “Configuración” → “Privacidad y seguridad” → “Cookies y otros datos de sitios”.
+            </p>
+          </section>
+
+          {{-- 6. CONSECUENCIAS --}}
+          <section id="consecuencias" class="bg-white rounded-2xl shadow p-6">
+            <h2 class="text-azul font-semibold text-lg mb-3">6. ¿Qué ocurre si desactivas las cookies?</h2>
+            <p>
+              Si decides bloquear algunas cookies, es posible que determinados servicios o funcionalidades del sitio
+              web no estén disponibles o no funcionen correctamente (por ejemplo, mantener la sesión iniciada,
+              recordar tus preferencias o enviar formularios).
+            </p>
+          </section>
+
+          {{-- 7. ACTUALIZACIÓN --}}
+          <section id="actualizacion" class="bg-white rounded-2xl shadow p-6">
+            <h2 class="text-azul font-semibold text-lg mb-3">7. Actualización de la política de cookies</h2>
+            <p>
+              Esta política de cookies puede actualizarse para adaptarse a cambios legales, técnicos o a la
+              configuración de los servicios ofrecidos en la web. Te recomendamos revisarla de forma periódica.
+            </p>
+          </section>
+
+          {{-- 8. CONTACTO --}}
+          <section id="contacto" class="bg-white rounded-2xl shadow p-6">
+            <h2 class="text-azul font-semibold text-lg mb-3">8. Contacto</h2>
+            <p>
+              Si tienes dudas sobre el uso de cookies en este sitio web, puedes escribirnos a
+              <a href="mailto:tucorreo@granbretania.com" class="text-azul underline">tucorreo@granbretania.com</a>
+              o utilizar nuestro <a href="{{ route('contact.create') }}" class="text-azul underline">formulario de
+                contacto</a>.
+            </p>
+            <p class="mt-3 text-xs text-gray-600">
+              Para más información sobre cómo tratamos tus datos personales, puedes consultar nuestra
+              <a href="{{ route('privacy') }}" class="text-azul underline">Política de privacidad</a>.
+            </p>
+          </section>
+
+        </div>
+      </div>
+    </section>
+  @endsection
+

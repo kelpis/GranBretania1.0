@@ -3,11 +3,11 @@
 @section('title', 'Clases · Gran Bretania')
 
 @section('content')
-    {{-- MIGAS DE PAN --}}
-
 
     {{-- SECCIÓN: A quién van orientadas las clases --}}
     <section id="publico" class="py-20 bg-beige2">
+
+
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-azul text-3xl md:text-4xl font-semibold mb-4">
                 Inglés para todas las edades y perfiles
@@ -86,7 +86,7 @@
 
         <div class="grid gap-6 md:grid-cols-3">
 
-            
+
             <figure class="overflow-hidden rounded-3xl md:row-span-2 bg-gray-200 max-h-96">
                 <img src="images/claseOnline.jpg" alt="Clases de inglés personalizadas"
                     class="h-full w-full object-cover object-top" />

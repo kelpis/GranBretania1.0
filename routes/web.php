@@ -28,6 +28,10 @@ Route::get('/servicios', [App\Http\Controllers\ServiceController::class, 'index'
 Route::view('/politica-privacidad', 'legal.privacy')->name('privacy');
 // Política de cookies (página pública)
 Route::view('/cookies', 'legal.cookies')->name('cookies.policy');
+// Condiciones de los servicios (página pública)
+Route::view('/condiciones', 'legal.condiciones')->name('condiciones');
+// Aviso legal (página pública)
+Route::view('/aviso', 'legal.aviso')->name('aviso');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -274,7 +274,7 @@
                     webinars y sesiones internacionales.
                 </p>
                 <p class="mt-4 text-gray-700">
-                    Nos conectamos a través de <strong>Google Meet, Zoom o Teams</strong>, sin desplazamientos y con pruebas
+                    Nos conectamos a través de <strong>Google Meet</strong>, sin desplazamientos y con pruebas
                     técnicas previas.
                 </p>
 

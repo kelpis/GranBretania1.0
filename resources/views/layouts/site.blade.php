@@ -75,7 +75,8 @@
                     <li><a href="{{ route('privacy') }}" class="hover:underline">Política de privacidad</a>
                     </li>
                     <li><a href="{{ route('cookies.policy') }}" class="hover:underline">Política de cookies</a></li>
-                    <li><a class="hover:underline">Aviso legal</a></li>
+                    <li><a href="{{ route('condiciones') }}" class="hover:underline">Términos del servicio</a></li>
+                    <li><a href="{{ route('aviso') }}" class="hover:underline">Aviso legal</a></li>
                 </ul>
             </div>
             <div class="text-sm md:basis-1/4">

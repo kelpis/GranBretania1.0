@@ -5,6 +5,8 @@
 @section('content')
 
     <section id="faq" class="bg-beige2 py-16">
+
+
         <div class="container mx-auto px-4 max-w-3xl">
             <h2 class="text-azul text-3xl font-semibold mb-10 text-center">Preguntas frecuentes</h2>
 
