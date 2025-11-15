@@ -66,8 +66,9 @@
                 <a href="{{ route('contact.create', ['subject' => 'Clase de prueba']) }}" class="btn-primary">Solicitar
                     clase
                     de prueba</a>
-                <a href="{{ route('contact.create', ['subject' => 'Plan personalizado']) }}"
-                    class="btn-secondary text-white">Pedir plan personalizado</a>
+                <a href="{{ route('bookings.create') }}"
+                    class="btn-secondary text-white">Reservar clases</a>
+               
             </div>
         </div>
     </section>
@@ -163,7 +164,7 @@
             </ul>
 
             <div class="mt-6 flex gap-3">
-                <a href="{{ route('contact.create', ['subject' => 'Reservar clase']) }}"
+                <a href="{{ route('bookings.create') . '?subject=' . urlencode('Reservar clase') }}"
                     class="btn-primary flex-1 text-center">Reservar</a>
                 <a href="{{ route('contact.create', ['subject' => 'Clase de prueba']) }}"
                     class="btn-secondary text-white flex-1 text-center">Clase de prueba</a>
@@ -210,7 +211,7 @@
                         <p class="text-gray-700 text-sm mt-2">
                             Completa el formulario y elige el día y la hora.
                         </p>
-                        <a href="{{ route('clases') }}" class="btn-primary mt-3">Reservar clase</a>
+                        <a href="{{ route('bookings.create') }}" class="btn-primary mt-3">Reservar clase</a>
                     </div>
                 </div>
 

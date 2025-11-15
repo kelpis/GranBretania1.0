@@ -1,78 +1,162 @@
-<x-app-layout>
-  <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">Solicitud de traducción</h2>
-  </x-slot>
+@extends('layouts.site')
 
-  <div class="py-6">
-    <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
+@section('title', 'Solicitud de traducción · Gran Bretania')
 
-      @if (session('ok'))
-        <div class="mb-4 bg-green-100 text-green-700 p-3 rounded">{{ session('ok') }}</div>
-      @endif
-      @if ($errors->any())
-        <div class="mb-4 bg-red-100 text-red-700 p-3 rounded">
-          <ul class="list-disc ml-5">
-            @foreach ($errors->all() as $e)<li>{{ $e }}</li>@endforeach
-          </ul>
-        </div>
-      @endif
+@section('header')
+  @include('layouts.navigation')
+@endsection
 
-      <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-        <form id="translation-form" method="POST" action="{{ route('translation.store') }}" enctype="multipart/form-data" class="space-y-4" data-grecaptcha="v3" data-recaptcha-action="translation">
+@section('content')
+
+<section class="bg-beige2 py-12">
+  <div class="container mx-auto px-4">
+
+    {{-- Cabecera --}}
+    <div class="max-w-2xl mx-auto text-center mb-10">
+      <h2 class="text-azul text-3xl font-semibold mb-2">Solicitud de traducción</h2>
+      <p class="text-gray-700 text-base leading-relaxed mx-auto max-w-xl">
+        Rellena el formulario y adjunta el archivo a traducir. Te contactaremos con presupuesto y plazo.
+      </p>
+
+      
+    </div>
+
+    {{-- Grid: formulario + info lateral --}}
+    <div class="grid lg:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
+
+      {{-- Columna formulario --}}
+      <div class="lg:col-span-2 bg-azul text-beige2 rounded-2xl shadow-lg p-8">
+
+        @if (session('ok'))
+          <div class="mb-4 bg-ok/10 text-ok border border-ok/40 p-3 rounded text-sm">
+            {{ session('ok') }}
+          </div>
+        @endif
+
+        @if ($errors->any())
+          <div class="mb-4 bg-red-50 text-red-700 p-3 rounded text-sm">
+            <ul class="list-disc pl-5 space-y-1">
+              @foreach ($errors->all() as $e)
+                <li>{{ $e }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
+
+        <form id="translation-form" method="POST" action="{{ route('translation.store') }}"
+          enctype="multipart/form-data" class="space-y-5" data-grecaptcha="v3" data-recaptcha-action="translation">
           @csrf
 
-          <div>
-            <label class="block mb-1 font-medium">Nombre</label>
-            <input name="name" class="w-full border rounded p-2" value="{{ old('name') }}" required>
-          </div>
-
-          <div>
-            <label class="block mb-1 font-medium">Email</label>
-            <input type="email" name="email" class="w-full border rounded p-2" value="{{ old('email') }}" required>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
+          {{-- Nombre + Email en dos columnas --}}
+          <div class="grid md:grid-cols-2 gap-4">
             <div>
-              <label class="block mb-1 font-medium">Idioma origen</label>
-              <input name="source_lang" class="w-full border rounded p-2" value="{{ old('source_lang') }}" required>
+              <x-input-label class="text-beige2">Nombre</x-input-label>
+              <input name="name" class="block mt-1 w-full bg-white text-azul rounded p-2"
+                value="{{ old('name', auth()->user()->name ?? '') }}" required>
             </div>
+
             <div>
-              <label class="block mb-1 font-medium">Idioma destino</label>
-              <input name="target_lang" class="w-full border rounded p-2" value="{{ old('target_lang') }}" required>
+              <x-input-label class="text-beige2">Email</x-input-label>
+              <input type="email" name="email" class="block mt-1 w-full bg-white text-azul rounded p-2"
+                value="{{ old('email', auth()->user()->email ?? '') }}" required>
             </div>
           </div>
 
-          <div>
-            <label class="block mb-1 font-medium">Urgencia</label>
-            <select name="urgency" class="w-full border rounded p-2">
-              <option value="normal" {{ old('urgency')==='normal'?'selected':'' }}>Normal</option>
-              <option value="alta" {{ old('urgency')==='alta'?'selected':'' }}>Alta</option>
-            </select>
+          {{-- Idiomas origen/destino --}}
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <x-input-label class="text-beige2">Idioma origen</x-input-label>
+              <select name="source_lang" class="block mt-1 w-full bg-white text-azul rounded p-2" required>
+                <option value="">— Selecciona idioma —</option>
+                <option value="en" @selected(old('source_lang') === 'en')>Inglés</option>
+                <option value="es" @selected(old('source_lang') === 'es')>Español</option>
+                <option value="fr" @selected(old('source_lang') === 'fr')>Francés</option>
+              </select>
+            </div>
+            <div>
+              <x-input-label class="text-beige2">Idioma destino</x-input-label>
+              <select name="target_lang" class="block mt-1 w-full bg-white text-azul rounded p-2" required>
+                <option value="">— Selecciona idioma —</option>
+                <option value="en" @selected(old('target_lang') === 'en')>Inglés</option>
+                <option value="es" @selected(old('target_lang') === 'es')>Español</option>
+                <option value="fr" @selected(old('target_lang') === 'fr')>Francés</option>
+              </select>
+            </div>
           </div>
 
-          <div>
-            <label class="block mb-1 font-medium">Archivo</label>
-            <input type="file" name="file" class="w-full" accept=".pdf,.doc,.docx,.odt,.txt,.rtf" required>
-            <p class="text-sm text-gray-500 mt-1">Formatos permitidos: PDF, DOC, DOCX, ODT, TXT, RTF. Tamaño máximo: 10MB.</p>
+          {{-- Urgencia + Archivo en una sola fila --}}
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+            <div class="md:col-span-1">
+              <x-input-label class="text-beige2">Urgencia</x-input-label>
+              <select name="urgency" class="block mt-1 w-full bg-white text-azul rounded p-2">
+                <option value="normal" {{ old('urgency') === 'normal' ? 'selected' : '' }}>Normal</option>
+                <option value="alta" {{ old('urgency') === 'alta' ? 'selected' : '' }}>Alta</option>
+              </select>
+            </div>
+
+            <div class="md:col-span-2">
+              <x-input-label class="text-beige2">Archivo</x-input-label>
+              <input type="file" name="file" class="block mt-1 w-full bg-white text-azul rounded p-2"
+                accept=".pdf,.doc,.docx,.odt,.txt,.rtf" required>
+              <p class="text-xs text-white/80 mt-1">
+                Formatos permitidos: PDF, DOC, DOCX, ODT, TXT, RTF. Tamaño máximo: 10MB.
+              </p>
+            </div>
           </div>
 
+          {{-- Observaciones --}}
           <div>
-            <label class="block mb-1 font-medium">Observaciones (opcional)</label>
-            <textarea name="comments" rows="4" class="w-full border rounded p-2">{{ old('comments') }}</textarea>
+            <x-input-label class="text-beige2">Observaciones (opcional)</x-input-label>
+            <textarea name="comments" rows="4" class="block mt-1 w-full bg-white text-azul rounded p-2"
+              placeholder="Contexto, público objetivo, preferencias de estilo…">{{ old('comments') }}</textarea>
           </div>
 
-          <div class="flex items-start gap-3">
-            <label class="inline-flex items-center text-sm">
-              <input type="checkbox" name="gdpr" value="1" required class="border">
-              <span class="ml-2">He leído y acepto la <a href="{{ route('privacy') }}" class="text-blue-600 underline">política de protección de datos</a>.</span>
+          {{-- GDPR --}}
+          <div>
+            <label class="inline-flex items-center text-sm text-beige2">
+              <input type="checkbox" name="gdpr" value="1" required class="rounded border-white/30 text-azul">
+              <span class="ml-2">
+                He leído y acepto la
+                <a href="{{ route('privacy') }}" class="underline">política de protección de datos</a>.
+              </span>
             </label>
           </div>
 
-          {{-- reCAPTCHA v3: token se inyecta por JS desde layout cuando data-grecaptcha="v3" está presente --}}
-          <button id="tr-submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Enviar</button>
+          <div class="flex items-center justify-center mt-4">
+            <button id="tr-submit" class="btn-secondary hover:!bg-beige hover:!text-negro">
+              Enviar solicitud
+            </button>
+          </div>
+
         </form>
       </div>
+
+      {{-- Columna info lateral --}}
+      <aside class="bg-white rounded-2xl shadow p-6 text-sm text-gray-700">
+        <h3 class="text-azul text-lg font-semibold mb-3">¿Qué ocurre después?</h3>
+        <ol class="list-decimal pl-5 space-y-1 mb-4">
+          <li>Revisamos tu archivo y el par de idiomas.</li>
+          <li>Calculamos el volumen de texto y la complejidad.</li>
+          <li>Te enviamos un presupuesto con plazo aproximado.</li>
+        </ol>
+
+        <h4 class="text-azul font-semibold mb-2">Tipos de textos habituales</h4>
+        <ul class="list-disc pl-5 space-y-1 mb-4">
+          <li>Informes y documentación interna.</li>
+          <li>Presentaciones y material comercial.</li>
+          <li>Currículums, cartas de motivación y perfiles.</li>
+        </ul>
+
+        <p class="text-xs text-gray-500">
+          Si tienes dudas sobre el formato o el tipo de texto, indícalo en el campo de observaciones
+          y te orientaremos en la respuesta.
+        </p>
+      </aside>
+
     </div>
   </div>
-  <script src="/js/translation.js"></script>
-</x-app-layout>
+</section>
+
+<script src="/js/translation.js"></script>
+
+@endsection

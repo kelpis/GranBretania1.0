@@ -87,7 +87,7 @@
 
                             {{-- CTA --}}
                             <div class="mt-8 flex flex-col sm:flex-row sm:justify-evenly items-center gap-4">
-                                <a class="btn-primary">Reservar clase</a>
+                                <a href="{{ route('bookings.create') }}" class="btn-primary">Reservar clase</a>
                                 <a href="{{ route('clases') }}" class="btn-secondary">Saber más</a>
                             </div>
                         </div>

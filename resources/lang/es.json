@@ -19,5 +19,6 @@
 	"Name": "Nombre",
 	"Message": "Mensaje",
 	"Subject": "Asunto",
-	"Send": "Enviar"
+	"Send": "Enviar",
+	"Booking class":"Reservar clase"
 }

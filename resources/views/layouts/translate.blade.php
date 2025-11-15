@@ -148,7 +148,7 @@
                 </div>
 
                 <div class="mt-8 flex flex-wrap justify-center gap-4">
-                    <a href="{{ route('contact.create', ['subject' => 'Presupuesto de traducción']) }}"
+                    <a href="{{ route('translation.create') }}"
                         class="btn-primary">Solicitar presupuesto</a>
                 </div>
             </div>
