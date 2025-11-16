@@ -85,7 +85,7 @@
             </div>
 
             {{-- Urgencia + Archivo en una sola fila --}}
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">eb
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
               <div class="md:col-span-2">
                 <x-input-label class="text-beige2">Archivo</x-input-label>
                 <input type="file" name="file" class="block mt-1 w-full bg-white text-azul rounded p-2"
