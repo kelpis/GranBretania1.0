@@ -122,6 +122,11 @@ Route::middleware('auth')->group(function () {
         ->name('translation.store');
 });
 
+// Compatibilidad: alias de nombre de ruta antiguo usado en algunas vistas
+Route::get('/translation-requests-redirect', function () {
+    return redirect()->route('user.translations.index');
+})->name('translation.requests');
+
 //ROUTES ADMIN 
 
 Route::middleware(['auth', AdminMiddleware::class])

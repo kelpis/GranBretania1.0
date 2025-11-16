@@ -333,8 +333,8 @@
 
     <section class="bg-beige2 py-16 mt-24">
         <div class="container mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
-            <img src="{{ asset('images/profesora.jpg') }}" alt="Tania Morais Villar"
-                class="rounded-xl shadow-md object-cover h-80 w-full">
+            <img src="{{ asset('images/tania.png') }}" alt="Tania Morais Villar"
+                class="rounded-xl shadow-md object-cover object-top h-80 w-full">
             <div>
                 <h2 class="text-azul text-3xl font-semibold mb-4">Sobre mí</h2>
                 <p class="text-gray-700 leading-relaxed">

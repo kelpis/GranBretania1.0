@@ -4,6 +4,7 @@
   const help = document.getElementById('time-help');
   const url = dateSelect ? dateSelect.dataset.availabilityUrl : null;
   const oldDate = dateSelect ? dateSelect.dataset.oldDate : '';
+  const except = dateSelect ? dateSelect.dataset.except : null;
 
   // helper
   function pad(n){ return n < 10 ? '0'+n : n }
@@ -35,7 +36,9 @@
     if (!date || !url) return;
     help.textContent = 'Comprobando disponibilidad...';
     try {
-      const res = await fetch(url + '?date=' + encodeURIComponent(date));
+      let fetchUrl = url + '?date=' + encodeURIComponent(date);
+      if (except) fetchUrl += '&except=' + encodeURIComponent(except);
+      const res = await fetch(fetchUrl);
       if (!res.ok) throw new Error('Error');
       const data = await res.json();
       timeSelect.innerHTML = '<option value="">— Selecciona hora —</option>';
@@ -44,12 +47,19 @@
         return;
       }
       help.textContent = '';
-      data.available.forEach(t => {
+      // Preserve previous selection (edit form) if it's not included in the API result
+      const prevSelected = timeSelect ? (timeSelect.dataset.oldTime || timeSelect.value) : null;
+      const available = Array.isArray(data.available) ? data.available.slice() : [];
+      if (prevSelected && !available.includes(prevSelected)) {
+        // Insert previous selection at the beginning so user doesn't lose it
+        available.unshift(prevSelected);
+      }
+
+      available.forEach(t => {
         const opt = document.createElement('option');
         opt.value = t;
         opt.textContent = t;
-        const oldTime = timeSelect ? timeSelect.dataset.oldTime : null;
-        if (oldTime && oldTime === t) opt.selected = true;
+        if (prevSelected && prevSelected === t) opt.selected = true;
         timeSelect.appendChild(opt);
       });
     } catch (e) {
