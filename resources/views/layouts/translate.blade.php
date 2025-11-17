@@ -8,37 +8,57 @@
 
             {{-- Intro --}}
             <div class="max-w-3xl mb-10">
-                <h2 class="text-azul text-3xl md:text-4xl font-semibold">Traducción profesional</h2>
+                <h2 class="text-azul text-3xl md:text-4xl font-semibold">Traducción e interpretación profesional</h2>
                 <p class="mt-3 text-gray-700">
                     Traducciones especializadas con rigor terminológico, adaptación al contexto y total confidencialidad.
-                    Trabajamos con <strong>español, inglés y francés</strong> en ambas direcciones.
-                  
+                    Trabajamos con <strong>español, inglés y francés</strong>, con las siguientes combinaciones disponibles.
                 </p>
             </div>
 
             {{-- Idiomas y envío de documentos --}}
-            <div class="bg-white rounded-2xl shadow p-8 mb-14">
-                <h3 class="text-azul text-xl font-semibold mb-4">Idiomas disponibles</h3>
+            <div class="bg-azul rounded-2xl shadow p-8 mb-14">
+                <h3 class="text-white text-xl font-semibold mb-4">Idiomas disponibles</h3>
 
                 <ul class="grid sm:grid-cols-3 gap-4 text-sm text-gray-700 mb-6">
-                    <li class="p-4 border rounded-lg bg-beige2/40">
+
+                    {{-- Español ↔ Inglés --}}
+                    <li class="p-4 border rounded-lg bg-beige">
+                        <div class="flex items-center gap-2 mb-1">
+                            <img src="/images/es.svg" alt="ES" class="w-5 h-5 rounded-full border">
+                            <img src="/images/gb.svg" alt="EN" class="w-5 h-5 rounded-full border">
+                        </div>
                         <strong>ES ⇄ EN</strong><br>Español ↔ Inglés
                     </li>
-                    <li class="p-4 border rounded-lg bg-beige2/40">
-                        <strong>ES ⇄ FR</strong><br>Español ↔ Francés
+
+                    {{-- Francés → Español --}}
+                    <li class="p-4 border rounded-lg bg-beige">
+                        <div class="flex items-center gap-2 mb-1">
+                            <img src="/images/fr.svg" alt="FR" class="w-5 h-5 rounded-full border">
+                            <img src="/images/es.svg" alt="ES" class="w-5 h-5 rounded-full border">
+                        </div>
+                        <strong>FR → ES</strong><br>Francés → Español
                     </li>
-                    <li class="p-4 border rounded-lg bg-beige2/40">
-                        <strong>EN ⇄ FR</strong><br>Inglés ↔ Francés
+
+                    {{-- Francés → Inglés --}}
+                    <li class="p-4 border rounded-lg bg-beige">
+                        <div class="flex items-center gap-2 mb-1">
+                            <img src="/images/fr.svg" alt="FR" class="w-5 h-5 rounded-full border">
+                            <img src="/images/gb.svg" alt="EN" class="w-5 h-5 rounded-full border">
+                        </div>
+                        <strong>FR → EN</strong><br>Francés → Inglés
                     </li>
+
                 </ul>
 
-                <p class="text-gray-700 text-sm">
+                <p class="text-white text-sm">
                     Los documentos se envían directamente a través del
-                    <strong>formulario de contacto</strong> (PDF, JPG o DOC).
-                    Se almacenan de forma segura siguiendo la
-                    <a href="{{ route('privacy') }}" class="text-azul underline hover:text-rojo">política de privacidad</a>.
+                    <strong>formulario de contacto</strong> (PDF, JPG o DOC).Se almacenan de forma segura siguiendo la
+                    <a href="{{ route('privacy') }}" class="text-beige2 underline hover:text-rojo">política de privacidad</a>.
                 </p>
             </div>
+
+
+
 
 
             {{-- Tipos de traducción --}}
@@ -52,10 +72,10 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
                         {{-- TARJETA 1: Jurídica --}}
-                        <article class="bg-azul rounded-2xl shadow overflow-hidden text-white">
-                            <div class="relative h-44 group">
+                        <article class="bg-azul rounded-2xl shadow overflow-hidden text-white group transform transition-transform duration-300 hover:scale-105 hover:z-10">
+                            <div class="relative h-44 group ">
                                 <img src="{{ asset('images/traduccion-jurada.jpg') }}" alt="Traducción jurídica"
-                                    class="w-full h-full object-cover transition-transform duration-300 transform-gpu group-hover:scale-105">
+                                    class="w-full h-full object-cover ">
 
                                 {{-- Título superpuesto --}}
                                 <div
@@ -72,10 +92,10 @@
                         </article>
 
                         {{-- TARJETA 2: Médica --}}
-                        <article class="bg-azul rounded-2xl shadow overflow-hidden text-white">
+                        <article class="bg-azul rounded-2xl shadow overflow-hidden text-white group transform transition-transform duration-300 hover:scale-105 hover:z-10">
                             <div class="relative h-44 group">
                                 <img src="{{ asset('images/traduccion-medica.jpg') }}" alt="Traducción médica"
-                                    class="w-full h-full object-cover transition-transform duration-300 transform-gpu group-hover:scale-105">
+                                    class="w-full h-full object-cover">
 
                                 <div
                                     class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 flex items-end">
@@ -91,10 +111,10 @@
                         </article>
 
                         {{-- TARJETA 3: Académica --}}
-                        <article class="bg-azul rounded-2xl shadow overflow-hidden text-white">
+                        <article class="bg-azul rounded-2xl shadow overflow-hidden text-white group transform transition-transform duration-300 hover:scale-105 hover:z-10">
                             <div class="relative h-44 group">
                                 <img src="{{ asset('images/traduccion-academica.jpg') }}" alt="Traducción académica"
-                                    class="w-full h-full object-cover transition-transform duration-300 transform-gpu group-hover:scale-105">
+                                    class="w-full h-full object-cover">
 
                                 <div
                                     class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 flex items-end">
@@ -110,10 +130,10 @@
                         </article>
 
                         {{-- TARJETA 4: Audiovisual --}}
-                        <article class="bg-azul rounded-2xl shadow overflow-hidden text-white">
+                        <article class="bg-azul rounded-2xl shadow overflow-hidden text-white group transform transition-transform duration-300 hover:scale-105 hover:z-10">
                             <div class="relative h-44 group">
                                 <img src="{{ asset('images/traduccion-audiovisual.jpg') }}" alt="Traducción audiovisual"
-                                    class="w-full h-full object-cover transition-transform duration-300 transform-gpu group-hover:scale-105">
+                                    class="w-full h-full object-cover">
 
                                 <div
                                     class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 flex items-end">
@@ -142,14 +162,13 @@
                     especialidad.
                 </p>
 
-                <div class="inline-block bg-white rounded-2xl shadow px-8 py-6">
+                <div class="inline-block bg-beige rounded-2xl shadow px-8 py-6">
                     <p class="text-2xl font-semibold text-azul">Desde 0,08 € / palabra</p>
-                    <p class="text-gray-600 text-sm mt-1">Presupuesto en menos de 24 h</p>
+                    <p class="text-gray-600 text-sm mt-1">Presupuesto en menos de 48 h</p>
                 </div>
 
                 <div class="mt-8 flex flex-wrap justify-center gap-4">
-                    <a href="{{ route('translation.create') }}"
-                        class="btn-primary">Solicitar presupuesto</a>
+                    <a href="{{ route('translation.create') }}" class="btn-three">Solicitar presupuesto</a>
                 </div>
             </div>
 
@@ -175,8 +194,9 @@
 
                     {{-- Paso 1: Registro --}}
                     <li class="ms-6">
-                        <span class="absolute -start-3 w-8 h-8 flex items-center justify-center 
-                                                           rounded-full bg-azul text-white font-semibold text-sm">
+                        <span
+                            class="absolute -start-3 w-8 h-8 flex items-center justify-center 
+                                                                                       rounded-full bg-azul text-white font-semibold text-sm">
                             1
                         </span>
                         <h4 class="text-azul font-semibold text-lg">Regístrate</h4>
@@ -190,8 +210,9 @@
 
                     {{-- Paso 2: Envío de documentos --}}
                     <li class="ms-6">
-                        <span class="absolute -start-3 w-8 h-8 flex items-center justify-center 
-                                                           rounded-full bg-azul text-white font-semibold text-sm">
+                        <span
+                            class="absolute -start-3 w-8 h-8 flex items-center justify-center 
+                                                                                       rounded-full bg-azul text-white font-semibold text-sm">
                             2
                         </span>
                         <h4 class="text-azul font-semibold text-lg">Envío de documentos</h4>
@@ -202,8 +223,9 @@
 
                     {{-- Paso 3: Selección de idiomas --}}
                     <li class="ms-6">
-                        <span class="absolute -start-3 w-8 h-8 flex items-center justify-center
-                                                           rounded-full bg-azul text-white font-semibold text-sm">
+                        <span
+                            class="absolute -start-3 w-8 h-8 flex items-center justify-center
+                                                                                       rounded-full bg-azul text-white font-semibold text-sm">
                             3
                         </span>
                         <h4 class="text-azul font-semibold text-lg">Selecciona idioma origen y destino</h4>
@@ -214,8 +236,9 @@
 
                     {{-- Paso 4: Presupuesto --}}
                     <li class="ms-6">
-                        <span class="absolute -start-3 w-8 h-8 flex items-center justify-center 
-                                                           rounded-full bg-azul text-white font-semibold text-sm">
+                        <span
+                            class="absolute -start-3 w-8 h-8 flex items-center justify-center 
+                                                                                       rounded-full bg-azul text-white font-semibold text-sm">
                             4
                         </span>
                         <h4 class="text-azul font-semibold text-lg">Presupuesto</h4>
@@ -226,8 +249,9 @@
 
                     {{-- Paso 5: Traducción --}}
                     <li class="ms-6">
-                        <span class="absolute -start-3 w-8 h-8 flex items-center justify-center 
-                                                           rounded-full bg-azul text-white font-semibold text-sm">
+                        <span
+                            class="absolute -start-3 w-8 h-8 flex items-center justify-center 
+                                                                                       rounded-full bg-azul text-white font-semibold text-sm">
                             5
                         </span>
                         <h4 class="text-azul font-semibold text-lg">Traducción en plazo</h4>
@@ -238,8 +262,9 @@
 
                     {{-- Paso 6: Entrega y privacidad --}}
                     <li class="ms-6">
-                        <span class="absolute -start-3 w-8 h-8 flex items-center justify-center 
-                                                           rounded-full bg-azul text-white font-semibold text-sm">
+                        <span
+                            class="absolute -start-3 w-8 h-8 flex items-center justify-center 
+                                                                                       rounded-full bg-azul text-white font-semibold text-sm">
                             6
                         </span>
                         <h4 class="text-azul font-semibold text-lg">Entrega final</h4>
@@ -264,8 +289,12 @@
     </section>
 
     <section id="interpretacion" class="py-16 bg-beige2">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10 items-center">
-
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10 items-stretch">
+            {{-- Imagen para horizontal --}}
+            <div class="w-full h-full">
+                <img src="images/interpretacion.jpg" alt="Interpretación online"
+                    class="rounded-2xl shadow-lg w-full h-full object-cover object-center" />
+            </div>
             {{-- Texto --}}
             <div>
                 <h2 class="text-azul text-3xl md:text-4xl font-semibold">Interpretación online</h2>
@@ -289,11 +318,15 @@
                     <a href="{{ route('contact.create', ['subject' => 'Solicitar intérprete']) }}"
                         class="btn-primary">Solicitar intérprete</a>
                     <a href="{{ route('contact.create', ['subject' => 'Presupuesto interpretación']) }}"
-                        class="btn-secondary text-white">Pedir presupuesto</a>
+                        class="btn-three text-white">Pedir presupuesto</a>
                 </div>
             </div>
+
+
+
         </div>
     </section>
+
 
 
 

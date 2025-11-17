@@ -40,7 +40,7 @@
                         <a href="{{ route('home') }}" class="hover:underline">Inicio</a>
                         <a href="{{ route('clases') }}" class="hover:underline">Clases</a>
                         <a href="{{ route('traducciones') }}" class="hover:underline">Traducciones</a>
-                        <a href="{{ route('sobremi') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Sobre mí</a>
+                        <a href="{{ route('sobremi') }}" class="hover:underline">Sobre mí</a>
                         <a href="{{ route('faq') }}" class="hover:underline">FAQ</a>
                         <a href="{{ route('contact.create') }}" class="hover:underline">Contacto</a>
                     </nav>
@@ -48,7 +48,7 @@
 
                 {{-- RIGHT: botón Acceder --}}
                 <div class="hidden lg:block">
-                    <a href="{{ route('login') }}" class="btn-secondary text-beige2 !py-2 !px-4">Acceder</a>
+                    <a href="{{ route('login') }}" class="btn-three text-beige2 !py-2 !px-4">Acceder</a>
                 </div>
 
             </div>

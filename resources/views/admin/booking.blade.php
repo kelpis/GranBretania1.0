@@ -1,6 +1,6 @@
 <x-app-layout>
     
-    <div class="py-8 max-w-6xl mx-auto space-y-16">
+    <div class="pt-12 pb-8 max-w-6xl mx-auto space-y-16">
 
         {{-- Mensajes de estado --}}
         @if (session('ok'))
@@ -19,9 +19,7 @@
         <div class="rounded-2xl shadow-xl overflow-hidden border border-beige bg-beige2">
             <div class="bg-azul text-beige2 px-6 py-4 flex items-center justify-between">
                 <h3 class="font-semibold text-lg">Reservas pendientes de confirmar</h3>
-                <span class="text-xs uppercase tracking-wide text-beige2/80">
-                    Panel de administración
-                </span>
+                
             </div>
 
             <div class="overflow-x-auto">

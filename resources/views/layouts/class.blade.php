@@ -67,7 +67,7 @@
                     clase
                     de prueba</a>
                 <a href="{{ route('bookings.create') }}"
-                    class="btn-secondary text-white">Reservar clases</a>
+                    class="btn-three text-white">Reservar clases</a>
                
             </div>
         </div>
@@ -139,7 +139,7 @@
     </section>
 
 
-    <div class="mt-16 lg:mt-6 lg:top-6 bg-azul py-8 rounded-2xl shadow">
+    <div class="mt-16 lg:mt-6 lg:top-6 bg-azul py-8 rounded-2xl shadow relative bg-cover bg-center">
 
         <div class="mx-auto max-w-md bg-beige2 rounded-2xl p-6">
             <h3 class="text-azul text-xl font-semibold text-center">Tarifas</h3>
@@ -167,7 +167,7 @@
                 <a href="{{ route('bookings.create') . '?subject=' . urlencode('Reservar clase') }}"
                     class="btn-primary flex-1 text-center">Reservar</a>
                 <a href="{{ route('contact.create', ['subject' => 'Clase de prueba']) }}"
-                    class="btn-secondary text-white flex-1 text-center">Clase de prueba</a>
+                    class="btn-three text-white flex-1 text-center">Clase de prueba</a>
             </div>
         </div>
     </div>
@@ -197,7 +197,7 @@
                         <p class="text-gray-700 text-sm mt-2">
                             Crea tu cuenta para acceder al área de usuario.
                         </p>
-                        <a href="{{ route('register') }}" class="btn-secondary text-white mt-3">Crear cuenta</a>
+                        <a href="{{ route('register') }}" class="btn-three text-white mt-3">Crear cuenta</a>
                     </div>
                 </div>
 

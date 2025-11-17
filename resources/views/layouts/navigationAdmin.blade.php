@@ -1,14 +1,14 @@
-<nav x-data="{ open: false }" class="bg-beige border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-beige">
-        <div class="flex justify-between h-16">
-            <div class="flex">
+<nav x-data="{ open: false }" class="w-full bg-beige border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center gap-6">
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('admin.index') }}" class="flex items-center gap-3 shrink-0">
                         <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania" class="h-16 w-auto">
                     </a>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-azul tracking-wide">
+                <div class="hidden sm:flex space-x-8 text-azul tracking-wide">
                     <x-nav-link :href="route('admin.bookings.index')" :active="request()->routeIs('admin.bookings.*')">
                         {{ __('Mis clases') }}
                     </x-nav-link>
@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center">
                 @auth
 
                     <!-- User dropdown -->
@@ -106,5 +106,5 @@
                 {{ __('Disponibilidad') }}
             </x-responsive-nav-link>
         </div>
-    
-</nav>
+        </div>
+    </nav>

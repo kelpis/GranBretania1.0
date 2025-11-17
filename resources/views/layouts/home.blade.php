@@ -34,7 +34,7 @@
             Enseñanza de inglés y traducciones
         </h1>
         {{-- BLOQUE: Clases de inglés --}}
-    <section id="clases" class="bg-beige2 py-16 mt-24">
+        <section id="clases" class="bg-beige2 py-16 mt-24">
             <div class="container mx-auto px-4 text-left">
 
                 <h2 class="text-azul mb-8">Clases de inglés online</h2>
@@ -95,7 +95,8 @@
 
                     {{-- Imagen / ilustración (opcional) --}}
                     <div class="order-first md:order-none h-full">
-                        <img src="{{ asset('images/alumnoOnline.png') }}" alt="Clase de inglés personalizada online"
+                        <img src="{{ asset('images/alumnoOnline.webp') }}" width="1024" height="1024"
+                            alt="Clase de inglés personalizada online"
                             class="w-full h-full object-cover rounded-card shadow-sm">
                     </div>
                 </div>
@@ -103,7 +104,7 @@
 
 
         {{-- BLOQUE: Por qué elegirnos (Home) --}}
-    <section class="bg-beige2 py-16 mt-6">
+        <section class="bg-beige2 py-16 mt-6">
             <div class="container mx-auto px-4 text-center">
                 <h2 class="text-azul">¿Por qué elegirnos?</h2>
                 <p class="mt-2 opacity-80">Tres razones para empezar hoy mismo</p>
@@ -244,7 +245,7 @@
                 <div></div>
                 <div class="mt-8">
                     <div class="max-w-2xl ml-auto flex justify-evenly items-center">
-                        <a class="btn-primary">Solicitar traducción</a>
+                        <a href="{{ route('translation.create') }}" class="btn-primary">Solicitar traducción</a>
                         <a href="{{ route('traducciones') }}" class="btn-secondary">Ver más información</a>
                     </div>
                 </div>
@@ -306,7 +307,8 @@
                         <li>Briefing previo y guía terminológica</li>
                         <li>Soporte técnico de sala virtual</li>
                     </ul>
-                    <a href="{{ route('contact.create') }}" class="mt-4 inline-block btn-secondary">
+                    <a href="{{ route('contact.create') . '?subject=' . urlencode('Solicitar interprete') }}"
+                        class="mt-4 inline-block btn-secondary">
                         Solicitar intérprete →
                     </a>
                 </article>
@@ -318,7 +320,7 @@
                     </p>
                     <ul class="mt-3 text-sm text-white/80 list-disc ml-5">
                         <li>Diagnóstico de nivel y objetivos</li>
-                        <li>KPIs de progreso y reportes</li>
+                        <li>Material exclusivo y prácticos reales</li>
                     </ul>
                     <a href="{{ route('clases') }}" class="mt-4 inline-block btn-secondary">
                         Ver formación →
@@ -348,53 +350,179 @@
     </section>
 
 
-    {{-- BLOQUE: Opiniones --}}
-    <section id="opiniones" class="bg-beige py-16 mt-24">
+
+
+    <section id="opiniones" class="bg-beige py-8 mt-12">
         <div class="container mx-auto px-4 text-center">
-            <h2 class="text-azul mb-10">Opiniones de nuestros alumnos y clientes</h2>
+            <h2 class="text-azul mb-6 text-2xl">Opiniones de nuestros alumnos y clientes</h2>
 
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {{-- Opinión 1 --}}
-                <div class="card bg-white">
-                    <div class="flex flex-col items-center text-center">
-                        <span class="text-5xl text-rojo mb-4">“</span>
-                        <p class="italic text-base">
-                            Las clases con Tania me ayudaron a ganar confianza hablando en inglés.
-                            El ambiente es cercano y muy profesional.
-                        </p>
-                        <p class="mt-4 font-semibold text-azul">María L.</p>
-                        <p class="text-sm opacity-80">Estudiante de conversación</p>
+            <div class="relative max-w-4xl mx-auto">
+                {{-- Carrusel --}}
+                <div class="overflow-hidden">
+                    <div id="opinionesTrack" class="flex transition-transform duration-500 ease-out">
+
+                        {{-- SLIDE 1: opiniones 1–3 --}}
+                        <div class="min-w-full px-2" data-opinion-slide>
+                            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                                {{-- Opinión 1 --}}
+                                <div class="card bg-white">
+                                    <div class="flex flex-col items-center text-center p-4">
+
+                                        <p class="italic text-sm">
+                                            Las clases con Tania me ayudaron a ganar confianza hablando en inglés.
+                                            El ambiente es cercano y muy profesional.
+                                        </p>
+                                        <p class="mt-3 font-semibold text-azul text-sm">María L.</p>
+                                        <p class="text-xs opacity-80">Estudiante de conversación</p>
+                                    </div>
+                                </div>
+
+                                {{-- Opinión 2 --}}
+                                <div class="card bg-white">
+                                    <div class="flex flex-col items-center text-center p-4">
+
+                                        <p class="italic text-base">
+                                            Encargué una traducción médica y quedé encantada con la precisión
+                                            y rapidez. Muy recomendable.
+                                        </p>
+                                        <p class="mt-4 font-semibold text-azul">Laura G.</p>
+                                        <p class="text-sm opacity-80">Cliente de traducción</p>
+                                    </div>
+                                </div>
+
+                                {{-- Opinión 3 --}}
+                                <div class="card bg-white">
+                                    <div class="flex flex-col items-center text-center p-4">
+
+                                        <p class="italic text-base">
+                                            Las clases online son dinámicas y se adaptan a mis horarios.
+                                            Aprender inglés así da gusto.
+                                        </p>
+                                        <p class="mt-4 font-semibold text-azul">David R.</p>
+                                        <p class="text-sm opacity-80">Alumno de inglés profesional</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {{-- SLIDE 2: opiniones 4–6 --}}
+                        <div class="min-w-full px-2" data-opinion-slide>
+                            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                                {{-- Opinión 4 --}}
+                                <div class="card bg-white">
+                                    <div class="flex flex-col items-center text-center p-4">
+
+                                        <p class="italic text-sm">
+                                            Preparé con Tania una presentación importante en inglés y salió muchísimo mejor
+                                            de lo que esperaba. Me ayudó con el vocabulario y con la seguridad al hablar.
+                                        </p>
+                                        <p class="mt-3 font-semibold text-azul text-sm">Ana P.</p>
+                                        <p class="text-xs opacity-80">Inglés profesional</p>
+                                    </div>
+                                </div>
+
+                                {{-- Opinión 5 --}}
+                                <div class="card bg-white">
+                                    <div class="flex flex-col items-center text-center p-4">
+
+                                        <p class="italic text-base">
+                                            Las clases son amenas, muy personalizadas y siempre me voy con la sensación
+                                            de haber aprendido algo útil. Totalmente recomendable.
+                                        </p>
+                                        <p class="mt-4 font-semibold text-azul">Jorge M.</p>
+                                        <p class="text-sm opacity-80">Alumno de nivel B1</p>
+                                    </div>
+                                </div>
+
+                                {{-- Opinión 6 --}}
+                                <div class="card bg-white">
+                                    <div class="flex flex-col items-center text-center p-4">
+
+                                        <p class="italic text-base">
+                                            Necesitábamos una traducción para un proyecto internacional y Tania nos entregó
+                                            un trabajo impecable. Comunicación rápida y resultados excelentes.
+                                        </p>
+                                        <p class="mt-4 font-semibold text-azul">Estudio Creativo Nexo</p>
+                                        <p class="text-sm opacity-80">Cliente de traducción empresarial</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {{-- SLIDE 3: opiniones 7–9 (nuevas) --}}
+                        <div class="min-w-full px-2" data-opinion-slide>
+                            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                                {{-- Opinión 7 --}}
+                                <div class="card bg-white">
+                                    <div class="flex flex-col items-center text-center p-4">
+
+                                        <p class="italic text-sm">
+                                            Gracias a las clases pude presentarme al examen de Cambridge con mucha más
+                                            tranquilidad. Trabajamos justo lo que necesitaba.
+                                        </p>
+                                        <p class="mt-3 font-semibold text-azul text-sm">Clara S.</p>
+                                        <p class="text-xs opacity-80">Preparación Cambridge</p>
+                                    </div>
+                                </div>
+
+                                {{-- Opinión 8 --}}
+                                <div class="card bg-white">
+                                    <div class="flex flex-col items-center text-center p-4">
+
+                                        <p class="italic text-base">
+                                            Organizamos clases para el equipo y hemos notado mejora real en las reuniones
+                                            con clientes internacionales.
+                                        </p>
+                                        <p class="mt-4 font-semibold text-azul">Dept. Ventas</p>
+                                        <p class="text-sm opacity-80">Formación in-company</p>
+                                    </div>
+                                </div>
+
+                                {{-- Opinión 9 --}}
+                                <div class="card bg-white">
+                                    <div class="flex flex-col items-center text-center p-4">
+
+                                        <p class="italic text-base">
+                                            Contamos con Tania para una sesión de interpretación online y todo fluyó
+                                            sin problemas, tanto a nivel técnico como de idioma.
+                                        </p>
+                                        <p class="mt-4 font-semibold text-azul">Marcos V.</p>
+                                        <p class="text-sm opacity-80">Servicio de interpretación</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
-                {{-- Opinión 2 --}}
-                <div class="card bg-white">
-                    <div class="flex flex-col items-center text-center">
-                        <span class="text-5xl text-rojo mb-4">“</span>
-                        <p class="italic text-base">
-                            Encargué una traducción médica y quedé encantada con la precisión
-                            y rapidez. Muy recomendable.
-                        </p>
-                        <p class="mt-4 font-semibold text-azul">Laura G.</p>
-                        <p class="text-sm opacity-80">Cliente de traducción</p>
-                    </div>
+                {{-- Puntos --}}
+                <div class="flex justify-center gap-2 mt-4">
+                    <button type="button" class="w-2.5 h-2.5 rounded-full bg-azul" data-opinion-dot="0"
+                        aria-label="Opiniones 1 a 3"></button>
+
+                    <button type="button" class="w-2 h-2 rounded-full bg-beige2" data-opinion-dot="1"
+                        aria-label="Opiniones 4 a 6"></button>
+
+                    <button type="button" class="w-2 h-2 rounded-full bg-beige2" data-opinion-dot="2"
+                        aria-label="Opiniones 7 a 9"></button>
                 </div>
 
-                {{-- Opinión 3 --}}
-                <div class="card bg-white">
-                    <div class="flex flex-col items-center text-center">
-                        <span class="text-5xl text-rojo mb-4">“</span>
-                        <p class="italic text-base">
-                            Las clases online son dinámicas y se adaptan a mis horarios.
-                            Aprender inglés así da gusto.
-                        </p>
-                        <p class="mt-4 font-semibold text-azul">David R.</p>
-                        <p class="text-sm opacity-80">Alumno de inglés profesional</p>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
+
+    <!-- Opiniones carousel script moved to resources/js/opiniones.js and bundled via Vite -->
+
+
+
+
 
 
 

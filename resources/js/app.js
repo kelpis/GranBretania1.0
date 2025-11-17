@@ -11,3 +11,4 @@ import './bookings';
 import './user-bookings';
 import './translation';
 import './admin-translation-calculator';
+import './opiniones';

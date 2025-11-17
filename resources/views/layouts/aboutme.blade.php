@@ -37,7 +37,7 @@
             </div>
 
             {{-- QUIÉN SOY --}}
-            <div class="bg-white rounded-2xl shadow p-6 md:p-8 mb-10">
+            <div class="bg-beige rounded-2xl shadow p-6 md:p-8 mb-10">
                 <h2 class="text-azul text-2xl font-semibold mb-3">Quién soy</h2>
                 <p class="text-gray-700 leading-relaxed mb-3">
                     Soy Tania, profesora de inglés y traductora. Llevo varios años acompañando a estudiantes de distintos
@@ -149,11 +149,11 @@
                 </div>
                 <div class="flex gap-3">
                     <a href="{{ route('contact.create') }}"
-                        class="inline-flex items-center px-5 py-2 rounded-full bg-beige text-azul font-medium text-sm hover:bg-white transition">
+                        class="inline-flex items-center px-5 py-2 rounded-full bg-beige text-azul font-medium text-sm hover:bg-rojo transition">
                         Ir al formulario de contacto
                     </a>
-                    <a href="#clases"
-                        class="inline-flex items-center px-5 py-2 rounded-full border border-beige2 text-beige2 text-sm hover:bg-beige2 hover:text-azul transition">
+                    <a href="{{ route('clases') }}"
+                        class="inline-flex items-center px-5 py-2 rounded-full bg-rojo text-white text-sm hover:bg-beige hover:text-azul transition">
                         Ver opciones de clases
                     </a>
                 </div>
