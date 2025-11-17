@@ -5,6 +5,8 @@
 
 @layer base{
   html { scroll-behavior: smooth; }
+  /* Alpine x-cloak helper to avoid flash of content */
+  [x-cloak] { display: none !important; }
   /* Aplicar márgenes/padding horizontales globales para heredar en las vistas */
   body { @apply m-0 px-4 sm:px-6 lg:px-8 bg-beige2 text-negro font-sans; }
   h1 { @apply text-4xl md:text-5xl font-bold leading-tight; }
@@ -17,22 +19,27 @@
 /* Más separación vertical entre secciones: aplica a todas las páginas.
    section + section añade espacio extra cuando hay secciones consecutivas.
    Ajusta por breakpoint para más separación en pantallas grandes. */
+/* Menos espacio vertical en móviles: ajuste fino para que quede más compacto */
 section {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 0.125rem; /* 2px */
+  margin-bottom: 0.125rem; /* 2px */
+}
+/* Espacio reducido entre secciones consecutivas en móviles */
+section + section {
+  margin-top: 0.5rem; /* 8px */
 }
 @media (min-width: 640px) {
   section {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
   section + section {
-    margin-top: 3rem;
+    margin-top: 2rem;
   }
 }
 @media (min-width: 1024px) {
   section + section {
-    margin-top: 4rem;
+    margin-top: 3rem;
   }
 }
 

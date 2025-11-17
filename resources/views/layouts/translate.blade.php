@@ -282,7 +282,7 @@
             {{-- Imagen derecha --}}
             <div class="flex justify-center lg:justify-end">
                 <img src="{{ asset('images/pc.png') }}" alt="Proceso de traducción"
-                    class="w-full max-w-md rounded-2xl shadow-lg object-cover">
+                    class="w-full max-w-full sm:max-w-md mx-auto rounded-2xl shadow-lg object-cover">
             </div>
 
         </div>

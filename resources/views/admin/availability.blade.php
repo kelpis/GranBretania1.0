@@ -1,5 +1,5 @@
 <x-app-layout>
-  
+
 
   <div class="py-8 max-w-6xl mx-auto space-y-8 sm:px-6 lg:px-8">
 
@@ -45,16 +45,16 @@
         <select name="start_time"
           class="p-2 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul"
           required>
-          @for($h=0;$h<24;$h++)
-            <option>{{ str_pad($h,2,'0',STR_PAD_LEFT) }}:00</option>
+          @for($h = 0; $h < 24; $h++)
+            <option>{{ str_pad($h, 2, '0', STR_PAD_LEFT) }}:00</option>
           @endfor
         </select>
 
         <select name="end_time"
           class="p-2 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul"
           required>
-          @for($h=0;$h<=24;$h++)
-            <option>{{ $h===24?'24:00':str_pad($h,2,'0',STR_PAD_LEFT).':00' }}</option>
+          @for($h = 0; $h <= 24; $h++)
+            <option>{{ $h === 24 ? '24:00' : str_pad($h, 2, '0', STR_PAD_LEFT) . ':00' }}</option>
           @endfor
         </select>
 
@@ -107,20 +107,20 @@
         Generar franjas (lote)
       </h3>
 
-      <form method="POST" action="{{ route('admin.availability.generate') }}" class="grid md:grid-cols-6 gap-4">
+      <form method="POST" action="{{ route('admin.availability.generate') }}" class="grid md:grid-cols-5 gap-4">
         @csrf
 
         <div>
           <label class="block text-xs text-gray-700">Desde</label>
           <input type="date" name="from_date"
-            class="p-2 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul"
+            class="h-10 p-2 md:p-3 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul"
             required>
         </div>
 
         <div>
           <label class="block text-xs text-gray-700">Hasta</label>
           <input type="date" name="to_date"
-            class="p-2 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul"
+            class="h-10 p-2 md:p-3 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul"
             required>
         </div>
 
@@ -129,14 +129,19 @@
         <div>
           <label class="block text-xs text-gray-700">Estado</label>
           <select name="status"
-            class="p-2 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul">
+            class="h-10 p-2 md:p-3 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul">
             <option value="available">Disponible</option>
             <option value="blocked">Bloqueado</option>
           </select>
+
+         
         </div>
 
-        <div class="md:col-span-6">
-          <button class="px-4 py-2 rounded-full bg-azul text-beige2 hover:bg-rojo transition shadow text-sm">
+
+
+        <div class="self-end">
+          <button
+            class="h-10 px-4 rounded-full bg-azul text-beige2 hover:bg-rojo transition shadow text-sm flex items-center justify-center">
             Generar
           </button>
         </div>
@@ -149,7 +154,40 @@
     <div class="rounded-2xl shadow-xl border border-azul bg-azul/5 p-6">
       <h3 class="font-semibold text-azul text-lg mb-3">Franjas</h3>
 
-      <div class="overflow-x-auto">
+      <!-- Mobile: tarjetas (visible en sm and below) -->
+      <div class="md:hidden space-y-3">
+        @forelse ($slots as $s)
+          <div class="bg-white p-4 rounded-lg border shadow-sm">
+            <div class="flex items-start justify-between">
+              <div>
+                <div class="text-xs text-gray-500">Fecha</div>
+                <div class="font-medium text-sm text-azul">{{ \Carbon\Carbon::parse($s->date)->format('d/m/Y') }}</div>
+                <div class="text-xs text-gray-500 mt-2">Hora</div>
+                <div class="text-sm text-azul">{{ substr($s->start_time, 0, 5) }} – {{ substr($s->end_time, 0, 5) }}</div>
+                <div class="text-xs text-gray-500 mt-2">Estado</div>
+                <div class="inline-block mt-1 px-2 py-1 rounded-full text-xs font-semibold {{ $s->status === 'available' ? 'bg-ok text-white' : 'bg-gray-600 text-white' }}">{{ $s->status === 'available' ? 'Disponible' : 'Bloqueado' }}</div>
+              </div>
+
+              <div class="flex flex-col items-end gap-2">
+                <form method="POST" action="{{ route('admin.availability.toggle', $s) }}">
+                  @csrf @method('PATCH')
+                  <button class="px-3 py-1 rounded-full bg-info text-negro text-xs font-medium hover:bg-yellow-500 transition">Cambiar</button>
+                </form>
+
+                <form method="POST" action="{{ route('admin.availability.destroy', $s) }}" onsubmit="return confirm('¿Eliminar esta franja?');">
+                  @csrf @method('DELETE')
+                  <button class="px-3 py-1 rounded-full bg-rojo text-beige2 text-xs font-medium hover:bg-red-800 transition">Eliminar</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        @empty
+          <div class="py-4 text-center text-gray-500">No hay franjas creadas.</div>
+        @endforelse
+      </div>
+
+      <!-- Desktop/tablet: tabla (md+) -->
+      <div class="hidden md:block overflow-x-auto">
         <table class="min-w-full text-sm text-azul">
           <thead class="bg-azul text-beige2 uppercase text-xs tracking-wide">
             <tr>
@@ -163,41 +201,35 @@
 
           <tbody>
             @forelse ($slots as $s)
-            <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/10 transition">
-              <td class="py-3 px-3">{{ \Carbon\Carbon::parse($s->date)->format('d/m/Y') }}</td>
-              <td class="py-3 px-3">{{ substr($s->start_time,0,5) }}</td>
-              <td class="py-3 px-3">{{ substr($s->end_time,0,5) }}</td>
-              <td class="py-3 px-3">
-                <span class="px-3 py-1 rounded-full text-xs font-semibold
-                    {{ $s->status === 'available' ? 'bg-ok text-white' : 'bg-gray-600 text-white' }}">
-                  {{ $s->status === 'available' ? 'Disponible' : 'Bloqueado' }}
-                </span>
-              </td>
-              <td class="py-3 px-3">
-                <div class="flex flex-wrap gap-2">
+              <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/10 transition">
+                <td class="py-3 px-3">{{ \Carbon\Carbon::parse($s->date)->format('d/m/Y') }}</td>
+                <td class="py-3 px-3">{{ substr($s->start_time, 0, 5) }}</td>
+                <td class="py-3 px-3">{{ substr($s->end_time, 0, 5) }}</td>
+                <td class="py-3 px-3">
+                  <span class="px-3 py-1 rounded-full text-xs font-semibold {{ $s->status === 'available' ? 'bg-ok text-white' : 'bg-gray-600 text-white' }}">
+                    {{ $s->status === 'available' ? 'Disponible' : 'Bloqueado' }}
+                  </span>
+                </td>
+                <td class="py-3 px-3">
+                  <div class="flex flex-wrap gap-2">
 
-                  <form method="POST" action="{{ route('admin.availability.toggle', $s) }}">
-                    @csrf @method('PATCH')
-                    <button class="px-3 py-1 rounded-full bg-info text-negro text-xs font-medium hover:bg-yellow-500 transition">
-                      Cambiar
-                    </button>
-                  </form>
+                    <form method="POST" action="{{ route('admin.availability.toggle', $s) }}">
+                      @csrf @method('PATCH')
+                      <button class="px-3 py-1 rounded-full bg-info text-negro text-xs font-medium hover:bg-yellow-500 transition">Cambiar</button>
+                    </form>
 
-                  <form method="POST" action="{{ route('admin.availability.destroy', $s) }}"
-                        onsubmit="return confirm('¿Eliminar esta franja?');">
-                    @csrf @method('DELETE')
-                    <button class="px-3 py-1 rounded-full bg-rojo text-beige2 text-xs font-medium hover:bg-red-800 transition">
-                      Eliminar
-                    </button>
-                  </form>
+                    <form method="POST" action="{{ route('admin.availability.destroy', $s) }}" onsubmit="return confirm('¿Eliminar esta franja?');">
+                      @csrf @method('DELETE')
+                      <button class="px-3 py-1 rounded-full bg-rojo text-beige2 text-xs font-medium hover:bg-red-800 transition">Eliminar</button>
+                    </form>
 
-                </div>
-              </td>
-            </tr>
+                  </div>
+                </td>
+              </tr>
             @empty
-            <tr>
-              <td colspan="5" class="py-4 text-center text-gray-500">No hay franjas creadas.</td>
-            </tr>
+              <tr>
+                <td colspan="5" class="py-4 text-center text-gray-500">No hay franjas creadas.</td>
+              </tr>
             @endforelse
           </tbody>
         </table>

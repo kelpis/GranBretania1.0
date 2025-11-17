@@ -26,7 +26,7 @@
     @section('header')
     <header class="sticky top-0 z-40 bg-beige/95 backdrop-blur supports-[backdrop-filter]:bg-beige/80 shadow-sm -mx-4 sm:-mx-6 lg:-mx-8">
         <div class="container mx-auto px-4">
-            <div class="h-20 flex items-center justify-between gap-4">
+            <div x-data="{ open: false }" @keydown.escape="open = false" @click.away="open = false" class="h-20 flex items-center justify-between gap-4 relative">
 
                 {{-- LEFT: logo + enlaces --}}
                 <div class="flex items-center gap-6">
@@ -35,20 +35,56 @@
                         <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania" class="h-16 w-auto">
                     </a>
 
-                    {{-- ENLACES (izquierda) --}}
-                    <nav class="hidden lg:flex items-center gap-6 text-azul tracking-wide">
-                        <a href="{{ route('home') }}" class="hover:underline">Inicio</a>
-                        <a href="{{ route('clases') }}" class="hover:underline">Clases</a>
-                        <a href="{{ route('traducciones') }}" class="hover:underline">Traducciones</a>
-                        <a href="{{ route('sobremi') }}" class="hover:underline">Sobre mí</a>
-                        <a href="{{ route('faq') }}" class="hover:underline">FAQ</a>
-                        <a href="{{ route('contact.create') }}" class="hover:underline">Contacto</a>
+                    {{-- ENLACES (escritorio) --}}
+                    <nav class="flex items-center gap-4">
+                        {{-- Desktop links: visible en lg+ --}}
+                        <div class="hidden lg:flex items-center gap-6 text-azul tracking-wide">
+                            <a href="{{ route('home') }}" class="hover:underline">Inicio</a>
+                            <a href="{{ route('clases') }}" class="hover:underline">Clases</a>
+                            <a href="{{ route('traducciones') }}" class="hover:underline">Traducciones</a>
+                            <a href="{{ route('sobremi') }}" class="hover:underline">Sobre mí</a>
+                            <a href="{{ route('faq') }}" class="hover:underline">FAQ</a>
+                            <a href="{{ route('contact.create') }}" class="hover:underline">Contacto</a>
+                        </div>
+
+                        {{-- Mobile menu panel (moved to header-right) --}}
                     </nav>
                 </div>
 
-                {{-- RIGHT: botón Acceder --}}
-                <div class="hidden lg:block">
-                    <a href="{{ route('login') }}" class="btn-three text-beige2 !py-2 !px-4">Acceder</a>
+                {{-- RIGHT: botón Acceder y hamburguesa móvil --}}
+                <div class="flex items-center gap-3">
+                    {{-- Mobile hamburger button: visible < lg --}}
+                    <div class="lg:hidden">
+                        <button @click="open = ! open" :aria-expanded="open.toString()" aria-controls="mobile-menu"
+                            class="inline-flex items-center justify-center p-2 rounded-md text-azul border border-azul/20 bg-white/90">
+                            <svg x-show="!open" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                            <svg x-show="open" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="hidden lg:block">
+                        <a href="{{ route('login') }}" class="btn-three text-beige2 !py-2 !px-4">Acceder</a>
+                    </div>
+                </div>
+
+                {{-- Mobile menu panel (aparece cuando open === true) --}}
+                <div x-show="open" x-cloak id="mobile-menu" class="lg:hidden absolute inset-x-0 top-full z-50 bg-beige/95 backdrop-blur-sm shadow-sm">
+                    <div class="px-4 py-4 max-h-[calc(100vh-5rem)] overflow-auto">
+                        <a href="{{ route('home') }}" @click="open = false" class="block py-2 hover:underline">Inicio</a>
+                        <a href="{{ route('clases') }}" @click="open = false" class="block py-2 hover:underline">Clases</a>
+                        <a href="{{ route('traducciones') }}" @click="open = false" class="block py-2 hover:underline">Traducciones</a>
+                        <a href="{{ route('sobremi') }}" @click="open = false" class="block py-2 hover:underline">Sobre mí</a>
+                        <a href="{{ route('faq') }}" @click="open = false" class="block py-2 hover:underline">FAQ</a>
+                        <a href="{{ route('contact.create') }}" @click="open = false" class="block py-2 hover:underline">Contacto</a>
+                        {{-- Acceder (visible en móvil dentro del menú) --}}
+                        <a href="{{ route('login') }}" @click="open = false" class="block w-full mt-3 btn-three text-beige2 text-center !py-2 !px-4">Acceder</a>
+                    </div>
                 </div>
 
             </div>

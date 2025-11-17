@@ -1,33 +1,15 @@
 @extends('layouts.site')
 
 @section('title', 'Inicio · Gran Bretania')
-@section('header')
-
-    <header class="py-4">
-        <div class="hidden lg:block text-right pl-4 pr-8">
-            <a href="{{ route('login') }}" class="btn-secondary text-beige2 !py-2 !px-4">Acceder</a>
-        </div>
-        <div class="container mx-auto px-4 text-center">
-
-            <a href="{{ route('home') }}" class="inline-block">
-                <img src="{{ asset('images/logoSinMargen.png') }}" alt="Gran Bretania" class="mx-auto h-64 md:h-80 w-auto">
-            </a>
-
-
-            <nav class="my-8 flex flex-wrap items-center justify-center gap-16 text-azul tracking-wider">
-                <a href="{{ route('home') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Inicio</a>
-                <a href="{{ route('clases') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Clases</a>
-                <a href="{{ route('traducciones') }}"
-                    class="hover:underline text-lg md:text-xl font-medium px-2">Traducciones</a>
-                <a href="{{ route('sobremi') }}" class="hover:underline text-lg md:text-xl font-medium px-2">Sobre mí</a>
-                <a href="{{ route('faq') }}" class="hover:underline text-lg md:text-xl font-medium px-2">FAQ</a>
-                <a href="{{ route('contact.create') }}"
-                    class="hover:underline text-lg md:text-xl font-medium px-2">Contacto</a>
-            </nav>
-        </div>
-    </header>
-@endsection
+{{-- Use the layout header from `layouts.site` to avoid duplicate navs (desktop + mobile). --}}
 @section('content')
+
+    <!-- Logo grande en la home: se muestra dentro del contenido porque el header general ya gestiona el nav -->
+    <div class="container mx-auto px-4 text-center mt-6">
+        <a href="{{ route('home') }}" class="inline-block">
+            <img src="{{ asset('images/logoSinMargen.png') }}" alt="Gran Bretania" class="mx-auto h-64 md:h-80 w-auto">
+        </a>
+    </div>
 
     <section class="container mx-auto px-4 pt-0 pb-14 text-center">
         <h1 class="mt-0 bg-azul text-beige2 inline-block px-8 py-4 rounded-xl">
@@ -244,9 +226,10 @@
             <div class="grid md:grid-cols-2">
                 <div></div>
                 <div class="mt-8">
-                    <div class="max-w-2xl ml-auto flex justify-evenly items-center">
-                        <a href="{{ route('translation.create') }}" class="btn-primary">Solicitar traducción</a>
-                        <a href="{{ route('traducciones') }}" class="btn-secondary">Ver más información</a>
+                    <!-- En móvil apilar verticalmente; en >=sm mantener en fila con separación -->
+                    <div class="max-w-2xl ml-auto flex flex-col sm:flex-row sm:justify-evenly items-center gap-3">
+                        <a href="{{ route('translation.create') }}" class="btn-primary w-full sm:w-auto text-center">Solicitar traducción</a>
+                        <a href="{{ route('traducciones') }}" class="btn-secondary w-full sm:w-auto text-center">Ver más información</a>
                     </div>
                 </div>
             </div>

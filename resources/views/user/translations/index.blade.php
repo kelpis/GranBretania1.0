@@ -26,7 +26,41 @@
                         <h2 class="font-semibold text-xl text-beige2-800 leading-tight">Mis traducciones</h2>
                     </div>
 
-                    <table class="w-full table-fixed text-sm">
+                    <!-- Mobile: tarjetas (ocultas en md+) -->
+                    <div class="md:hidden px-4 py-4 space-y-3">
+                        @foreach($items as $t)
+                            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <div class="text-xs text-gray-500">Enviado</div>
+                                        <div class="font-medium text-sm text-negro">{{ \Carbon\Carbon::parse($t->created_at)->format('d/m/Y H:i') }}</div>
+                                    </div>
+
+                                    <div class="text-right">
+                                        <div class="text-xs text-gray-500">Idiomas</div>
+                                        <div class="font-medium text-sm text-negro">{{ strtoupper($t->source_lang) }} → {{ strtoupper($t->target_lang) }}</div>
+                                        <div class="mt-1 text-xs text-gray-500">Urgencia</div>
+                                        <div class="text-sm text-negro">{{ ucfirst($t->urgency) }}</div>
+                                    </div>
+                                </div>
+
+                                @if($t->comments)
+                                    <div class="mt-3 text-sm text-negro">{{ \Illuminate\Support\Str::limit($t->comments, 140) }}</div>
+                                @endif
+
+                                <div class="mt-3">
+                                    @if($t->file_path && \Illuminate\Support\Facades\Storage::disk('local')->exists($t->file_path))
+                                        <a href="{{ route('user.translations.download', $t->id) }}" class="text-blue-600 text-sm">Descargar</a>
+                                    @else
+                                        <span class="text-sm text-gray-500">—</span>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="hidden md:block w-full overflow-x-auto">
+                        <table class="min-w-[640px] w-full table-fixed text-sm">
                         <colgroup>
                             <col style="width:20%"> <!-- Enviado -->
                             <col style="width:25%"> <!-- Idiomas -->

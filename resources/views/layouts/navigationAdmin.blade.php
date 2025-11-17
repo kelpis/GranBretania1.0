@@ -1,8 +1,8 @@
-<nav x-data="{ open: false }" class="w-full bg-beige border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
+<nav x-data="{ open: false }" class="w-screen bg-beige border-b border-gray-100 -mx-4 sm:-mx-6 lg:-mx-8">
+        <div class="w-full">
+        <div class="w-full flex items-center justify-between h-16">
             <div class="flex items-center gap-6">
-                <div class="shrink-0 flex items-center">
+                <div class="shrink-0 flex items-center pl-3 sm:pl-6">
                     <a href="{{ route('admin.index') }}" class="flex items-center gap-3 shrink-0">
                         <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania" class="h-16 w-auto">
                     </a>
@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center">
+            <div class="hidden sm:flex sm:items-center sm:ml-6 pr-3 sm:pr-6">
                 @auth
 
                     <!-- User dropdown -->
@@ -89,7 +89,7 @@
         </div>
     </div>
 
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden w-screen bg-beige">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('admin.bookings.index')"
                 :active="request()->routeIs('admin.bookings.*')">
