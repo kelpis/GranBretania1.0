@@ -3,24 +3,24 @@
 @section('title', 'Sobre mí · Gran Bretania')
 
 @section('header')
- 
+
 
 @section('content')
-    <section class="bg-beige2 py-12">
+    <section class="bg-beige2 py-12 dark:bg-slate-950">
         <div class="container mx-auto px-4 max-w-5xl">
 
             {{-- HERO SOBRE MÍ --}}
             <div class="grid md:grid-cols-2 gap-8 items-center mb-12">
                 <div>
-                    <h1 class="text-azul text-3xl md:text-4xl font-semibold mb-4">
+                    <h1 class="text-azul text-3xl md:text-4xl font-semibold mb-4 dark:text-beige2">
                         Hola, soy Tania — tu profe de inglés y traductora en <span class="text-rojo">Gran Bretania</span>
                     </h1>
-                    <p class="text-gray-700 leading-relaxed mb-4">
+                    <p class="text-gray-700 leading-relaxed mb-4 dark:text-slate-100">
                         Ayudo a personas y empresas a comunicarse en inglés con seguridad, claridad y un punto
                         de humor británico. Combino mi experiencia como docente y traductora para ofrecer clases
                         prácticas y traducciones cuidando cada matiz.
                     </p>
-                    <p class="text-gray-700 leading-relaxed">
+                    <p class="text-gray-700 leading-relaxed dark:text-slate-100">
                         Si buscas clases cercanas, enfocadas en tu día a día, o necesitas una traducción profesional,
                         estás en el sitio adecuado.
                     </p>
@@ -28,7 +28,7 @@
 
                 {{-- FOTO / ILUSTRACIÓN --}}
                 <div class="flex justify-center">
-                    <div class="rounded-2xl overflow-hidden shadow-lg bg-white max-w-xs w-full">
+                    <div class="rounded-2xl overflow-hidden shadow-lg bg-white max-w-xs w-full dark:bg-slate-900">
                         {{-- Sustituye el src por tu imagen real --}}
                         <img src="/images/tania.png" alt="Tania, profesora de inglés y traductora en Gran Bretania"
                             class="w-full h-80 object-cover object-top">
@@ -37,19 +37,19 @@
             </div>
 
             {{-- QUIÉN SOY --}}
-            <div class="bg-beige rounded-2xl shadow p-6 md:p-8 mb-10">
-                <h2 class="text-azul text-2xl font-semibold mb-3">Quién soy</h2>
-                <p class="text-gray-700 leading-relaxed mb-3">
+            <div class="bg-beige rounded-2xl shadow p-6 md:p-8 mb-10 dark:bg-slate-900">
+                <h2 class="text-azul text-2xl font-semibold mb-3 dark:text-beige2">Quién soy</h2>
+                <p class="text-gray-700 leading-relaxed mb-3 dark:text-slate-100">
                     Soy Tania, profesora de inglés y traductora. Llevo varios años acompañando a estudiantes de distintos
                     niveles —desde quienes empiezan desde cero hasta quienes necesitan el inglés para su trabajo— y
                     colaborando con pequeñas empresas que quieren dar el salto a materiales bilingües.
                 </p>
-                <p class="text-gray-700 leading-relaxed mb-3">
+                <p class="text-gray-700 leading-relaxed mb-3 dark:text-slate-100">
                     Me gusta que las clases sean prácticas, amables y realistas: trabajamos con ejemplos cercanos a tu
                     vida diaria, tus intereses y tus objetivos. Nada de libros eternos sin contexto; la idea es que el
                     inglés te sirva para algo desde el primer día.
                 </p>
-                <p class="text-gray-700 leading-relaxed">
+                <p class="text-gray-700 leading-relaxed dark:text-slate-100">
                     En traducción, mi objetivo es mantener tu voz y tu intención en el otro idioma, respetando el tono,
                     el registro y el contexto. No se trata solo de “pasar palabras”, sino de comunicar lo mismo a otra
                     audiencia.
@@ -71,15 +71,15 @@
                     </p>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow p-6 md:p-7">
-                    <h3 class="text-azul text-xl font-semibold mb-3">Traducción y revisión de textos</h3>
-                    <ul class="list-disc pl-5 space-y-2 text-sm md:text-base text-gray-700">
+                <div class="bg-white rounded-2xl shadow p-6 md:p-7 dark:bg-slate-900">
+                    <h3 class="text-azul text-xl font-semibold mb-3 dark:text-beige2">Traducción y revisión de textos</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-sm md:text-base text-gray-700 dark:text-slate-100">
                         <li>Traducción EN–ES–FR de documentos generales y de ámbito profesional.</li>
                         <li>Revisión y corrección de estilo para textos ya traducidos.</li>
                         <li>Cuidado especial de la terminología y del tono según el público.</li>
                         <li>Comunicación clara durante el proceso para resolver dudas.</li>
                     </ul>
-                    <p class="text-sm text-gray-600 mt-4">
+                    <p class="text-sm text-gray-600 mt-4 dark:text-slate-300">
                         Cada texto se trata de forma confidencial y con la máxima atención al detalle.
                     </p>
                 </div>
@@ -87,50 +87,61 @@
 
             {{-- VALORES / MANERA DE TRABAJAR --}}
             <div class="mb-12">
-                <h2 class="text-azul text-2xl font-semibold mb-4">Mi manera de trabajar</h2>
+                <h2 class="text-azul text-2xl font-semibold mb-4 dark:text-beige2">Mi manera de trabajar</h2>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <article class="bg-white rounded-2xl shadow p-5 border border-beige">
-                        <h3 class="text-azul font-semibold mb-2 text-sm uppercase tracking-wide">Cercanía</h3>
-                        <p class="text-gray-700 text-sm">
+                    <article
+                        class="bg-white rounded-2xl shadow p-5 border border-beige dark:bg-slate-900 dark:border-slate-700">
+                        <h3 class="text-azul font-semibold mb-2 text-sm uppercase tracking-wide dark:text-beige2">Cercanía
+                        </h3>
+                        <p class="text-gray-700 text-sm dark:text-slate-100">
                             Clases y traducciones con trato directo, honesto y cercano. Puedes preguntar todo lo que
                             necesites, sin miedo a “molestar”.
                         </p>
                     </article>
 
-                    <article class="bg-white rounded-2xl shadow p-5 border border-beige">
-                        <h3 class="text-azul font-semibold mb-2 text-sm uppercase tracking-wide">Claridad</h3>
-                        <p class="text-gray-700 text-sm">
+                    <article
+                        class="bg-white rounded-2xl shadow p-5 border border-beige dark:bg-slate-900 dark:border-slate-700">
+                        <h3 class="text-azul font-semibold mb-2 text-sm uppercase tracking-wide dark:text-beige2">Claridad
+                        </h3>
+                        <p class="text-gray-700 text-sm dark:text-slate-100">
                             Explicaciones en un lenguaje sencillo, sin tecnicismos innecesarios. Busco que entiendas el
                             porqué de cada corrección.
                         </p>
                     </article>
 
-                    <article class="bg-white rounded-2xl shadow p-5 border border-beige">
-                        <h3 class="text-azul font-semibold mb-2 text-sm uppercase tracking-wide">Adaptación</h3>
-                        <p class="text-gray-700 text-sm">
+                    <article
+                        class="bg-white rounded-2xl shadow p-5 border border-beige dark:bg-slate-900 dark:border-slate-700">
+                        <h3 class="text-azul font-semibold mb-2 text-sm uppercase tracking-wide dark:text-beige2">Adaptación
+                        </h3>
+                        <p class="text-gray-700 text-sm dark:text-slate-100">
                             No hay dos estudiantes iguales ni dos textos iguales: ajusto el ritmo, el contenido y el
                             enfoque a lo que tú necesitas.
                         </p>
                     </article>
 
-                    <article class="bg-white rounded-2xl shadow p-5 border border-beige">
-                        <h3 class="text-azul font-semibold mb-2 text-sm uppercase tracking-wide">Rigor</h3>
-                        <p class="text-gray-700 text-sm">
+                    <article
+                        class="bg-white rounded-2xl shadow p-5 border border-beige dark:bg-slate-900 dark:border-slate-700">
+                        <h3 class="text-azul font-semibold mb-2 text-sm uppercase tracking-wide dark:text-beige2">Rigor</h3>
+                        <p class="text-gray-700 text-sm dark:text-slate-100">
                             Respeto por la gramática, la terminología y los matices culturales en ambas direcciones del
                             idioma.
                         </p>
                     </article>
 
-                    <article class="bg-white rounded-2xl shadow p-5 border border-beige">
-                        <h3 class="text-azul font-semibold mb-2 text-sm uppercase tracking-wide">Confidencialidad</h3>
-                        <p class="text-gray-700 text-sm">
+                    <article
+                        class="bg-white rounded-2xl shadow p-5 border border-beige dark:bg-slate-900 dark:border-slate-700">
+                        <h3 class="text-azul font-semibold mb-2 text-sm uppercase tracking-wide dark:text-beige2">
+                            Confidencialidad</h3>
+                        <p class="text-gray-700 text-sm dark:text-slate-100">
                             Trato toda la información y documentación con la máxima discreción y cuidado.
                         </p>
                     </article>
 
-                    <article class="bg-white rounded-2xl shadow p-5 border border-beige">
-                        <h3 class="text-azul font-semibold mb-2 text-sm uppercase tracking-wide">Acompañamiento</h3>
-                        <p class="text-gray-700 text-sm">
+                    <article
+                        class="bg-white rounded-2xl shadow p-5 border border-beige dark:bg-slate-900 dark:border-slate-700">
+                        <h3 class="text-azul font-semibold mb-2 text-sm uppercase tracking-wide dark:text-beige2">
+                            Acompañamiento</h3>
+                        <p class="text-gray-700 text-sm dark:text-slate-100">
                             No se trata solo de “corregir”, sino de acompañarte para que ganes seguridad usando el idioma.
                         </p>
                     </article>
@@ -149,7 +160,7 @@
                 </div>
                 <div class="flex gap-3">
                     <a href="{{ route('contact.create') }}"
-                        class="inline-flex items-center px-5 py-2 rounded-full bg-beige text-azul font-medium text-sm hover:bg-rojo transition">
+                        class="inline-flex items-center px-5 py-2 rounded-full bg-beige text-azul font-medium text-sm hover:bg-rojo transition dark:bg-slate-900 dark:text-beige2">
                         Ir al formulario de contacto
                     </a>
                     <a href="{{ route('clases') }}"

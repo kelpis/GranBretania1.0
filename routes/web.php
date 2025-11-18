@@ -18,7 +18,20 @@ use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
-//Rutas cambio de idioma
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Aquí agrupamos y documentamos las rutas públicas, de usuario y admin.
+| 
+|
+*/
+
+// --------------------------------------------------
+// Locale / Internationalization
+// --------------------------------------------------
+// Cambia idioma
 Route::get('/lang/{locale}', function ($locale) {
     if (in_array($locale, ['es', 'en'])) {
         session(['locale' => $locale]);
@@ -30,10 +43,18 @@ Route::get('/lang/{locale}', function ($locale) {
 
 
 
+
+
+// --------------------------------------------------
+// Home / Landing
+// --------------------------------------------------
 Route::get('/', function () {
     return view('welcome');
 });
 
+// --------------------------------------------------
+// Public pages
+// --------------------------------------------------
 // Página pública de servicios (clases online y traducciones)
 Route::get('/servicios', [App\Http\Controllers\ServiceController::class, 'index'])->name('services.index');
 // Política de protección de datos (página pública)
@@ -45,26 +66,37 @@ Route::view('/condiciones', 'legal.condiciones')->name('condiciones');
 // Aviso legal (página pública)
 Route::view('/aviso', 'legal.aviso')->name('aviso');
 
+// --------------------------------------------------
+// Dashboard / Auth-protected pages
+// --------------------------------------------------
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Rutas de perfil (requieren autenticación)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Rutas del administrador
+// --------------------------------------------------
+// Admin entry (panel principal)
+// --------------------------------------------------
 Route::middleware(['auth', AdminMiddleware::class])
     ->get('/admin', [AdminController::class, 'index'])
     ->name('admin.index');
 
-// Rutas del formulario de contacto
+
+// Contact form
+// --------------------------------------------------
 Route::get('/contacto', [ContactController::class, 'create'])->name('contact.create');
 Route::post('/contacto', [ContactController::class, 'store'])->name('contact.store');
 
-//ROUTAS RESERVA CLASE (solo usuarios autenticados pueden reservar)
+
+// Booking (reservas) - protegidas por auth
+// --------------------------------------------------
+// Rutas para crear/guardar reserva
 Route::middleware('auth')->group(function () {
     Route::get('/reservar', [ClassBookingController::class, 'create'])
         ->name('bookings.create');
@@ -77,23 +109,24 @@ Route::middleware('auth')->group(function () {
         ->name('bookings.availability');
 });
 
+// Página de éxito tras reservar
 Route::get('/reservar/ok', [ClassBookingController::class, 'success'])
     ->name('bookings.success');
 
 
 
-// Ruta para unirse a la videollamada asociada a una reserva
+// Join a videollamada asociada a una reserva (no auth enforced here)
 Route::get('/reservas/{booking}/unirse', [App\Http\Controllers\ClassBookingController::class, 'join'])
     ->name('bookings.join');
 
-// Panel de usuario: mis reservas (loggeados)
+// Panel de usuario: mis reservas y traducciones (requieren auth)
 Route::middleware('auth')->group(function () {
     Route::get('/mis-reservas', [UserBookingController::class, 'index'])->name('user.bookings.index');
     Route::get('/mis-reservas/{booking}/editar', [UserBookingController::class, 'edit'])->name('user.bookings.edit');
     Route::put('/mis-reservas/{booking}', [UserBookingController::class, 'update'])->name('user.bookings.update');
-    //Redirige
+    // Redirección tras editar
     Route::get('/mis-reservas/editar/exito', [UserBookingController::class, 'editSuccess'])
-    ->name('user.bookings.edit_success');
+        ->name('user.bookings.edit_success');
 
     Route::delete('/mis-reservas/{booking}', [UserBookingController::class, 'destroy'])->name('user.bookings.destroy');
 
@@ -125,7 +158,9 @@ Route::middleware('auth')->group(function () {
     })->name('user.translations.index');
 });
 
-// ROUTES SOLICITAR TRADUCCION (restringidas a usuarios autenticados)
+// --------------------------------------------------
+// Solicitar traducción (loggeado)
+// --------------------------------------------------
 Route::middleware('auth')->group(function () {
     Route::get('/traduccion', [TranslationRequestController::class, 'create'])->name('translation.create');
 
@@ -139,11 +174,13 @@ Route::get('/translation-requests-redirect', function () {
     return redirect()->route('user.translations.index');
 })->name('translation.requests');
 
-//ROUTES ADMIN 
-
+// --------------------------------------------------
+// Admin routes (prefijo /admin)
+// --------------------------------------------------
 Route::middleware(['auth', AdminMiddleware::class])
     ->prefix('admin')->name('admin.')->group(function () {
 
+        // Traducciones (panel admin)
         Route::get('/traducciones', function () {
             $items = TranslationRequest::latest()->paginate(20);
             return view('admin.translation', compact('items'));
@@ -163,10 +200,12 @@ Route::middleware(['auth', AdminMiddleware::class])
         })->name('translations.download');
 
 
+        // Reservas admin
         Route::get('/reservas', [BookingAdminController::class, 'index'])->name('bookings.index');
         Route::patch('/reservas/{booking}/confirmar', [BookingAdminController::class, 'confirm'])->name('bookings.confirm');
         Route::patch('/reservas/{booking}/cancelar', [BookingAdminController::class, 'cancel'])->name('bookings.cancel');
-        //ROUTE FRANJAS HORARIAS
+
+        // Franjass horarias (disponibilidad)
         Route::get('/disponibilidad', [AvailabilityAdminController::class, 'index'])->name('availability.index');
         Route::post('/disponibilidad', [AvailabilityAdminController::class, 'store'])->name('availability.store');
         Route::post('/disponibilidad/generar', [AvailabilityAdminController::class, 'generate'])->name('availability.generate');
@@ -174,21 +213,24 @@ Route::middleware(['auth', AdminMiddleware::class])
         Route::delete('/disponibilidad/{slot}', [AvailabilityAdminController::class, 'destroy'])->name('availability.destroy');
 
 
-        //Devolver pago
+        // Devolver pago
         Route::post('/bookings/{booking}/refund', [AdminController::class, 'refund'])
             ->name('bookings.refund');
     });
 
 
-// La vista de inicio está en resources/views/layouts/home.blade.php
+// --------------------------------------------------
+// Static page views (simple blades)
+// --------------------------------------------------
+// La vista de inicio puede estar en resources/views/layouts/home.blade.php
 Route::view('/', 'layouts.home')->name('home');
 
-// Páginas estáticas creadas como vistas en resources/views/layouts
 Route::view('/clases', 'layouts.class')->name('clases');
 Route::view('/traducciones', 'layouts.translate')->name('traducciones');
 Route::view('/sobremi', 'layouts.aboutme')->name('sobremi');
 Route::view('/faq', 'layouts.faq')->name('faq');
 
+// Auth routes (login/register/etc.)
 require __DIR__ . '/auth.php';
 
 // Temporary debug endpoint to inspect locale/session state

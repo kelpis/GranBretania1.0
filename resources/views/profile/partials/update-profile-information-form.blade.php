@@ -1,12 +1,12 @@
-<section class="bg-beige2 p-6 rounded-2xl shadow-md border border-beige">
+<section class="bg-beige2 dark:bg-slate-800 dark:text-beige2 p-6 rounded-2xl shadow-md border border-beige dark:border-slate-700">
 
     {{-- HEADER --}}
     <header class="mb-6">
-        <h2 class="text-2xl font-semibold text-azul">
+        <h2 class="text-2xl font-semibold text-azul dark:text-beige2">
             {{ __('Información del perfil') }}
         </h2>
 
-        <p class="mt-1 text-sm text-gray-700">
+        <p class="mt-1 text-sm text-gray-700 dark:text-beige2">
             {{ __("Actualiza tu nombre y dirección de correo electrónico.") }}
         </p>
     </header>
@@ -23,18 +23,18 @@
 
         {{-- NAME --}}
         <div>
-            <x-input-label for="name" :value="__('Nombre')" class="text-azul font-semibold"/>
+            <x-input-label for="name" :value="__('Nombre')" class="text-azul font-semibold dark:text-white"/>
             <x-text-input id="name" name="name" type="text"
-                class="mt-1 block w-full bg-white text-azul border border-azul/30 rounded-lg p-2 focus:border-azul focus:ring-azul"
+                class="mt-1 block w-full bg-white dark:bg-slate-700 dark:text-white text-azul border border-azul/30 dark:border-slate-600 rounded-lg p-2 focus:border-azul focus:ring-azul"
                 :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2 text-red-600" :messages="$errors->get('name')" />
         </div>
 
         {{-- EMAIL --}}
         <div>
-            <x-input-label for="email" :value="__('Correo electrónico')" class="text-azul font-semibold"/>
+            <x-input-label for="email" :value="__('Correo electrónico')" class="text-azul font-semibold dark:text-white"/>
             <x-text-input id="email" name="email" type="email"
-                class="mt-1 block w-full bg-white text-azul border border-azul/30 rounded-lg p-2 focus:border-azul focus:ring-azul"
+                class="mt-1 block w-full bg-white dark:bg-slate-700 dark:text-white text-azul border border-azul/30 dark:border-slate-600 rounded-lg p-2 focus:border-azul focus:ring-azul"
                 :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2 text-red-600" :messages="$errors->get('email')" />
 

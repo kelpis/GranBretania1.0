@@ -6,7 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@yield('title', 'Gran Bretania')</title>
+    {{-- Script tema oscuro: respeta sistema + recuerda preferencia --}}
+    <script>
+        (function () {
+            const userTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
+            if (userTheme === 'dark' || (!userTheme && systemPrefersDark)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
     {{-- Fuentes --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,21 +36,24 @@
 <body class="min-h-dvh flex flex-col bg-beige2">
 
     @section('header')
-    <header class="sticky top-0 z-40 bg-beige/95 backdrop-blur supports-[backdrop-filter]:bg-beige/80 shadow-sm -mx-4 sm:-mx-6 lg:-mx-8">
+    <header
+        class="sticky top-0 z-40 bg-beige/95 dark:bg-slate-800/90 backdrop-blur supports-[backdrop-filter]:bg-beige/80 shadow-sm -mx-4 sm:-mx-6 lg:-mx-8">
+
         <div class="container mx-auto px-4">
-            <div x-data="{ open: false }" @keydown.escape="open = false" @click.away="open = false" class="h-20 flex items-center justify-between gap-4 relative">
+            <div x-data="{ open: false }" @keydown.escape="open = false" @click.away="open = false"
+                class="h-20 flex items-center justify-between gap-4 relative">
 
                 {{-- LEFT: logo + enlaces --}}
                 <div class="flex items-center gap-6">
                     {{-- LOGO --}}
                     <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
-                        <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania" class="h-16 w-auto">
+                        <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania" class="h-16 w-auto dark:invert dark:brightness-0">
                     </a>
 
                     {{-- ENLACES (escritorio) --}}
                     <nav class="flex items-center gap-4">
                         {{-- Desktop links: visible en lg+ --}}
-                        <div class="hidden lg:flex items-center gap-6 text-azul tracking-wide">
+                        <div class="hidden lg:flex items-center gap-6 text-azul dark:text-beige2 tracking-wide">
                             <a href="{{ route('home') }}" class="hover:underline">Inicio</a>
                             <a href="{{ route('clases') }}" class="hover:underline">Clases</a>
                             <a href="{{ route('traducciones') }}" class="hover:underline">Traducciones</a>
@@ -46,6 +61,21 @@
                             <a href="{{ route('faq') }}" class="hover:underline">FAQ</a>
                             <a href="{{ route('contact.create') }}" class="hover:underline">Contacto</a>
                         </div>
+                        <div class="flex items-center gap-3 text-sm">
+
+                    {{-- Botón modo oscuro --}}
+                    <button type="button" onclick="
+                                const html = document.documentElement;
+                                const isDark = html.classList.toggle('dark');
+                                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                            "
+                        class="inline-flex items-center justify-center px-2 py-1 rounded-full border border-azul/40 dark:border-gray-500 text-xs text-azul dark:text-gray-100 bg-white/80 dark:bg-slate-800/80 shadow-sm">
+                        <span class="dark:hidden">🌙</span>
+                        <span class="hidden dark:inline">☀️</span>
+                    </button>
+                </div>
+
+
 
                         {{-- Mobile menu panel (moved to header-right) --}}
                     </nav>
@@ -53,41 +83,48 @@
 
                 {{-- RIGHT: botón Acceder y hamburguesa móvil --}}
                 <div class="flex items-center gap-3">
-                    {{-- Mobile hamburger button: visible < lg --}}
-                    <div class="lg:hidden">
+                    {{-- Mobile hamburger button: visible < lg --}} <div class="lg:hidden">
                         <button @click="open = ! open" :aria-expanded="open.toString()" aria-controls="mobile-menu"
                             class="inline-flex items-center justify-center p-2 rounded-md text-azul border border-azul/20 bg-white/90">
                             <svg x-show="!open" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16"></path>
                             </svg>
                             <svg x-show="open" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </button>
-                    </div>
-
-                    <div class="hidden lg:block">
-                        <a href="{{ route('login') }}" class="btn-three text-beige2 !py-2 !px-4">Acceder</a>
-                    </div>
                 </div>
+                
+                <div class="hidden lg:block">
 
-                {{-- Mobile menu panel (aparece cuando open === true) --}}
-                <div x-show="open" x-cloak id="mobile-menu" class="lg:hidden absolute inset-x-0 top-full z-50 bg-beige/95 backdrop-blur-sm shadow-sm">
-                    <div class="px-4 py-4 max-h-[calc(100vh-5rem)] overflow-auto">
-                        <a href="{{ route('home') }}" @click="open = false" class="block py-2 hover:underline">Inicio</a>
-                        <a href="{{ route('clases') }}" @click="open = false" class="block py-2 hover:underline">Clases</a>
-                        <a href="{{ route('traducciones') }}" @click="open = false" class="block py-2 hover:underline">Traducciones</a>
-                        <a href="{{ route('sobremi') }}" @click="open = false" class="block py-2 hover:underline">Sobre mí</a>
-                        <a href="{{ route('faq') }}" @click="open = false" class="block py-2 hover:underline">FAQ</a>
-                        <a href="{{ route('contact.create') }}" @click="open = false" class="block py-2 hover:underline">Contacto</a>
-                        {{-- Acceder (visible en móvil dentro del menú) --}}
-                        <a href="{{ route('login') }}" @click="open = false" class="block w-full mt-3 btn-three text-beige2 text-center !py-2 !px-4">Acceder</a>
-                    </div>
+                    <a href="{{ route('login') }}" class="btn-three text-beige2 !py-2 !px-4">Acceder</a>
                 </div>
-
             </div>
+
+            {{-- Mobile menu panel (aparece cuando open === true) --}}
+            <div x-show="open" x-cloak id="mobile-menu"
+                class="lg:hidden absolute inset-x-0 top-full z-50 bg-beige/95 backdrop-blur-sm shadow-sm dark:bg-slate-800/95">
+                <div class="px-4 py-4 max-h-[calc(100vh-5rem)] overflow-auto">
+                    <a href="{{ route('home') }}" @click="open = false" class="block py-2 hover:underline">Inicio</a>
+                    <a href="{{ route('clases') }}" @click="open = false" class="block py-2 hover:underline">Clases</a>
+                    <a href="{{ route('traducciones') }}" @click="open = false"
+                        class="block py-2 hover:underline">Traducciones</a>
+                    <a href="{{ route('sobremi') }}" @click="open = false" class="block py-2 hover:underline">Sobre
+                        mí</a>
+                    <a href="{{ route('faq') }}" @click="open = false" class="block py-2 hover:underline">FAQ</a>
+                    <a href="{{ route('contact.create') }}" @click="open = false"
+                        class="block py-2 hover:underline">Contacto</a>
+                    {{-- Acceder (visible en móvil dentro del menú) --}}
+                    <a href="{{ route('login') }}" @click="open = false"
+                        class="block w-full mt-3 btn-three text-beige2 text-center !py-2 !px-4">Acceder</a>
+                </div>
+            </div>
+
+        </div>
         </div>
     </header>
     @show
@@ -99,73 +136,77 @@
     </main>
 
     {{-- Footer azul corporativo --}}
-    <footer class="bg-azul text-white mt-12 -mx-4 sm:-mx-6 lg:-mx-8">
+    <footer class="bg-azul dark:bg-slate-900/90 text-white mt-12 -mx-4 sm:-mx-6 lg:-mx-8">
+
         <div class="px-4 sm:px-6 lg:px-8">
             <div class="container mx-auto px-4 py-10 flex flex-col md:flex-row gap-8">
-            <div class="md:basis-1/2">
-                <h3 class="font-semibold mb-3">Gran Bretania</h3>
-                <p class="text-sm opacity-80">Enseñanza de inglés y traducciones.</p>
-            </div>
-            <div class="md:basis-1/4">
-                <ul class="space-y-2 text-sm">
-                    <li><a href="{{ route('privacy') }}" class="hover:underline">Política de privacidad</a>
-                    </li>
-                    <li><a href="{{ route('cookies.policy') }}" class="hover:underline">Política de cookies</a></li>
-                    <li><a href="{{ route('condiciones') }}" class="hover:underline">Términos del servicio</a></li>
-                    <li><a href="{{ route('aviso') }}" class="hover:underline">Aviso legal</a></li>
-                </ul>
-            </div>
-            <div class="text-sm md:basis-1/4">
-                <p class="opacity-80">info@granbretania.test</p>
-                <p class="opacity-80">+34 000 000 000</p>
-
-                {{-- Iconos redes sociales --}}
-                <div class="mt-4 flex items-center gap-3" aria-label="Redes sociales">
-                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-                        class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
-                        <img src="{{ asset('images/instagram.svg') }}" alt="Instagram" class="w-5 h-5 object-contain">
-                    </a>
-
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-                        class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
-                        <img src="{{ asset('images/facebook.svg') }}" alt="Facebook" class="w-5 h-5 object-contain">
-                    </a>
-
-                    <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X"
-                        class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
-                        <img src="{{ asset('images/x.svg') }}" alt="X" class="w-5 h-5 object-contain">
-                    </a>
-
-                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-                        class="text-white hover:opacity-80">
-                        <!-- LinkedIn icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 fill-current"
-                            aria-hidden="true">
-                            <path
-                                d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.6v1.7h.05c.5-.95 1.7-1.95 3.5-1.95 3.75 0 4.45 2.47 4.45 5.67V21H16v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z" />
-                        </svg>
-                    </a>
+                <div class="md:basis-1/2">
+                    <h3 class="font-semibold mb-3">Gran Bretania</h3>
+                    <p class="text-sm opacity-80">Enseñanza de inglés y traducciones.</p>
                 </div>
-            </div>
+                <div class="md:basis-1/4">
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="{{ route('privacy') }}" class="hover:underline">Política de privacidad</a>
+                        </li>
+                        <li><a href="{{ route('cookies.policy') }}" class="hover:underline">Política de cookies</a>
+                        </li>
+                        <li><a href="{{ route('condiciones') }}" class="hover:underline">Términos del servicio</a>
+                        </li>
+                        <li><a href="{{ route('aviso') }}" class="hover:underline">Aviso legal</a></li>
+                    </ul>
+                </div>
+                <div class="text-sm md:basis-1/4">
+                    <p class="opacity-80">info@granbretania.test</p>
+                    <p class="opacity-80">+34 000 000 000</p>
+
+                    {{-- Iconos redes sociales --}}
+                    <div class="mt-4 flex items-center gap-3" aria-label="Redes sociales">
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                            class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
+                            <img src="{{ asset('images/instagram.svg') }}" alt="Instagram"
+                                class="w-5 h-5 object-contain">
+                        </a>
+
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                            class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
+                            <img src="{{ asset('images/facebook.svg') }}" alt="Facebook" class="w-5 h-5 object-contain">
+                        </a>
+
+                        <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X"
+                            class="text-white hover:opacity-90 hover:scale-105 transition-transform transition-opacity duration-150">
+                            <img src="{{ asset('images/x.svg') }}" alt="X" class="w-5 h-5 object-contain">
+                        </a>
+
+                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+                            class="text-white hover:opacity-80">
+                            <!-- LinkedIn icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 fill-current"
+                                aria-hidden="true">
+                                <path
+                                    d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.6v1.7h.05c.5-.95 1.7-1.95 3.5-1.95 3.75 0 4.45 2.47 4.45 5.67V21H16v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
 </body>
 
 </html>
-    @if(config('services.recaptcha.site'))
-        <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site') }}"></script>
+@if(config('services.recaptcha.site'))
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site') }}"></script>
 
-        <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             const siteKey = "{{ config('services.recaptcha.site') }}";
 
-            document.querySelectorAll('form[data-grecaptcha="v3"]').forEach(function(form) {
+            document.querySelectorAll('form[data-grecaptcha="v3"]').forEach(function (form) {
                 form.addEventListener('submit', function (e) {
                     e.preventDefault();
-                    grecaptcha.ready(function() {
+                    grecaptcha.ready(function () {
                         const action = form.getAttribute('data-recaptcha-action') || 'submit';
-                        grecaptcha.execute(siteKey, {action: action}).then(function(token) {
+                        grecaptcha.execute(siteKey, { action: action }).then(function (token) {
                             let input = form.querySelector('input[name="g-recaptcha-response"]');
                             if (!input) {
                                 input = document.createElement('input');
@@ -175,7 +216,7 @@
                             }
                             input.value = token;
                             form.submit();
-                        }).catch(function(err) {
+                        }).catch(function (err) {
                             console.error('reCAPTCHA execute failed', err);
                             let errEl = form.querySelector('.recaptcha-error');
                             if (!errEl) {
@@ -194,15 +235,17 @@
                 });
             });
         });
-        </script>
-    @endif
+    </script>
+@endif
 
-    @if(app()->environment('local'))
-        <script>
-            console.log('DEBUG: site layout reCAPTCHA key present?', {{ config('services.recaptcha.site') ? 'true' : 'false' }});
-            document.addEventListener('DOMContentLoaded', function () {
-                console.log('DEBUG: site layout grecaptcha defined?', (typeof grecaptcha !== 'undefined'));
-            });
-        </script>
-        <div style="position:fixed; right:8px; bottom:8px; background:rgba(0,0,0,0.7); color:#fff; padding:6px 8px; font-size:12px; border-radius:6px; z-index:999999">reCAPTCHA: {{ config('services.recaptcha.site') ? 'SET' : 'MISSING' }}</div>
-    @endif
+@if(app()->environment('local'))
+    <script>
+        console.log('DEBUG: site layout reCAPTCHA key present?', {{ config('services.recaptcha.site') ? 'true' : 'false' }});
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('DEBUG: site layout grecaptcha defined?', (typeof grecaptcha !== 'undefined'));
+        });
+    </script>
+    <div
+        style="position:fixed; right:8px; bottom:8px; background:rgba(0,0,0,0.7); color:#fff; padding:6px 8px; font-size:12px; border-radius:6px; z-index:999999">
+        reCAPTCHA: {{ config('services.recaptcha.site') ? 'SET' : 'MISSING' }}</div>
+@endif

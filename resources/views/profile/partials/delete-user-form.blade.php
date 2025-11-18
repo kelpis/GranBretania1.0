@@ -1,12 +1,12 @@
 <section class="space-y-6">
 
     {{-- CABECERA DEL BLOQUE --}}
-    <header class="bg-beige2 p-5 rounded-xl border border-beige shadow-sm">
-        <h2 class="text-xl font-semibold text-azul">
+    <header class="bg-beige2 p-5 rounded-xl border border-beige shadow-sm dark:bg-slate-800">
+        <h2 class="text-xl font-semibold text-azul dark:text-white">
             {{ __('Eliminar cuenta') }}
         </h2>
 
-        <p class="mt-2 text-sm text-gray-700 leading-relaxed">
+        <p class="mt-2 text-sm text-gray-700 leading-relaxed dark:text-white">
             {{ __('Una vez elimines tu cuenta, todos tus datos y recursos se borrarán de forma permanente. Si deseas conservar algo, descárgalo antes de continuar.') }}
         </p>
     </header>
@@ -39,7 +39,7 @@
 
             {{-- CAMPO DE CONTRASEÑA --}}
             <div class="mt-4">
-                <x-input-label for="password" value="{{ __('Contraseña') }}" class="text-azul" />
+                <x-input-label for="password" value="{{ __('Contraseña') }}" class="text-azul dark:text-white" />
 
                 <x-text-input
                     id="password"

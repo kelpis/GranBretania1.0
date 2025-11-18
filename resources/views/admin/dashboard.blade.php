@@ -1,12 +1,13 @@
 <x-app-layout>
     
-    <div class="py-8 max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-8">
+    <div class="bg-beige2 dark:bg-slate-950 -mx-4 sm:-mx-6 lg:-mx-8">
+        <div class="py-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
         {{-- BIENVENIDA --}}
         <section class="rounded-2xl bg-azul text-beige2 shadow-xl px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
                 <h1 class="text-2xl font-semibold mb-1">
-                    Hola, {{ auth()->user()->name }} 👋
+                    Hola, {{ auth()->user()->name }} 
                 </h1>
                 <p class="text-sm text-beige/90">
                     Desde aquí puedes revisar tus clases, traducciones y ajustar tu disponibilidad.
@@ -34,22 +35,22 @@
         @endphp
 
         <section class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            <article class="rounded-2xl bg-white border border-beige shadow p-4">
-                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
+            <article class="rounded-2xl bg-white border border-beige shadow p-4 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 dark:text-slate-100">
                     Reservas totales
                 </h3>
-                <p class="text-3xl font-bold text-azul">{{ $totalBookings }}</p>
-                <p class="text-xs text-gray-500 mt-1">
+                <p class="text-3xl font-bold text-azul dark:text-slate-100">{{ $totalBookings }}</p>
+                <p class="text-xs text-gray-500 mt-1 dark:text-slate-100">
                     Historial completo de clases reservadas.
                 </p>
             </article>
 
-            <article class="rounded-2xl bg-beige border border-beige shadow p-4">
-                <h3 class="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-1">
+            <article class="rounded-2xl bg-beige border border-beige shadow p-4 dark:bg-slate-800 dark:border-slate-700 dark:text-beige2">
+                <h3 class="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-1 dark:text-beige2">
                     Próximas clases
                 </h3>
-                <p class="text-3xl font-bold text-azul">{{ $upcomingBookings }}</p>
-                <p class="text-xs text-gray-700 mt-1">
+                <p class="text-3xl font-bold text-azul dark:text-slate-100">{{ $upcomingBookings }}</p>
+                <p class="text-xs text-gray-700 mt-1 dark:text-slate-100">
                     Clases programadas en el futuro.
                 </p>
             </article>
@@ -79,7 +80,7 @@
         <section class="grid lg:grid-cols-2 gap-6">
 
             {{-- PRÓXIMAS CLASES --}}
-            <div class="rounded-2xl border border-beige bg-beige2 shadow">
+            <div class="rounded-2xl border border-beige bg-beige2 shadow dark:bg-slate-950 dark:border-slate-700">
                 <div class="bg-azul text-beige2 px-5 py-3 rounded-t-2xl flex items-center justify-between">
                     <h3 class="font-semibold text-sm md:text-base">Próximas clases</h3>
                     <a href="{{ route('admin.bookings.index') }}"
@@ -91,8 +92,8 @@
                 <div class="p-5">
                     @if(isset($nextBookings) && $nextBookings->count())
                         <div class="overflow-x-auto">
-                            <table class="min-w-full text-xs md:text-sm text-azul">
-                                <thead class="bg-beige/80 border-b border-beige">
+                            <table class="min-w-full text-xs md:text-sm text-azul dark:text-beige2">
+                                <thead class="bg-beige/80 border-b border-beige dark:bg-slate-800/80 dark:border-slate-700">
                                     <tr>
                                         <th class="py-2 px-2 text-left">Fecha</th>
                                         <th class="py-2 px-2 text-left">Hora</th>
@@ -101,8 +102,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($nextBookings as $b)
-                                        <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition">
+                                        @foreach($nextBookings as $b)
+                                        <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition dark:odd:bg-slate-800 dark:even:bg-slate-900 dark:hover:bg-slate-700">
                                             <td class="py-2 px-2">
                                                 {{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}
                                             </td>
@@ -130,8 +131,8 @@
                                 </tbody>
                             </table>
                         </div>
-                    @else
-                        <p class="text-sm text-gray-600">
+                        @else
+                        <p class="text-sm text-gray-600 dark:text-slate-300">
                             No hay clases próximas registradas.
                         </p>
                     @endif
@@ -139,7 +140,7 @@
             </div>
 
             {{-- ÚLTIMAS TRADUCCIONES --}}
-            <div class="rounded-2xl border border-beige bg-beige2 shadow">
+            <div class="rounded-2xl border border-beige bg-beige2 shadow dark:bg-slate-950 dark:border-slate-700">
                 <div class="bg-azul text-beige2 px-5 py-3 rounded-t-2xl flex items-center justify-between">
                     <h3 class="font-semibold text-sm md:text-base">Últimas solicitudes de traducción</h3>
                     <a href="{{ route('admin.translations.index') }}"
@@ -151,8 +152,8 @@
                 <div class="p-5">
                     @if(isset($recentTranslations) && $recentTranslations->count())
                         <div class="overflow-x-auto">
-                            <table class="min-w-full text-xs md:text-sm text-azul">
-                                <thead class="bg-beige/80 border-b border-beige">
+                            <table class="min-w-full text-xs md:text-sm text-azul dark:text-beige2">
+                                <thead class="bg-beige/80 border-b border-beige dark:bg-slate-800/80 dark:border-slate-700">
                                     <tr>
                                         <th class="py-2 px-2 text-left">Fecha</th>
                                         <th class="py-2 px-2 text-left">Nombre</th>
@@ -161,8 +162,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($recentTranslations as $tr)
-                                        <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition">
+                                        @foreach($recentTranslations as $tr)
+                                        <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition dark:odd:bg-slate-800 dark:even:bg-slate-900 dark:hover:bg-slate-700">
                                             <td class="py-2 px-2">
                                                 {{ $tr->created_at->format('d/m/Y H:i') }}
                                             </td>
@@ -190,7 +191,7 @@
                             </table>
                         </div>
                     @else
-                        <p class="text-sm text-gray-600">
+                        <p class="text-sm text-gray-600 dark:text-slate-300">
                             No hay solicitudes de traducción recientes.
                         </p>
                     @endif
@@ -200,5 +201,6 @@
 
         
 
+        </div>
     </div>
 </x-app-layout>

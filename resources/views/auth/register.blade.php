@@ -3,8 +3,8 @@
 
 @section('content')
     <div class="max-w-2xl mx-auto my-8 text-center">
-        <h2 class="text-azul text-3xl font-semibold mb-2">¡Hello!</h2>
-        <p class="text-gray-700 text-base leading-relaxed mx-auto max-w-xl">
+        <h2 class="text-azul text-3xl font-semibold mb-2 dark:text-white">¡Hello!</h2>
+        <p class="text-gray-700 text-base leading-relaxed mx-auto max-w-xl dark:text-white">
             Regístrate para acceder a tu área personal y gestionar tus clases, presupuestos de traducción y todos tus servicios en un solo lugar.
         </p>
     </div>

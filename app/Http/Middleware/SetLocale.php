@@ -13,8 +13,14 @@ class SetLocale
 {
     public function handle(Request $request, Closure $next)
     {
-        // Si hay idioma en sesión, úsalo; si no, el de config/app.php
-        app()->setLocale(session('locale', config('app.locale')));
+        // Coge el {locale} de la URL (es / en) si existe
+        $locale = $request->route('locale');
+
+        if (! in_array($locale, ['es', 'en'])) {
+            $locale = config('app.locale'); // normalmente 'es'
+        }
+
+        app()->setLocale($locale);
 
         return $next($request);
     }

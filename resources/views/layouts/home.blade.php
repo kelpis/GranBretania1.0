@@ -4,26 +4,27 @@
 {{-- Use the layout header from `layouts.site` to avoid duplicate navs (desktop + mobile). --}}
 @section('content')
 
-    <!-- Logo grande en la home: se muestra dentro del contenido porque el header general ya gestiona el nav -->
+
+
     <div class="container mx-auto px-4 text-center mt-6">
         <a href="{{ route('home') }}" class="inline-block">
-            <img src="{{ asset('images/logoSinMargen.png') }}" alt="Gran Bretania" class="mx-auto h-64 md:h-80 w-auto">
+           
+                <img src="{{ asset('images/logoSinMargen.png') }}" alt="Gran Bretania" class="mx-auto h-64 md:h-80 w-auto dark:invert dark:brightness-0">
+            
         </a>
     </div>
 
-    
-
 
     <section class="container mx-auto px-4 pt-0 pb-14 text-center">
-        <h1 class="mt-0 bg-azul text-beige2 inline-block px-8 py-4 rounded-xl">
+        <h1 class="mt-0 bg-azul text-beige2 inline-block px-8 py-4 rounded-xl dark:bg-slate-700">
             {{ __('Enseñanza de inglés y traducciones') }}
         </h1>
 
         {{-- BLOQUE: Clases de inglés --}}
-        <section id="clases" class="bg-beige2 py-16 mt-24">
+        <section id="clases" class="bg-beige2 py-16 mt-24 dark:bg-slate-950">
             <div class="container mx-auto px-4 text-left">
 
-                <h2 class="text-azul mb-8">{{ __('Clases de inglés online') }}</h2>
+                <h2 class="text-azul mb-8 dark:text-beige2">{{ __('Clases de inglés online') }}</h2>
 
                 <div class="grid md:grid-cols-2 gap-10 items-stretch">
 
@@ -32,39 +33,45 @@
                         <div class="w-full max-w-2xl mx-auto">
                             <p class="mt-0 text-left md:text-left">
                                 {!! __(
-                                    'En :brand las clases de inglés se adaptan a ti. Con un enfoque práctico y cercano, aprenderás a comunicarte con seguridad desde el primer día. Trabajamos con una metodología flexible que combina conversación, gramática aplicada y recursos personalizados según tus objetivos.',
-                                    ['brand' => '<span class="font-semibold">Gran Bretania</span>']
-                                ) !!}
+        'En :brand las clases de inglés se adaptan a ti. Con un enfoque práctico y cercano, aprenderás a comunicarte con seguridad desde el primer día. Trabajamos con una metodología flexible que combina conversación, gramática aplicada y recursos personalizados según tus objetivos.',
+        ['brand' => '<span class="font-semibold">Gran Bretania</span>']
+    ) !!}
                             </p>
 
                             {{-- Tipos de clases (resumen) --}}
                             <ul class="mt-6 grid sm:grid-cols-2 gap-4 text-base">
-                                <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
+                                <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6 dark:bg-azul">
                                     <span aria-hidden="true">🗣️</span>
                                     <div>
                                         <h3 class="font-semibold mb-2">{{ __('Conversación práctica') }}</h3>
-                                        <p class="opacity-80 leading-snug">{{ __('Gana fluidez y naturalidad al hablar.') }}</p>
+                                        <p class="opacity-80 leading-snug">{{ __('Gana fluidez y naturalidad al hablar.') }}
+                                        </p>
                                     </div>
                                 </li>
-                                <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
+                                <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6 dark:bg-azul">
                                     <span aria-hidden="true">🎯</span>
                                     <div>
                                         <h3 class="font-semibold mb-2">{{ __('Preparación de exámenes') }}</h3>
-                                        <p class="opacity-80 leading-snug">{{ __('Cambridge, IELTS u objetivos académicos.') }}</p>
+                                        <p class="opacity-80 leading-snug">
+                                            {{ __('Cambridge, IELTS u objetivos académicos.') }}
+                                        </p>
                                     </div>
                                 </li>
-                                <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
+                                <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6 dark:bg-azul">
                                     <span aria-hidden="true">💼</span>
                                     <div>
                                         <h3 class="font-semibold mb-2">{{ __('Inglés profesional') }}</h3>
-                                        <p class="opacity-80 leading-snug">{{ __('Trabajo, presentaciones y entrevistas.') }}</p>
+                                        <p class="opacity-80 leading-snug">
+                                            {{ __('Trabajo, presentaciones y entrevistas.') }}
+                                        </p>
                                     </div>
                                 </li>
-                                <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6">
+                                <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6 dark:bg-azul">
                                     <span aria-hidden="true">📚</span>
                                     <div>
                                         <h3 class="font-semibold mb-2">{{ __('Refuerzo general') }}</h3>
-                                        <p class="opacity-80 leading-snug">{{ __('Comprensión, escritura y gramática.') }}</p>
+                                        <p class="opacity-80 leading-snug">{{ __('Comprensión, escritura y gramática.') }}
+                                        </p>
                                     </div>
                                 </li>
                             </ul>
@@ -91,34 +98,40 @@
         </section>
 
         {{-- BLOQUE: Por qué elegirnos (Home) --}}
-        <section class="bg-beige2 py-16 mt-6">
+        <section class="bg-beige2 py-16 mt-6 dark:bg-slate-950">
             <div class="container mx-auto px-4 text-center">
-                <h2 class="text-azul">{{ __('¿Por qué elegirnos?') }}</h2>
-                <p class="mt-2 opacity-80">{{ __('Tres razones para empezar hoy mismo') }}</p>
+                <h2 class="text-azul dark:text-beige2">{{ __('¿Por qué elegirnos?') }}</h2>
+                <p class="mt-2 opacity-80 dark:text-slate-100">{{ __('Tres razones para empezar hoy mismo') }}</p>
 
                 <div class="mt-10 grid md:grid-cols-3 gap-10">
                     <div>
                         <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full border-2 border-azul">
                             <span class="text-3xl" aria-hidden="true">🌐</span>
                         </div>
-                        <h3 class="mt-5 font-semibold tracking-wide">{{ __('Totalmente online') }}</h3>
-                        <p class="mt-2 opacity-80">{{ __('Clases flexibles según tu disponibilidad.') }}</p>
+                        <h3 class="mt-5 font-semibold tracking-wide dark:text-beige2">{{ __('Totalmente online') }}</h3>
+                        <p class="mt-2 opacity-80 dark:text-slate-100">{{ __('Clases flexibles según tu disponibilidad.') }}
+                        </p>
                     </div>
 
                     <div>
                         <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full border-2 border-azul">
                             <span class="text-3xl" aria-hidden="true">💬</span>
                         </div>
-                        <h3 class="mt-5 font-semibold tracking-wide">{{ __('Seguimiento personalizado') }}</h3>
-                        <p class="mt-2 opacity-80">{{ __('Plan y feedback adaptados a tus objetivos.') }}</p>
+                        <h3 class="mt-5 font-semibold tracking-wide dark:text-beige2">{{ __('Seguimiento personalizado') }}
+                        </h3>
+                        <p class="mt-2 opacity-80 dark:text-slate-100">
+                            {{ __('Plan y feedback adaptados a tus objetivos.') }}
+                        </p>
                     </div>
 
                     <div>
                         <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full border-2 border-azul">
                             <span class="text-3xl" aria-hidden="true">📘</span>
                         </div>
-                        <h3 class="mt-5 font-semibold tracking-wide">{{ __('Material actualizado') }}</h3>
-                        <p class="mt-2 opacity-80">{{ __('Recursos actuales y prácticos para progresar.') }}</p>
+                        <h3 class="mt-5 font-semibold tracking-wide dark:text-beige2">{{ __('Material actualizado') }}</h3>
+                        <p class="mt-2 opacity-80 dark:text-slate-100">
+                            {{ __('Recursos actuales y prácticos para progresar.') }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -153,13 +166,13 @@
     </section>
 
     {{-- BLOQUE: Traducciones --}}
-    <section id="traducciones" class="bg-beige2 py-16 mt-24">
+    <section id="traducciones" class="bg-beige2 py-16 mt-24 dark:bg-slate-950">
         <div class="container mx-auto px-4">
 
             <div class="grid md:grid-cols-2">
                 <div></div>
                 <div>
-                    <h2 class="text-azul mb-6 max-w-2xl">{{ __('Traducciones profesionales') }}</h2>
+                    <h2 class="text-azul mb-6 max-w-2xl dark:text-beige2">{{ __('Traducciones profesionales') }}</h2>
                 </div>
             </div>
 
@@ -167,8 +180,7 @@
 
                 {{-- Imagen--}}
                 <div class="h-full">
-                    <img src="{{ asset('images/definicion.jpg') }}"
-                        alt="{{ __('Servicio de traducciones profesionales') }}"
+                    <img src="{{ asset('images/definicion.jpg') }}" alt="{{ __('Servicio de traducciones profesionales') }}"
                         class="w-full h-full object-cover rounded-card shadow-sm">
                 </div>
 
@@ -178,14 +190,14 @@
                         <div class="flex-1 max-w-2xl">
                             <p>
                                 {!! __(
-                                    'En :brand ofrecemos traducciones precisas, naturales y adaptadas al contexto. Cada encargo se realiza con atención al detalle y total confidencialidad, garantizando un resultado fiel al significado y tono original del texto.',
-                                    ['brand' => '<span class="font-semibold">Gran Bretania</span>']
-                                ) !!}
+        'En :brand ofrecemos traducciones precisas, naturales y adaptadas al contexto. Cada encargo se realiza con atención al detalle y total confidencialidad, garantizando un resultado fiel al significado y tono original del texto.',
+        ['brand' => '<span class="font-semibold">Gran Bretania</span>']
+    ) !!}
                             </p>
 
                             {{-- Tipos de traducción (resumen) --}}
                             <ul class="mt-6 grid sm:grid-cols-2 gap-4 text-base">
-                                <li class="card flex items-start gap-3 bg-beige">
+                                <li class="card flex items-start gap-3 bg-beige dark:bg-slate-900">
                                     <span aria-hidden="true">⚖️</span>
                                     <div>
                                         <h3 class="font-semibold mb-2">{{ __('Jurídica') }}</h3>
@@ -194,7 +206,7 @@
                                         </p>
                                     </div>
                                 </li>
-                                <li class="card flex items-start gap-3 bg-beige">
+                                <li class="card flex items-start gap-3 bg-beige dark:bg-slate-900">
                                     <span aria-hidden="true">💊</span>
                                     <div>
                                         <h3 class="font-semibold mb-2">{{ __('Médica') }}</h3>
@@ -203,7 +215,7 @@
                                         </p>
                                     </div>
                                 </li>
-                                <li class="card flex items-start gap-3 bg-beige">
+                                <li class="card flex items-start gap-3 bg-beige dark:bg-slate-900">
                                     <span aria-hidden="true">🎓</span>
                                     <div>
                                         <h3 class="font-semibold mb-2">{{ __('Académica') }}</h3>
@@ -212,7 +224,7 @@
                                         </p>
                                     </div>
                                 </li>
-                                <li class="card flex items-start gap-3 bg-beige">
+                                <li class="card flex items-start gap-3 bg-beige dark:bg-slate-900">
                                     <span aria-hidden="true">🎬</span>
                                     <div>
                                         <h3 class="font-semibold mb-2">{{ __('Audiovisual') }}</h3>
@@ -232,12 +244,10 @@
                 <div></div>
                 <div class="mt-8">
                     <div class="max-w-2xl ml-auto flex flex-col sm:flex-row sm:justify-evenly items-center gap-3">
-                        <a href="{{ route('translation.create') }}"
-                           class="btn-primary w-full sm:w-auto text-center">
+                        <a href="{{ route('translation.create') }}" class="btn-primary w-full sm:w-auto text-center">
                             {{ __('Solicitar traducción') }}
                         </a>
-                        <a href="{{ route('traducciones') }}"
-                           class="btn-secondary w-full sm:w-auto text-center">
+                        <a href="{{ route('traducciones') }}" class="btn-secondary w-full sm:w-auto text-center">
                             {{ __('Ver más información') }}
                         </a>
                     </div>
@@ -249,8 +259,7 @@
     <section id="empresas" class="relative py-20 text-white overflow-hidden mt-24">
         {{-- Imagen de fondo --}}
         <div class="absolute inset-0">
-            <img src="{{ asset('images/empresarios.jpg') }}"
-                alt="{{ __('Solución integral en inglés para empresas') }}"
+            <img src="{{ asset('images/empresarios.jpg') }}" alt="{{ __('Solución integral en inglés para empresas') }}"
                 class="w-full h-full object-cover brightness-90">
         </div>
 
@@ -323,17 +332,17 @@
         </div>
     </section>
 
-    <section class="bg-beige2 py-16 mt-24">
+    <section class="bg-beige2 py-16 mt-24 dark:bg-slate-950">
         <div class="container mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
             <img src="{{ asset('images/tania.png') }}" alt="{{ __('Tania Morais Villar') }}"
                 class="rounded-xl shadow-md object-cover object-top h-80 w-full">
             <div>
-                <h2 class="text-azul text-3xl font-semibold mb-4">{{ __('Sobre mí') }}</h2>
-                <p class="text-gray-700 leading-relaxed">
+                <h2 class="text-azul text-3xl font-semibold mb-4 dark:text-beige2">{{ __('Sobre mí') }}</h2>
+                <p class="text-gray-700 leading-relaxed dark:text-slate-100">
                     {!! __(
-                        'Soy Tania, profesora de inglés y traductora profesional. En :brand combino años de experiencia docente con una atención personalizada, adaptando cada clase o proyecto a las necesidades de mis alumnos y clientes.',
-                        ['brand' => '<strong>Gran Bretania</strong>']
-                    ) !!}
+        'Soy Tania, profesora de inglés y traductora profesional. En :brand combino años de experiencia docente con una atención personalizada, adaptando cada clase o proyecto a las necesidades de mis alumnos y clientes.',
+        ['brand' => '<strong>Gran Bretania</strong>']
+    ) !!}
                 </p>
                 <a href="{{ route('sobremi') }}" class="btn-secondary mt-6 inline-block">
                     {{ __('Conóceme mejor') }}
@@ -342,9 +351,9 @@
         </div>
     </section>
 
-    <section id="opiniones" class="bg-beige py-8 mt-12">
+    <section id="opiniones" class="bg-beige py-8 mt-12 dark:bg-slate-950">
         <div class="container mx-auto px-4 text-center">
-            <h2 class="text-azul mb-6 text-2xl">
+            <h2 class="text-azul mb-6 text-2xl dark:text-beige2">
                 {{ __('Opiniones de nuestros alumnos y clientes') }}
             </h2>
 
@@ -358,34 +367,34 @@
                             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                                 {{-- Opinión 1 --}}
-                                <div class="card bg-white">
+                                <div class="card bg-white dark:bg-slate-900">
                                     <div class="flex flex-col items-center text-center p-4">
                                         <p class="italic text-sm">
                                             {{ __('Las clases con Tania me ayudaron a ganar confianza hablando en inglés. El ambiente es cercano y muy profesional.') }}
                                         </p>
-                                        <p class="mt-3 font-semibold text-azul text-sm">María L.</p>
+                                        <p class="mt-3 font-semibold text-azul text-sm dark:text-beige2">María L.</p>
                                         <p class="text-xs opacity-80">{{ __('Estudiante de conversación') }}</p>
                                     </div>
                                 </div>
 
                                 {{-- Opinión 2 --}}
-                                <div class="card bg-white">
+                                <div class="card bg-white dark:bg-slate-900">
                                     <div class="flex flex-col items-center text-center p-4">
                                         <p class="italic text-base">
                                             {{ __('Encargué una traducción médica y quedé encantada con la precisión y rapidez. Muy recomendable.') }}
                                         </p>
-                                        <p class="mt-4 font-semibold text-azul">Laura G.</p>
+                                        <p class="mt-4 font-semibold text-azul dark:text-beige2">Laura G.</p>
                                         <p class="text-sm opacity-80">{{ __('Cliente de traducción') }}</p>
                                     </div>
                                 </div>
 
                                 {{-- Opinión 3 --}}
-                                <div class="card bg-white">
+                                <div class="card bg-white dark:bg-slate-900">
                                     <div class="flex flex-col items-center text-center p-4">
                                         <p class="italic text-base">
                                             {{ __('Las clases online son dinámicas y se adaptan a mis horarios. Aprender inglés así da gusto.') }}
                                         </p>
-                                        <p class="mt-4 font-semibold text-azul">David R.</p>
+                                        <p class="mt-4 font-semibold text-azul dark:text-beige2">David R.</p>
                                         <p class="text-sm opacity-80">{{ __('Alumno de inglés profesional') }}</p>
                                     </div>
                                 </div>
@@ -398,34 +407,34 @@
                             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                                 {{-- Opinión 4 --}}
-                                <div class="card bg-white">
+                                <div class="card bg-white dark:bg-slate-900">
                                     <div class="flex flex-col items-center text-center p-4">
                                         <p class="italic text-sm">
                                             {{ __('Preparé con Tania una presentación importante en inglés y salió muchísimo mejor de lo que esperaba. Me ayudó con el vocabulario y con la seguridad al hablar.') }}
                                         </p>
-                                        <p class="mt-3 font-semibold text-azul text-sm">Ana P.</p>
+                                        <p class="mt-3 font-semibold text-azul text-sm dark:text-beige2">Ana P.</p>
                                         <p class="text-xs opacity-80">{{ __('Inglés profesional') }}</p>
                                     </div>
                                 </div>
 
                                 {{-- Opinión 5 --}}
-                                <div class="card bg-white">
+                                <div class="card bg-white dark:bg-slate-900">
                                     <div class="flex flex-col items-center text-center p-4">
                                         <p class="italic text-base">
                                             {{ __('Las clases son amenas, muy personalizadas y siempre me voy con la sensación de haber aprendido algo útil. Totalmente recomendable.') }}
                                         </p>
-                                        <p class="mt-4 font-semibold text-azul">Jorge M.</p>
+                                        <p class="mt-4 font-semibold text-azul dark:text-beige2">Jorge M.</p>
                                         <p class="text-sm opacity-80">{{ __('Alumno de nivel B1') }}</p>
                                     </div>
                                 </div>
 
                                 {{-- Opinión 6 --}}
-                                <div class="card bg-white">
+                                <div class="card bg-white dark:bg-slate-900">
                                     <div class="flex flex-col items-center text-center p-4">
                                         <p class="italic text-base">
                                             {{ __('Necesitábamos una traducción para un proyecto internacional y Tania nos entregó un trabajo impecable. Comunicación rápida y resultados excelentes.') }}
                                         </p>
-                                        <p class="mt-4 font-semibold text-azul">Estudio Creativo Nexo</p>
+                                        <p class="mt-4 font-semibold text-azul dark:text-beige2">Estudio Creativo Nexo</p>
                                         <p class="text-sm opacity-80">{{ __('Cliente de traducción empresarial') }}</p>
                                     </div>
                                 </div>
@@ -438,34 +447,34 @@
                             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                                 {{-- Opinión 7 --}}
-                                <div class="card bg-white">
+                                <div class="card bg-white dark:bg-slate-900">
                                     <div class="flex flex-col items-center text-center p-4">
                                         <p class="italic text-sm">
                                             {{ __('Gracias a las clases pude presentarme al examen de Cambridge con mucha más tranquilidad. Trabajamos justo lo que necesitaba.') }}
                                         </p>
-                                        <p class="mt-3 font-semibold text-azul text-sm">Clara S.</p>
+                                        <p class="mt-3 font-semibold text-azul text-sm dark:text-beige2">Clara S.</p>
                                         <p class="text-xs opacity-80">{{ __('Preparación Cambridge') }}</p>
                                     </div>
                                 </div>
 
                                 {{-- Opinión 8 --}}
-                                <div class="card bg-white">
+                                <div class="card bg-white dark:bg-slate-900">
                                     <div class="flex flex-col items-center text-center p-4">
                                         <p class="italic text-base">
                                             {{ __('Organizamos clases para el equipo y hemos notado mejora real en las reuniones con clientes internacionales.') }}
                                         </p>
-                                        <p class="mt-4 font-semibold text-azul">Dept. Ventas</p>
+                                        <p class="mt-4 font-semibold text-azul dark:text-beige2">Dept. Ventas</p>
                                         <p class="text-sm opacity-80">{{ __('Formación in-company') }}</p>
                                     </div>
                                 </div>
 
                                 {{-- Opinión 9 --}}
-                                <div class="card bg-white">
+                                <div class="card bg-white dark:bg-slate-900">
                                     <div class="flex flex-col items-center text-center p-4">
                                         <p class="italic text-base">
                                             {{ __('Contamos con Tania para una sesión de interpretación online y todo fluyó sin problemas, tanto a nivel técnico como de idioma.') }}
                                         </p>
-                                        <p class="mt-4 font-semibold text-azul">Marcos V.</p>
+                                        <p class="mt-4 font-semibold text-azul dark:text-beige2">Marcos V.</p>
                                         <p class="text-sm opacity-80">{{ __('Servicio de interpretación') }}</p>
                                     </div>
                                 </div>
@@ -478,26 +487,18 @@
 
                 {{-- Puntos --}}
                 <div class="flex justify-center gap-2 mt-4">
-                    <button type="button" class="w-2.5 h-2.5 rounded-full bg-azul"
-                        data-opinion-dot="0"
+                    <button type="button" class="w-2.5 h-2.5 rounded-full bg-azul" data-opinion-dot="0"
                         aria-label="{{ __('Opiniones 1 a 3') }}"></button>
 
-                    <button type="button" class="w-2 h-2 rounded-full bg-beige2"
-                        data-opinion-dot="1"
+                    <button type="button" class="w-2 h-2 rounded-full bg-beige2" data-opinion-dot="1"
                         aria-label="{{ __('Opiniones 4 a 6') }}"></button>
 
-                    <button type="button" class="w-2 h-2 rounded-full bg-beige2"
-                        data-opinion-dot="2"
+                    <button type="button" class="w-2 h-2 rounded-full bg-beige2" data-opinion-dot="2"
                         aria-label="{{ __('Opiniones 7 a 9') }}"></button>
                 </div>
 
             </div>
         </div>
     </section>
-
-
-
-
-
 
 @endsection

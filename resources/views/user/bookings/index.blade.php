@@ -90,13 +90,13 @@
                                 @endphp
 
                                 {{-- FILAS ZEBRA + HOVER CORPORATIVO --}}
-                                <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition">
+                                <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition dark:odd:bg-slate-800 dark:even:bg-slate-900 dark:hover:bg-slate-700">
 
-                                    <td class="py-3 px-4 font-medium text-negro">
+                                    <td class="py-3 px-4 font-medium text-negro dark:text-white">
                                         {{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}
                                     </td>
 
-                                    <td class="py-3 px-4 text-negro">
+                                    <td class="py-3 px-4 text-negro dark:text-white">
                                         {{ substr($b->class_time, 0, 5) }}
                                     </td>
 

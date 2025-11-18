@@ -7,8 +7,8 @@
     {{-- Separar del header y centrar título y párrafo debajo del h1 --}}
     {{-- Usamos my-12 para tener la misma separación arriba y abajo del bloque --}}
     <div class="max-w-2xl mx-auto my-12 text-center">
-        <h2 class="text-azul text-3xl font-semibold mb-2">¡Bienvenid@ de nuevo!</h2>
-        <p class="text-gray-700 text-base leading-relaxed mx-auto max-w-xl">
+        <h2 class="text-azul text-3xl font-semibold mb-2 dark:text-white">¡Hola de nuevo!</h2>
+        <p class="text-gray-700 text-base leading-relaxed mx-auto max-w-xl dark:text-white">
             Nos alegra verte por aquí. Accede para continuar aprendiendo inglés o enviar tus nuevos encargos de traducción.
         </p>
     </div>

@@ -1,7 +1,7 @@
 @if(auth()->check() && auth()->user()->is_admin)
     @include('layouts.navigationAdmin')
 @else
-    <nav x-data="{ open: false }" class="w-screen bg-beige border-b border-gray-100 -mx-4 sm:-mx-6 lg:-mx-8">
+    <nav x-data="{ open: false }" class="w-screen bg-beige dark:bg-slate-800/90 dark:text-beige2 border-b border-gray-100 dark:border-slate-700 -mx-4 sm:-mx-6 lg:-mx-8">
         <!-- Primary Navigation Menu (full-bleed content groups) -->
         <div class="w-full">
             <div class="w-full flex items-center justify-between h-16">
@@ -9,12 +9,12 @@
                     <!-- Logo -->
                     <div class="shrink-0 flex items-center pl-3 sm:pl-6">
                         <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
-                            <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania" class="h-16 w-auto">
+                            <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania" class="h-16 w-auto dark:invert dark:brightness-0">
                         </a>
                     </div>
 
                     <!-- Navigation Links -->
-                    <div class="hidden space-x-8 sm:flex text-azul tracking-wide">
+                    <div class="hidden space-x-8 sm:flex text-azul dark:text-white tracking-wide">
                         <x-nav-link :href="route('bookings.create')" :active="request()->routeIs('bookings.create')">
                             {{ __('Reservar clase') }}
                         </x-nav-link>
@@ -45,20 +45,16 @@
                 <!-- Right side: user / guest links (desktop) + hamburger (mobile) -->
                 <div class="flex items-center gap-3 pr-3 sm:pr-6">
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
-                        <!-- Language selector -->
-                        <div class="hidden sm:flex items-center gap-2 me-4">
-                            <a href="{{ route('locale.switch', 'es') }}" class="text-sm hover:underline {{ app()->getLocale() === 'es' ? 'font-semibold' : '' }}">ES</a>
-                            <span class="text-sm text-gray-400">|</span>
-                            <a href="{{ route('locale.switch', 'en') }}" class="text-sm hover:underline {{ app()->getLocale() === 'en' ? 'font-semibold' : '' }}">EN</a>
-                        </div>
+                    
+                        
                         @auth
 
                             <!-- User dropdown -->
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
 
-                                    <button class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium
-                                       bg-beige2 text-azul border border-azul/20 shadow-sm
+                                        <button class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium
+                                       bg-beige2 dark:bg-slate-800/80 dark:text-beige2 text-azul border border-azul/20 dark:border-slate-600 shadow-sm
                                        hover:bg-azul hover:text-beige2 transition duration-150 ease-in-out">
 
                                         <div class="font-semibold">{{ auth()->user()->name }}</div>
@@ -101,15 +97,15 @@
 
                     @guest
                         <div class="hidden sm:flex items-center gap-3">
-                            <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-gray-900">Iniciar sesión</a>
-                            <a href="{{ route('register') }}" class="text-sm text-gray-600 hover:text-gray-900">Registrarse</a>
+                            <a href="{{ route('login') }}" class="text-sm text-gray-600 dark:text-beige2 hover:text-gray-900 dark:hover:text-beige2">Iniciar sesión</a>
+                            <a href="{{ route('register') }}" class="text-sm text-gray-600 dark:text-beige2 hover:text-gray-900 dark:hover:text-beige2">Registrarse</a>
                         </div>
                     @endguest
 
                     <!-- Hamburger (mobile): aligned to the right and spaced from the edge -->
                     <div class="pr-3 sm:pr-6 flex sm:hidden">
                         <button @click="open = ! open"
-                            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-beige2 hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-slate-800 focus:text-gray-500 transition duration-150 ease-in-out">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                 <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round"
                                     stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -123,12 +119,9 @@
         </div>
 
         <!-- Responsive Navigation Menu -->
-        <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden w-screen bg-beige">
+        <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden w-screen bg-beige dark:bg-slate-800/95 dark:text-beige2">
             <div class="pt-2 pb-3 space-y-1">
-                <div class="px-4 py-2 flex items-center gap-3">
-                    <a href="{{ route('locale.switch', 'es') }}" class="text-sm hover:underline {{ app()->getLocale() === 'es' ? 'font-semibold' : '' }}">ES</a>
-                    <a href="{{ route('locale.switch', 'en') }}" class="text-sm hover:underline {{ app()->getLocale() === 'en' ? 'font-semibold' : '' }}">EN</a>
-                </div>
+              
                 
                 <!-- Enlaces añadidos: Reservar clase y Solicitar traducción -->
                 <x-responsive-nav-link :href="route('bookings.create')" :active="request()->routeIs('bookings.create')">
@@ -176,14 +169,14 @@
             </div>
 
             <!-- Responsive Settings Options -->
-            <div class="pt-4 pb-1 border-t border-gray-200">
+            <div class="pt-4 pb-1 border-t border-gray-200 dark:border-slate-700">
                 <div class="px-4">
                     @auth
-                        <div class="font-medium text-base text-gray-800">{{ auth()->user()->name }}</div>
-                        <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
+                        <div class="font-medium text-base text-gray-800 dark:text-beige2">{{ auth()->user()->name }}</div>
+                        <div class="font-medium text-sm text-gray-500 dark:text-beige2">{{ auth()->user()->email }}</div>
                     @else
-                        <div class="font-medium text-base text-gray-800">Invitado</div>
-                        <div class="font-medium text-sm text-gray-500">No has iniciado sesión</div>
+                        <div class="font-medium text-base text-gray-800 dark:text-beige2">Invitado</div>
+                        <div class="font-medium text-sm text-gray-500 dark:text-beige2">No has iniciado sesión</div>
                     @endauth
                 </div>
 

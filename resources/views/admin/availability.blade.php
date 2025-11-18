@@ -1,17 +1,18 @@
 <x-app-layout>
 
 
-  <div class="py-8 max-w-6xl mx-auto space-y-8 sm:px-6 lg:px-8">
+  <div class="bg-beige2 dark:bg-slate-950 -mx-4 sm:-mx-6 lg:-mx-8">
+  <div class="py-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
     {{-- NOTIFICACIONES --}}
     @if (session('ok'))
-      <div class="p-3 rounded-lg bg-ok/20 border border-ok/40 text-ok shadow-md">
+      <div class="p-3 rounded-lg bg-ok/20 border border-ok/40 text-ok shadow-md dark:bg-emerald-950 dark:text-emerald-100 dark:border-emerald-500/60">
         {{ session('ok') }}
       </div>
     @endif
 
     @if (session('error'))
-      <div class="p-3 rounded-lg bg-rojo/20 border border-rojo/40 text-rojo shadow-md">
+      <div class="p-3 rounded-lg bg-rojo/20 border border-rojo/40 text-rojo shadow-md dark:bg-rose-900 dark:text-rose-100 dark:border-rose-500/70">
         {{ session('error') }}
       </div>
     @endif
@@ -21,8 +22,8 @@
     {{-- ============================= --}}
     {{-- FRANJA PUNTUAL (AZUL FUERTE) --}}
     {{-- ============================= --}}
-    <div class="rounded-2xl shadow-xl border border-azul bg-azul/10 p-6 space-y-4">
-      <h3 class="font-semibold text-azul text-lg border-b border-azul/30 pb-2">
+    <div class="rounded-2xl shadow-xl border border-azul bg-azul/10 p-6 space-y-4 dark:bg-slate-700 dark:border-slate-700">
+      <h3 class="font-semibold text-azul text-lg border-b border-azul/30 pb-2 dark:text-white">
         Añadir o actualizar franja puntual
       </h3>
 
@@ -30,11 +31,11 @@
         @csrf
 
         <input type="date" name="date"
-          class="p-2 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul"
+          class="p-2 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
           required>
 
         <select name="start_time"
-          class="p-2 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul"
+          class="p-2 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
           required>
           @for($h = 0; $h < 24; $h++)
             <option>{{ str_pad($h, 2, '0', STR_PAD_LEFT) }}:00</option>
@@ -42,7 +43,7 @@
         </select>
 
         <select name="end_time"
-          class="p-2 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul"
+          class="p-2 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
           required>
           @for($h = 0; $h <= 24; $h++)
             <option>{{ $h === 24 ? '24:00' : str_pad($h, 2, '0', STR_PAD_LEFT) . ':00' }}</option>
@@ -50,7 +51,7 @@
         </select>
 
         <select name="status"
-          class="p-2 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul">
+          class="p-2 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700">
           <option value="available">Disponible</option>
           <option value="blocked">Bloqueado</option>
         </select>
@@ -64,7 +65,7 @@
     {{-- ======================== --}}
     {{-- BLOQUEAR DÍA (ROJO) --}}
     {{-- ======================== --}}
-    <div class="rounded-2xl shadow-xl border border-rojo bg-rojo/10 p-6">
+    <div class="rounded-2xl shadow-xl border border-rojo bg-rojo/10 p-6 dark:bg-slate-700 dark:border-slate-700">
       <h3 class="font-semibold text-rojo text-lg border-b border-rojo/30 pb-2">
         Bloquear día completo
       </h3>
@@ -75,7 +76,7 @@
         <div>
           <label class="block text-xs text-rojo">Fecha</label>
           <input type="date" name="date"
-            class="p-2 rounded-lg bg-white border border-rojo/50 text-azul focus:ring-rojo focus:border-rojo shadow-sm"
+            class="p-2 rounded-lg bg-white border border-rojo/50 text-azul focus:ring-rojo focus:border-rojo shadow-sm dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
             required>
         </div>
 
@@ -105,7 +106,7 @@
     {{-- ================================= --}}
     {{-- GENERAR EN LOTE (AZUL MÁS MARCADO) --}}
     {{-- ================================= --}}
-    <div class="rounded-2xl shadow-xl border border-azul bg-azul/10 p-6 space-y-4">
+    <div class="rounded-2xl shadow-xl border border-azul bg-azul/10 p-6 space-y-4 dark:bg-slate-700 dark:border-slate-700">
       <h3 class="font-semibold text-azul text-lg border-b border-azul/30 pb-2">
         Generar franjas (lote)
       </h3>
@@ -114,16 +115,16 @@
         @csrf
 
         <div>
-          <label class="block text-xs text-gray-700">Desde</label>
+          <label class="block text-xs text-gray-700 dark:text-white">Desde</label>
           <input type="date" name="from_date"
-            class="h-10 p-2 md:p-3 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul"
+            class="h-10 p-2 md:p-3 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
             required>
         </div>
 
         <div>
-          <label class="block text-xs text-gray-700">Hasta</label>
+          <label class="block text-xs text-gray-700 dark:text-white">Hasta</label>
           <input type="date" name="to_date"
-            class="h-10 p-2 md:p-3 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul"
+            class="h-10 p-2 md:p-3 rounded-lg bg-white border border-azul/50 text-azul shadow-sm focus:ring-azul focus:border-azul dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
             required>
         </div>
 
@@ -154,13 +155,13 @@
     {{-- ======================== --}}
     {{-- TABLA (TOTAL BLUE MODE) --}}
     {{-- ======================== --}}
-    <div class="rounded-2xl shadow-xl border border-azul bg-azul/5 p-6">
+    <div class="rounded-2xl shadow-xl border border-azul bg-azul/5 p-6 dark:bg-slate-700 dark:border-slate-700">
       <h3 class="font-semibold text-azul text-lg mb-3">Franjas</h3>
 
       <!-- Mobile: tarjetas (visible en sm and below) -->
       <div class="md:hidden space-y-3">
         @forelse ($slots as $s)
-          <div class="bg-white p-4 rounded-lg border shadow-sm">
+          <div class="bg-white p-4 rounded-lg border shadow-sm dark:bg-slate-900 dark:text-slate-100">
             <div class="flex items-start justify-between">
               <div>
                 <div class="text-xs text-gray-500">Fecha</div>
@@ -185,14 +186,14 @@
             </div>
           </div>
         @empty
-          <div class="py-4 text-center text-gray-500">No hay franjas creadas.</div>
+          <div class="py-4 text-center text-gray-500 dark:text-slate-300">No hay franjas creadas.</div>
         @endforelse
       </div>
 
       <!-- Desktop/tablet: tabla (md+) -->
       <div class="hidden md:block overflow-x-auto">
-        <table class="min-w-full text-sm text-azul">
-          <thead class="bg-azul text-beige2 uppercase text-xs tracking-wide">
+        <table class="min-w-full text-sm text-azul dark:text-beige2">
+          <thead class="bg-azul text-beige2 uppercase text-xs tracking-wide dark:bg-slate-800/90 dark:text-beige2">
             <tr>
               <th class="py-3 px-3 text-left">Fecha</th>
               <th class="py-3 px-3 text-left">Inicio</th>
@@ -204,7 +205,7 @@
 
           <tbody>
             @forelse ($slots as $s)
-              <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/10 transition">
+              <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/10 transition dark:odd:bg-slate-800 dark:even:bg-slate-900 dark:hover:bg-slate-700">
                 <td class="py-3 px-3">{{ \Carbon\Carbon::parse($s->date)->format('d/m/Y') }}</td>
                 <td class="py-3 px-3">{{ substr($s->start_time, 0, 5) }}</td>
                 <td class="py-3 px-3">{{ substr($s->end_time, 0, 5) }}</td>
@@ -231,7 +232,7 @@
               </tr>
             @empty
               <tr>
-                <td colspan="5" class="py-4 text-center text-gray-500">No hay franjas creadas.</td>
+                <td colspan="5" class="py-4 text-center text-gray-500 dark:text-slate-300">No hay franjas creadas.</td>
               </tr>
             @endforelse
           </tbody>
@@ -241,6 +242,7 @@
       <div class="mt-4">
         {{ $slots->links() }}
       </div>
+    </div>
     </div>
   </div>
 </x-app-layout>

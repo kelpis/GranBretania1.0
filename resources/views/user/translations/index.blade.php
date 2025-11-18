@@ -80,25 +80,25 @@
 
                         <tbody>
                             @foreach($items as $t)
-                                <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition">
+                                <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition dark:odd:bg-slate-800 dark:even:bg-slate-900 dark:hover:bg-slate-700">
 
-                                    <td class="py-3 px-4 font-medium text-negro">
+                                    <td class="py-3 px-4 font-medium text-negro dark:text-white">
                                         {{ \Carbon\Carbon::parse($t->created_at)->format('d/m/Y H:i') }}
                                     </td>
 
-                                    <td class="py-3 px-4 text-negro">
+                                    <td class="py-3 px-4 text-negro dark:text-white">
                                         {{ strtoupper($t->source_lang) }} → {{ strtoupper($t->target_lang) }}
                                     </td>
 
-                                    <td class="py-3 px-4 text-negro">
+                                    <td class="py-3 px-4 text-negro dark:text-white">
                                         {{ ucfirst($t->urgency) }}
                                     </td>
 
-                                    <td class="py-3 px-4 text-negro">
+                                    <td class="py-3 px-4 text-negro dark:text-white">
                                         {{ \Illuminate\Support\Str::limit($t->comments, 80) }}
                                     </td>
 
-                                    <td class="py-3 px-4 text-negro">
+                                    <td class="py-3 px-4 text-negro dark:text-white">
                                         @if($t->file_path && \Illuminate\Support\Facades\Storage::disk('local')->exists($t->file_path))
                                             <a href="{{ route('user.translations.download', $t->id) }}" class="text-blue-600">Descargar</a>
                                         @else
