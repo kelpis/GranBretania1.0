@@ -21,4 +21,13 @@
 	"Subject": "Asunto",
 	"Send": "Enviar",
 	"Booking class":"Reservar clase"
+,
+	"Profile": "Perfil",
+	"Logout": "Cerrar sesión",
+	"Login": "Iniciar sesión",
+	"Guest": "Invitado",
+	"Mis clases": "Mis clases",
+	"Mis traducciones": "Mis traducciones",
+	"Disponibilidad": "Disponibilidad",
+	"Mis reservas": "Mis reservas"
 }

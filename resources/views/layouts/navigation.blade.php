@@ -45,6 +45,12 @@
                 <!-- Right side: user / guest links (desktop) + hamburger (mobile) -->
                 <div class="flex items-center gap-3 pr-3 sm:pr-6">
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
+                        <!-- Language selector -->
+                        <div class="hidden sm:flex items-center gap-2 me-4">
+                            <a href="{{ route('locale.switch', 'es') }}" class="text-sm hover:underline {{ app()->getLocale() === 'es' ? 'font-semibold' : '' }}">ES</a>
+                            <span class="text-sm text-gray-400">|</span>
+                            <a href="{{ route('locale.switch', 'en') }}" class="text-sm hover:underline {{ app()->getLocale() === 'en' ? 'font-semibold' : '' }}">EN</a>
+                        </div>
                         @auth
 
                             <!-- User dropdown -->
@@ -100,8 +106,8 @@
                         </div>
                     @endguest
 
-                    <!-- Hamburger (mobile): aligned to the right and same vertical center as logo -->
-                    <div class="flex sm:hidden">
+                    <!-- Hamburger (mobile): aligned to the right and spaced from the edge -->
+                    <div class="pr-3 sm:pr-6 flex sm:hidden">
                         <button @click="open = ! open"
                             class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -119,6 +125,10 @@
         <!-- Responsive Navigation Menu -->
         <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden w-screen bg-beige">
             <div class="pt-2 pb-3 space-y-1">
+                <div class="px-4 py-2 flex items-center gap-3">
+                    <a href="{{ route('locale.switch', 'es') }}" class="text-sm hover:underline {{ app()->getLocale() === 'es' ? 'font-semibold' : '' }}">ES</a>
+                    <a href="{{ route('locale.switch', 'en') }}" class="text-sm hover:underline {{ app()->getLocale() === 'en' ? 'font-semibold' : '' }}">EN</a>
+                </div>
                 
                 <!-- Enlaces añadidos: Reservar clase y Solicitar traducción -->
                 <x-responsive-nav-link :href="route('bookings.create')" :active="request()->routeIs('bookings.create')">

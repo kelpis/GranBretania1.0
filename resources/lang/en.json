@@ -1,0 +1,183 @@
+{
+  "Email": "Email",
+  "Password": "Password",
+  "Remember me": "Remember me",
+  "Forgot your password?": "Forgot your password?",
+  "Log in": "Log in",
+  "Already registered?": "Already registered?",
+  "Register": "Register",
+  "Email Password Reset Link": "Email Password Reset Link",
+  "Reset Password": "Reset Password",
+  "Confirm": "Confirm",
+  "Confirm Password": "Confirm Password",
+  "No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.": "No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.",
+  "This is a secure area of the application. Please confirm your password before continuing.": "This is a secure area of the application. Please confirm your password before continuing.",
+  "Resend Verification Email": "Resend Verification Email",
+  "A new verification link has been sent to the email address you provided during registration.": "A new verification link has been sent to the email address you provided during registration.",
+  "Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.": "Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.",
+  "Verify Email": "Verify Email",
+  "Name": "Name",
+  "Message": "Message",
+  "Subject": "Subject",
+  "Send": "Send",
+  "Booking class": "Booking class",
+  "Profile": "Profile",
+  "Logout": "Logout",
+  "Login": "Login",
+  "Guest": "Guest",
+  "Iniciar sesión": "Log in",
+  "Registrarse": "Register"
+  ,
+  "Mis clases": "My classes",
+  "Mis traducciones": "My translations",
+  "Disponibilidad": "Availability",
+  "Mis reservas": "My bookings",
+  
+  "Perfil": "Profile",
+  "Cerrar sesión": "Log out",
+
+
+
+  "Inicio · Gran Bretania": "Home · Gran Bretania",
+  "Gran Bretania": "Gran Bretania",
+
+  "Enseñanza de inglés y traducciones": "English teaching and translations",
+
+  "Clases de inglés online": "Online English classes",
+  "En :brand las clases de inglés se adaptan a ti. Con un enfoque práctico y cercano, aprenderás a comunicarte con seguridad desde el primer día. Trabajamos con una metodología flexible que combina conversación, gramática aplicada y recursos personalizados según tus objetivos.": 
+    "At :brand, English lessons adapt to you. With a practical and approachable focus, you'll learn to communicate confidently from day one. We work with a flexible methodology that combines conversation, applied grammar and personalised resources based on your goals.",
+
+  "Conversación práctica": "Speaking practice",
+  "Gana fluidez y naturalidad al hablar.": "Gain fluency and sound more natural when speaking.",
+
+  "Preparación de exámenes": "Exam preparation",
+  "Cambridge, IELTS u objetivos académicos.": "Cambridge, IELTS or academic objectives.",
+
+
+  "Trabajo, presentaciones y entrevistas.": "Work, presentations and interviews.",
+
+  "Refuerzo general": "General reinforcement",
+  "Comprensión, escritura y gramática.": "Reading, writing and grammar skills.",
+
+  "Reservar clase": "Book a class",
+  "Saber más": "Learn more",
+  "Clase de inglés personalizada online": "Personalised online English lesson",
+
+  "¿Por qué elegirnos?": "Why choose us?",
+  "Tres razones para empezar hoy mismo": "Three reasons to start today",
+
+  "Totalmente online": "Fully online",
+  "Clases flexibles según tu disponibilidad.": "Flexible classes based on your availability.",
+
+  "Seguimiento personalizado": "Personalised tracking",
+  "Plan y feedback adaptados a tus objetivos.": "A plan and feedback tailored to your goals.",
+
+  "Material actualizado": "Updated material",
+  "Recursos actuales y prácticos para progresar.": "Current and practical resources to help you progress.",
+
+  "¿Tu primera vez?": "Your first time?",
+  "Empieza con una clase gratuita para conocer tu nivel y objetivos.": "Start with a free lesson to discover your level and goals.",
+  "Solicitar clase de prueba": "Request trial lesson",
+  "Clase de prueba gratuita": "Free trial lesson",
+
+  "Traducciones profesionales": "Professional translations",
+  "Servicio de traducciones profesionales": "Professional translation service",
+
+  "En :brand ofrecemos traducciones precisas, naturales y adaptadas al contexto. Cada encargo se realiza con atención al detalle y total confidencialidad, garantizando un resultado fiel al significado y tono original del texto.": 
+    "At :brand we offer accurate, natural translations adapted to context. Every assignment is carried out with attention to detail and full confidentiality, ensuring a result faithful to the original meaning and tone.",
+
+  "Jurídica": "Legal",
+  "Contratos, documentos legales y certificados.": "Contracts, legal documents and certificates.",
+
+  "Médica": "Medical",
+  "Informes clínicos y documentación sanitaria.": "Clinical reports and medical documentation.",
+
+  "Académica": "Academic",
+  "Artículos, proyectos y trabajos de investigación.": "Articles, projects and research papers.",
+
+  "Audiovisual": "Audiovisual",
+  "Subtitulación y guiones adaptados al público objetivo.": "Subtitling and scripts adapted to the target audience.",
+
+  "Solicitar traducción": "Request translation",
+  "Ver más información": "See more information",
+
+  "Solución integral para tu empresa": "Complete solution for your company",
+  "Solución integral en inglés para empresas": "Complete English solution for companies",
+
+  "Traducciones especializadas, interpretación en tiempo real y formación en inglés profesional para equipos.": 
+    "Specialised translations, real-time interpreting and professional English training for teams.",
+
+  "Un único proveedor, procesos ágiles y resultados medibles.": 
+    "One single provider, agile processes and measurable results.",
+
+  "Traducción especializada": "Specialised translation",
+  "Jurídica, médica, académica y audiovisual. Terminología precisa, control de calidad y entregas puntuales.": 
+    "Legal, medical, academic and audiovisual. Precise terminology, quality control and punctual deliveries.",
+  "Memorias y glosarios de empresa": "Company glossaries and termbases",
+  "Revisión y maquetación": "Review and formatting",
+  "Ver traducciones →": "See translations →",
+
+  "Interpretación": "Interpreting",
+  "Consecutiva o simultánea para reuniones, webinars y eventos online. Comunicación fluida entre equipos y clientes.": 
+    "Consecutive or simultaneous for meetings, webinars and online events. Smooth communication between teams and clients.",
+  "Briefing previo y guía terminológica": "Pre-briefing and terminology guide",
+  "Soporte técnico de sala virtual": "Virtual room technical support",
+  "Solicitar intérprete →": "Request interpreter →",
+  "Solicitar interprete": "Request interpreter",
+
+
+  "Inglés profesional para equipos: reuniones, presentaciones, email y entrevistas. Programas a medida.":
+    "Professional English for teams: meetings, presentations, email and interviews. Tailored programmes.",
+  "Diagnóstico de nivel y objetivos": "Level and objectives assessment",
+  "Material exclusivo y prácticos reales": "Exclusive materials and real practice",
+  "Ver formación →": "See training →",
+
+  "Sobre mí": "About me",
+  "Soy Tania, profesora de inglés y traductora profesional. En :brand combino años de experiencia docente con una atención personalizada, adaptando cada clase o proyecto a las necesidades de mis alumnos y clientes.":
+    "I am Tania, an English teacher and professional translator. At :brand I combine years of teaching experience with personalised attention, adapting each class or project to the needs of my students and clients.",
+  "Conóceme mejor": "Get to know me better",
+
+  "Opiniones de nuestros alumnos y clientes": "Testimonials from our students and clients",
+
+  "Las clases con Tania me ayudaron a ganar confianza hablando en inglés. El ambiente es cercano y muy profesional.": 
+    "Tania's lessons helped me gain confidence speaking English. The atmosphere is friendly and very professional.",
+  "Estudiante de conversación": "Conversation student",
+
+  "Encargué una traducción médica y quedé encantada con la precisión y rapidez. Muy recomendable.":
+    "I requested a medical translation and was delighted with the accuracy and speed. Highly recommended.",
+  "Cliente de traducción": "Translation client",
+
+  "Las clases online son dinámicas y se adaptan a mis horarios. Aprender inglés así da gusto.":
+    "Online classes are dynamic and adapt to my schedule. Learning English like this is a pleasure.",
+  "Alumno de inglés profesional": "Professional English student",
+
+  "Preparé con Tania una presentación importante en inglés y salió muchísimo mejor de lo que esperaba. Me ayudó con el vocabulario y con la seguridad al hablar.":
+    "I prepared an important presentation in English with Tania and it turned out much better than expected. She helped me with vocabulary and confidence when speaking.",
+  "Inglés profesional": "Professional English",
+
+  "Las clases son amenas, muy personalizadas y siempre me voy con la sensación de haber aprendido algo útil. Totalmente recomendable.":
+    "The classes are enjoyable, very personalised and I always leave feeling I’ve learned something useful. Totally recommended.",
+  "Alumno de nivel B1": "B1 level student",
+
+  "Necesitábamos una traducción para un proyecto internacional y Tania nos entregó un trabajo impecable. Comunicación rápida y resultados excelentes.":
+    "We needed a translation for an international project and Tania delivered impeccable work. Fast communication and excellent results.",
+  "Cliente de traducción empresarial": "Business translation client",
+
+  "Gracias a las clases pude presentarme al examen de Cambridge con mucha más tranquilidad. Trabajamos justo lo que necesitaba.":
+    "Thanks to the classes I was able to take the Cambridge exam much more confidently. We worked exactly on what I needed.",
+  "Preparación Cambridge": "Cambridge preparation",
+
+  "Organizamos clases para el equipo y hemos notado mejora real en las reuniones con clientes internacionales.":
+    "We organised classes for the team and noticed real improvement in meetings with international clients.",
+  "Formación in-company": "In-company training",
+
+  "Contamos con Tania para una sesión de interpretación online y todo fluyó sin problemas, tanto a nivel técnico como de idioma.":
+    "We hired Tania for an online interpreting session and everything went smoothly, both technically and linguistically.",
+  "Servicio de interpretación": "Interpreting service",
+
+  "Opiniones 1 a 3": "Reviews 1 to 3",
+  "Opiniones 4 a 6": "Reviews 4 to 6",
+  "Opiniones 7 a 9": "Reviews 7 to 9"
+}
+
+

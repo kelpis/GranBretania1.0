@@ -4,15 +4,49 @@ namespace App\Http\Controllers;
 use Stripe\StripeClient;
 use App\Http\Requests\StoreClassBookingRequest;
 use App\Models\ClassBooking;
+use App\Models\TranslationRequest;
 use Illuminate\Support\Facades\Log;
 use App\Notifications\BookingCancelledNotification;
 use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard');
+        // Estadísticas básicas para el dashboard
+        $today = Carbon::today()->toDateString();
+
+        $totalBookings = ClassBooking::count();
+        $upcomingBookings = ClassBooking::where('class_date', '>=', $today)
+            ->whereNotIn('status', ['cancelled', 'rejected'])
+            ->count();
+
+        $todayClasses = ClassBooking::where('class_date', $today)
+            ->whereNotIn('status', ['cancelled', 'rejected'])
+            ->count();
+
+        // Traducciones pendientes: en este esquema no hay columna 'status',
+        // asumimos que todas las solicitudes son pendientes hasta procesarse.
+        $pendingTranslations = TranslationRequest::count();
+
+        $stats = [
+            'total_bookings' => $totalBookings,
+            'upcoming_bookings' => $upcomingBookings,
+            'today_classes' => $todayClasses,
+            'pending_translations' => $pendingTranslations,
+        ];
+
+        // Listados breves para mostrar en dashboard
+        $nextBookings = ClassBooking::where('class_date', '>=', $today)
+            ->whereNotIn('status', ['cancelled', 'rejected'])
+            ->orderBy('class_date')
+            ->limit(8)
+            ->get();
+
+        $recentTranslations = TranslationRequest::latest()->limit(8)->get();
+
+        return view('admin.dashboard', compact('stats', 'nextBookings', 'recentTranslations'));
     }
 
     public function refund(ClassBooking $booking)

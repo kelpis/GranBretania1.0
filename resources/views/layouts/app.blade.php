@@ -87,6 +87,41 @@
             });
             </script>
         @endif
+        @if(app()->environment('local'))
+            <script>
+                // Debug helper: muestra en consola si la clave existe y si grecaptcha está disponible
+                console.log('DEBUG: reCAPTCHA site key present?', {{ config('services.recaptcha.site') ? 'true' : 'false' }});
+                document.addEventListener('DOMContentLoaded', function () {
+                    console.log('DEBUG: grecaptcha defined?', (typeof grecaptcha !== 'undefined'));
+                    if (typeof grecaptcha !== 'undefined') {
+                        try {
+                            grecaptcha.ready(function() {
+                                console.log('DEBUG: grecaptcha.ready executed');
+                            });
+                        } catch (e) {
+                            console.error('DEBUG: grecaptcha.ready error', e);
+                        }
+                    }
+                });
+            </script>
+
+            <style>
+                .recaptcha-debug-badge {
+                    position: fixed;
+                    left: 8px;
+                    bottom: 8px;
+                    background: rgba(0,0,0,0.7);
+                    color: #fff;
+                    padding: 6px 8px;
+                    font-size: 12px;
+                    border-radius: 6px;
+                    z-index: 999999;
+                }
+            </style>
+            <div class="recaptcha-debug-badge">
+                reCAPTCHA: {{ config('services.recaptcha.site') ? 'SET' : 'MISSING' }}
+            </div>
+        @endif
         @include('components.cookie-consent')
     </body>
 </html>

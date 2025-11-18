@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -27,6 +28,17 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        // Log diagnostic info to help debug intermittent redirect issues
+        try {
+            Log::info('Login redirect check', [
+                'user_id' => Auth::user()?->id ?? null,
+                'is_admin' => Auth::user()?->is_admin ?? null,
+                'url_intended' => $request->session()->get('url.intended'),
+            ]);
+        } catch (\Throwable $e) {
+            // ignore logging failures
+        }
 
         // If the authenticated user is admin, send to admin dashboard (priority)
         if (Auth::user() && Auth::user()->is_admin) {

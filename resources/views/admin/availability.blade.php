@@ -16,16 +16,7 @@
       </div>
     @endif
 
-    @if (session('generated'))
-      <div class="p-4 bg-azul/20 border border-azul/40 rounded-xl shadow-md text-sm">
-        <strong class="text-azul">Detalle de franjas generadas:</strong>
-        <div class="mt-2 max-h-40 overflow-auto text-xs font-mono bg-white rounded p-2 border border-azul/20">
-          @foreach(session('generated') as $g)
-            <div>{{ $g }}</div>
-          @endforeach
-        </div>
-      </div>
-    @endif
+    
 
     {{-- ============================= --}}
     {{-- FRANJA PUNTUAL (AZUL FUERTE) --}}
@@ -78,7 +69,7 @@
         Bloquear día completo
       </h3>
 
-      <form method="POST" action="{{ route('admin.availability.store') }}" class="mt-4 flex flex-wrap items-end gap-4">
+      <form x-data="{ showConfirm:false }" x-cloak x-ref="blockForm" method="POST" action="{{ route('admin.availability.store') }}" class="mt-4 flex flex-wrap items-end gap-4">
         @csrf
 
         <div>
@@ -92,10 +83,22 @@
         <input type="hidden" name="end_time" value="24:00">
         <input type="hidden" name="status" value="blocked">
 
-        <button class="px-4 py-2 rounded-full bg-rojo text-beige2 hover:bg-red-800 transition shadow text-sm"
-          onclick="return confirm('¿Bloquear todo el día?')">
+        <button type="button" class="px-4 py-2 rounded-full bg-rojo text-beige2 hover:bg-red-800 transition shadow text-sm" @click="showConfirm = true">
           Bloquear día
         </button>
+
+        <!-- Modal de confirmación (Alpine.js) -->
+        <div x-show="showConfirm" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center" style="display:none;">
+          <div class="absolute inset-0 bg-black/50" @click="showConfirm = false"></div>
+          <div class="bg-white rounded-lg shadow-lg p-6 z-10 w-full max-w-md">
+            <h4 class="text-lg font-semibold mb-2">Confirmar bloqueo</h4>
+            <p class="text-sm text-gray-700 mb-4">¿Estás seguro de que quieres bloquear todo el día seleccionado? Esta acción creará una franja desde 00:00 hasta 24:00 con estado <strong>bloqueado</strong>.</p>
+            <div class="flex justify-end gap-3">
+              <button type="button" class="px-4 py-2 rounded-full border" @click="showConfirm = false">Cancelar</button>
+              <button type="button" class="px-4 py-2 rounded-full bg-rojo text-beige2" @click.prevent="$refs.blockForm.submit(); showConfirm = false">Sí, bloquear</button>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
 

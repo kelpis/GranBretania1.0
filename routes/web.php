@@ -16,6 +16,18 @@ use App\Http\Controllers\StripeWebhookController;
 use App\Http\Middleware\VerifyCsrfToken;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+
+//Rutas cambio de idioma
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['es', 'en'])) {
+        session(['locale' => $locale]);
+    }
+
+    return back();
+})->name('lang.switch');
+
+
 
 
 Route::get('/', function () {
@@ -178,3 +190,12 @@ Route::view('/sobremi', 'layouts.aboutme')->name('sobremi');
 Route::view('/faq', 'layouts.faq')->name('faq');
 
 require __DIR__ . '/auth.php';
+
+// Temporary debug endpoint to inspect locale/session state
+Route::get('/locale-debug', function (Request $request) {
+    return response()->json([
+        'app_locale' => app()->getLocale(),
+        'session_locale' => session('locale'),
+        'session_cookie' => $request->cookie(config('session.cookie')),
+    ]);
+});
