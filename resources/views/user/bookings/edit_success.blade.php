@@ -1,13 +1,18 @@
-<x-app-layout>
-   
-    <div class="py-10 max-w-3xl mx-auto px-4">
-        <div class="bg-white border-l-4 border-green-500 shadow-lg rounded-xl p-8">
+
+@extends('layouts.site')
+
+@section('Reserva editada', 'Reserva editada')
+
+@section('content')
+<section class="py-24">
+   <div class="py-10 max-w-3xl mx-auto px-4">
+        <div class="bg-white border-l-4 border-green-500 shadow-lg rounded-xl p-8 dark:bg-slate-800/90">
             
-            <h3 class="text-xl font-semibold text-azul mb-3">
+            <h3 class="text-xl font-semibold text-azul mb-3 dark:text-white">
                 ¡Tu reserva ha sido actualizada!
             </h3>
 
-            <p class="text-gray-700 leading-relaxed">
+            <p class="text-gray-700 leading-relaxed dark:text-white">
                 Hemos guardado los cambios en tu reserva.  
                 Recibirás un correo con los detalles actualizados.
             </p>
@@ -29,4 +34,5 @@
 
         </div>
     </div>
-</x-app-layout>
+</section>
+@endsection

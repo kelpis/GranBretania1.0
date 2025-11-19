@@ -47,13 +47,14 @@
                 <div class="flex items-center gap-6">
                     {{-- LOGO --}}
                     <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
-                        <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania" class="h-16 w-auto dark:invert dark:brightness-0">
+                        <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania"
+                            class="h-16 w-auto dark:invert dark:brightness-0">
                     </a>
 
                     {{-- ENLACES (escritorio) --}}
                     <nav class="flex items-center gap-4">
                         {{-- Desktop links: visible en lg+ --}}
-                        <div class="hidden lg:flex items-center gap-6 text-azul dark:text-beige2 tracking-wide">
+                        <div class="hidden lg:flex items-center gap-6 text-azul dark:text-beige2 tracking-wide text-lg">
                             <a href="{{ route('home') }}" class="hover:underline">Inicio</a>
                             <a href="{{ route('clases') }}" class="hover:underline">Clases</a>
                             <a href="{{ route('traducciones') }}" class="hover:underline">Traducciones</a>
@@ -61,20 +62,6 @@
                             <a href="{{ route('faq') }}" class="hover:underline">FAQ</a>
                             <a href="{{ route('contact.create') }}" class="hover:underline">Contacto</a>
                         </div>
-                        <div class="flex items-center gap-3 text-sm">
-
-                    {{-- Botón modo oscuro --}}
-                    <button type="button" onclick="
-                                const html = document.documentElement;
-                                const isDark = html.classList.toggle('dark');
-                                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                            "
-                        class="inline-flex items-center justify-center px-2 py-1 rounded-full border border-azul/40 dark:border-gray-500 text-xs text-azul dark:text-gray-100 bg-white/80 dark:bg-slate-800/80 shadow-sm">
-                        <span class="dark:hidden">🌙</span>
-                        <span class="hidden dark:inline">☀️</span>
-                    </button>
-                </div>
-
 
 
                         {{-- Mobile menu panel (moved to header-right) --}}
@@ -98,17 +85,47 @@
                             </svg>
                         </button>
                 </div>
-                
-                <div class="hidden lg:block">
 
-                    <a href="{{ route('login') }}" class="btn-three text-beige2 !py-2 !px-4">Acceder</a>
+                <div class="hidden lg:flex items-center gap-3">
+                    {{-- Botón modo oscuro --}}
+                    <button type="button" onclick="
+        const html = document.documentElement;
+        const isDark = html.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    " class="relative inline-flex items-center w-12 h-6 rounded-full transition-colors
+           bg-azul/20 dark:bg-slate-700 border border-azul/40 dark:border-gray-500">
+
+                        <!-- CÍRCULO -->
+                        <span class="absolute left-0 top-0 h-6 w-6 bg-white dark:bg-yellow-300 rounded-full shadow
+                 transform transition-transform duration-300
+                 dark:translate-x-6"></span>
+
+                        <!-- ICONOS -->
+                        <span class="absolute left-1 top-1 text-[10px] dark:hidden">🌙</span>
+                        <span class="absolute right-1 top-1 hidden dark:inline text-[10px]">☀️</span>
+                    </button>
+
+                    @auth
+                        <a href="{{ route('dashboard') }}" class="btn-three text-beige2 !py-2 !px-4 !mr-8">{{ auth()->user()->name }}</a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn-three text-beige2 !py-2 !px-4 !mr-8">Acceder</a>
+                    @endauth
                 </div>
             </div>
 
             {{-- Mobile menu panel (aparece cuando open === true) --}}
             <div x-show="open" x-cloak id="mobile-menu"
                 class="lg:hidden absolute inset-x-0 top-full z-50 bg-beige/95 backdrop-blur-sm shadow-sm dark:bg-slate-800/95">
-                <div class="px-4 py-4 max-h-[calc(100vh-5rem)] overflow-auto">
+                <div class="px-4 py-4 text-lg max-h-[calc(100vh-5rem)] overflow-auto">
+                    <div class="flex items-center justify-start gap-3 mb-3">
+                        <button type="button"
+                            onclick="(function(){const html=document.documentElement;const isDark=html.classList.toggle('dark');localStorage.setItem('theme', isDark? 'dark':'light');})()"
+                            aria-label="Alternar modo oscuro"
+                            class="inline-flex items-center justify-center px-2 py-1 rounded-full border border-azul/40 dark:border-gray-500 text-lg text-azul dark:text-gray-100 bg-white/80 dark:bg-slate-800/80 shadow-sm">
+                            <span class="dark:hidden">🌙</span>
+                            <span class="hidden dark:inline">☀️</span>
+                        </button>
+                    </div>
                     <a href="{{ route('home') }}" @click="open = false" class="block py-2 hover:underline">Inicio</a>
                     <a href="{{ route('clases') }}" @click="open = false" class="block py-2 hover:underline">Clases</a>
                     <a href="{{ route('traducciones') }}" @click="open = false"
@@ -119,8 +136,18 @@
                     <a href="{{ route('contact.create') }}" @click="open = false"
                         class="block py-2 hover:underline">Contacto</a>
                     {{-- Acceder (visible en móvil dentro del menú) --}}
-                    <a href="{{ route('login') }}" @click="open = false"
-                        class="block w-full mt-3 btn-three text-beige2 text-center !py-2 !px-4">Acceder</a>
+                    @auth
+                        <a href="{{ route('profile.edit') }}" @click="open = false"
+                            class="block w-full mt-3 btn-three text-beige2 text-center !py-2 !px-4">{{ auth()->user()->name }}</a>
+
+                        <form method="POST" action="{{ route('logout') }}" class="mt-2">
+                            @csrf
+                            <button type="submit" class="w-full text-left text-azul hover:underline py-2">Cerrar sesión</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" @click="open = false"
+                            class="block w-full mt-3 btn-three text-beige2 text-center !py-2 !px-4">Acceder</a>
+                    @endauth
                 </div>
             </div>
 

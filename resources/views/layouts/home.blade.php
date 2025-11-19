@@ -6,13 +6,84 @@
 
 
 
-    <div class="container mx-auto px-4 text-center mt-6">
-        <a href="{{ route('home') }}" class="inline-block">
-           
-                <img src="{{ asset('images/logoSinMargen.png') }}" alt="Gran Bretania" class="mx-auto h-64 md:h-80 w-auto dark:invert dark:brightness-0">
-            
-        </a>
+    <section class="container mx-auto px-4 text-center mt-6">
+        <div class="relative rounded-xl overflow-hidden bg-center bg-cover"
+            style="background-image: url('{{ asset('images/edimburgo.jpg') }}');">
+
+            <div class="absolute inset-0 bg-black/30 dark:bg-black/60"></div>
+
+            <div class="relative z-10 py-10 md:py-14 flex justify-center">
+
+                <div class="inline-block rounded-2xl px-6 py-5 
+                                        bg-white/60 dark:bg-slate-800/80 backdrop-blur-sm 
+                                        shadow-xl border border-white/20 dark:border-white/10">
+
+                    <a href="{{ route('home') }}">
+                        <img src="{{ asset('images/logoMonocromadoSinMARGEN.png') }}" alt="Gran Bretania"
+                            class="mx-auto h-48 md:h-64 w-auto drop-shadow-[0_6px_10px_rgba(0,0,0,0.6)] dark:invert dark:brightness-0">
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    {{-- -CARRUSEL --}}
+    <section x-data="{
+                    images: [
+                        '{{ asset('images/edimburgo.jpg') }}',
+                        '{{ asset('images/londres.jpg') }}',
+                        '{{ asset('images/edimburgo2.jpg') }}',
+                    ],
+                   current: 0,
+        fading: false,
+        next() {
+            this.fading = true;
+            setTimeout(() => {
+                this.current = (this.current + 1) % this.images.length;
+                this.fading = false;
+            }, 1500);
+        },
+        init() {
+            setInterval(() => this.next(), 7000);
+        }
+    }"
+    class="container mx-auto px-4 mt-6"
+>
+    <div class="relative rounded-2xl overflow-hidden bg-center bg-cover
+                h-[360px] md:h-[460px] lg:h-[520px]"
+         :style="`background-image: url('${images[current]}')`">
+
+        {{-- overlay suave sobre la foto --}}
+        <div class="absolute inset-0 bg-black/40 dark:bg-black/60
+                    transition-opacity duration-[1500ms]"
+             :class="fading ? 'opacity-0' : 'opacity-100'">
+        </div>
+
+        {{-- tarjeta centrada con logo + título --}}
+        <div class="relative z-10 h-full flex items-center justify-center px-4">
+            <div
+                class="inline-flex flex-col items-center text-center
+                       px-6 py-6 md:px-10 md:py-8
+                       bg-white/80 dark:bg-slate-900/85
+                       backdrop-blur-md rounded-3xl shadow-2xl
+                       max-w-3xl w-full border border-white/30 dark:border-white/10">
+
+                <a href="{{ route('home') }}">
+                    <img src="{{ asset('images/logoMonocromadoSinMARGEN.png') }}"
+                         alt="Gran Bretania"
+                         class="h-32 md:h-40 lg:h-48 w-auto
+                                drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)]
+                                dark:invert dark:brightness-0">
+                </a>
+
+    
+            </div>
+        </div>
     </div>
+</section>
+
 
 
     <section class="container mx-auto px-4 pt-0 pb-14 text-center">
@@ -29,8 +100,8 @@
                 <div class="grid md:grid-cols-2 gap-10 items-stretch">
 
                     {{-- Texto --}}
-                    <div class="h-full flex flex-col justify-start min-h-0">
-                        <div class="w-full max-w-2xl mx-auto">
+                    <div class="h-full flex flex-col justify-between min-h-0">
+                        <div class="w-full max-w-2xl mx-auto h-full flex flex-col justify-between">
                             <p class="mt-0 text-left md:text-left">
                                 {!! __(
         'En :brand las clases de inglés se adaptan a ti. Con un enfoque práctico y cercano, aprenderás a comunicarte con seguridad desde el primer día. Trabajamos con una metodología flexible que combina conversación, gramática aplicada y recursos personalizados según tus objetivos.',
@@ -89,7 +160,7 @@
                     </div>
 
                     {{-- Imagen / ilustración (opcional) --}}
-                    <div class="order-first md:order-none h-full">
+                    <div class="order-first md:order-none h-full relative">
                         <img src="{{ asset('images/alumnoOnline.webp') }}" width="1024" height="1024"
                             alt="{{ __('Clase de inglés personalizada online') }}"
                             class="w-full h-full object-cover rounded-card shadow-sm">
@@ -234,22 +305,21 @@
                                     </div>
                                 </li>
                             </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            {{-- CTA por debajo del grid, alineada con la columna de texto --}}
-            <div class="grid md:grid-cols-2">
-                <div></div>
-                <div class="mt-8">
-                    <div class="max-w-2xl ml-auto flex flex-col sm:flex-row sm:justify-evenly items-center gap-3">
-                        <a href="{{ route('translation.create') }}" class="btn-primary w-full sm:w-auto text-center">
-                            {{ __('Solicitar traducción') }}
-                        </a>
-                        <a href="{{ route('traducciones') }}" class="btn-secondary w-full sm:w-auto text-center">
-                            {{ __('Ver más información') }}
-                        </a>
+                            {{-- CTA (alineada con la columna de texto) --}}
+                            <div class="mt-8">
+                                <div class="flex flex-col sm:flex-row sm:justify-evenly items-center gap-3">
+                                    <a href="{{ route('translation.create') }}"
+                                        class="btn-primary w-full sm:w-auto text-center">
+                                        {{ __('Solicitar traducción') }}
+                                    </a>
+                                    <a href="{{ route('traducciones') }}"
+                                        class="btn-secondary w-full sm:w-auto text-center">
+                                        {{ __('Ver más información') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -334,8 +404,8 @@
 
     <section class="bg-beige2 py-16 mt-24 dark:bg-slate-950">
         <div class="container mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
-            <img src="{{ asset('images/tania.png') }}" alt="{{ __('Tania Morais Villar') }}"
-                class="rounded-xl shadow-md object-cover object-top h-80 w-full">
+            <img src="{{ asset('images/profe.png') }}" alt="{{ __('Tania Morais Villar') }}"
+                class="rounded-xl shadow-md object-cover h-full max-h-96 object-top h-80 w-full">
             <div>
                 <h2 class="text-azul text-3xl font-semibold mb-4 dark:text-beige2">{{ __('Sobre mí') }}</h2>
                 <p class="text-gray-700 leading-relaxed dark:text-slate-100">

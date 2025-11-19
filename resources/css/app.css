@@ -49,7 +49,7 @@ section + section {
 
 @layer components{
   .btn-primary {
-    @apply inline-flex items-center justify-center px-5 py-3 rounded-xl bg-azul text-white font-semibold;
+    @apply inline-flex items-center justify-center px-6 py-4 rounded-xl bg-azul text-white font-semibold text-lg;
     transition: transform .15s ease, background-color .15s ease, opacity .15s ease;
   }
   .btn-primary:hover {
@@ -63,7 +63,7 @@ section + section {
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-5 py-3 rounded-xl bg-rojo text-white font-semibold;
+    @apply inline-flex items-center justify-center px-6 py-4 rounded-xl bg-rojo text-white font-semibold text-lg;
     transition: transform .15s ease, background-color .15s ease, opacity .15s ease;
   }
   .btn-secondary:hover {
@@ -81,7 +81,7 @@ section + section {
   }
 
    .btn-three {
-    @apply inline-flex items-center justify-center px-5 py-3 rounded-xl bg-rojo text-white font-semibold;
+    @apply inline-flex items-center justify-center px-6 py-4 rounded-xl bg-rojo text-white font-semibold text-lg;
     transition: transform .15s ease, background-color .15s ease, opacity .15s ease;
   }
   .btn-three:hover {

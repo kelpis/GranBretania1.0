@@ -1,7 +1,13 @@
-<x-guest-layout>
-  <div class="p-6 bg-green-50 border border-green-200 rounded">
-    <h2 class="text-xl font-semibold mb-2">¡Reserva enviada!</h2>
-    <p class="text-sm text-green-800">
+
+@extends('layouts.site')
+
+@section('Reserva enviada', 'Reserva enviada')
+
+@section('content')
+<section class="py-24">
+    <div class="p-6 bg-green-50 border border-green-200 rounded dark:bg-slate-800/90">
+    <h2 class="text-xl font-semibold mb-2 dark:text-white">¡Reserva enviada!</h2>
+    <p class="text-sm text-green-800 dark:text-white">
       Hemos recibido tu pago. 
       Pronto recibirás un correo con los detalles y el enlace de la clase.
     </p>
@@ -11,4 +17,5 @@
       </a>
     </div>
   </div>
-</x-guest-layout>
+</section>
+@endsection

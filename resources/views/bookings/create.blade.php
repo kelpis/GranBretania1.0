@@ -9,8 +9,8 @@
 @section('content')
 
     <div class="max-w-2xl mx-auto my-12 text-center">
-        <h2 class="text-azul text-3xl font-semibold mb-2">Reservar clase</h2>
-        <p class="text-gray-700 text-base leading-relaxed mx-auto max-w-xl">Selecciona fecha y hora y rellena tus datos para completar la reserva.</p>
+        <h2 class="text-azul text-3xl font-semibold mb-2 dark:text-white">Reservar clase</h2>
+        <p class="text-gray-700 text-base leading-relaxed mx-auto max-w-xl dark:text-white">Selecciona fecha y hora y rellena tus datos para completar la reserva.</p>
     </div>
 
     <div class="container mx-auto px-4">
