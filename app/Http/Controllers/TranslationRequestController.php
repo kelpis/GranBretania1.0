@@ -15,7 +15,8 @@ class TranslationRequestController extends Controller
     // GET /traduccion
     public function create()
     {
-        return view('translation.create'); // asegúrate que existe esta Blade
+        // La vista se movió a resources/views/user/translations/create.blade.php
+        return view('user.translations.create');
     }
 
     // POST /traduccion

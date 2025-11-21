@@ -41,6 +41,7 @@ class StoreContactRequest extends FormRequest
             'email.required' => 'Por favor indica un correo válido.',
             'message.required' => 'Escribe tu mensaje antes de enviarlo.',
             'gdpr.accepted' => 'Debes aceptar la política de protección de datos para continuar.',
+            'g-recaptcha-response.required' => 'Por favor completa el reCAPTCHA antes de enviar el formulario.',
         ];
     }
 }

@@ -75,6 +75,7 @@ class StoreClassBookingRequest extends FormRequest
             'class_date.required' => 'Selecciona una fecha válida.',
             'class_date.date' => 'La fecha no tiene un formato válido.',
             'phone.regex' => 'El teléfono solo puede contener dígitos, espacios, +, paréntesis y guiones.',
+            'g-recaptcha-response.required' => 'Por favor completa el reCAPTCHA antes de enviar el formulario.',
         ];
     }
 }

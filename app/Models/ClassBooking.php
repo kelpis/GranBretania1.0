@@ -41,4 +41,23 @@ class ClassBooking extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Devuelve la etiqueta traducida del estado.
+     * Uso en vistas: $booking->status_label
+     */
+    public function getStatusLabelAttribute(): string
+    {
+        $key = $this->status ?? 'unknown';
+
+        // Intenta la traducción en el archivo resources/lang/{locale}/statuses.php
+        $translation = __("statuses.$key");
+
+        // Si no hay traducción (devuelve la clave sin traducir), devuelve un fallback bonito
+        if ($translation === "statuses.$key") {
+            return ucfirst(str_replace('_', ' ', $key));
+        }
+
+        return $translation;
+    }
 }

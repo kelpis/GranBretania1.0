@@ -47,6 +47,7 @@ class StoreTranslationRequest extends FormRequest
         return [
             'file.mimes' => 'Formato de archivo no soportado. Tipos permitidos: PDF, DOC, DOCX, ODT, TXT, RTF.',
             'file.max' => 'El archivo es demasiado grande. Tamaño máximo permitido: 10MB.',
+            'g-recaptcha-response.required' => 'Por favor completa el reCAPTCHA antes de enviar el formulario.',
         ];
     }
 

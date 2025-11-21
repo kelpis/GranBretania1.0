@@ -123,7 +123,7 @@
                                                     };
                                                 @endphp
                                                 <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold {{ $badge }}">
-                                                    {{ ucfirst($status) }}
+                                                    {{ __('statuses.' . $status) }}
                                                 </span>
                                             </td>
                                         </tr>

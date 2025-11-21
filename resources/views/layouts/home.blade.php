@@ -5,30 +5,6 @@
 @section('content')
 
 
-
-    <section class="container mx-auto px-4 text-center mt-6">
-        <div class="relative rounded-xl overflow-hidden bg-center bg-cover"
-            style="background-image: url('{{ asset('images/edimburgo.jpg') }}');">
-
-            <div class="absolute inset-0 bg-black/30 dark:bg-black/60"></div>
-
-            <div class="relative z-10 py-10 md:py-14 flex justify-center">
-
-                <div class="inline-block rounded-2xl px-6 py-5 
-                                        bg-white/60 dark:bg-slate-800/80 backdrop-blur-sm 
-                                        shadow-xl border border-white/20 dark:border-white/10">
-
-                    <a href="{{ route('home') }}">
-                        <img src="{{ asset('images/logoMonocromadoSinMARGEN.png') }}" alt="Gran Bretania"
-                            class="mx-auto h-48 md:h-64 w-auto drop-shadow-[0_6px_10px_rgba(0,0,0,0.6)] dark:invert dark:brightness-0">
-                    </a>
-
-                </div>
-
-            </div>
-        </div>
-    </section>
-
     {{-- -CARRUSEL --}}
     <section x-data="{
                     images: [
@@ -56,31 +32,28 @@
          :style="`background-image: url('${images[current]}')`">
 
         {{-- overlay suave sobre la foto --}}
-        <div class="absolute inset-0 bg-black/40 dark:bg-black/60
+           <div class="absolute inset-0 bg-black/20 dark:bg-black/40
                     transition-opacity duration-[1500ms]"
-             :class="fading ? 'opacity-0' : 'opacity-100'">
-        </div>
+               :class="fading ? 'opacity-0' : 'opacity-100'">
+           </div>
 
         {{-- tarjeta centrada con logo + título --}}
-        <div class="relative z-10 h-full flex items-center justify-center px-4">
-            <div
-                class="inline-flex flex-col items-center text-center
-                       px-6 py-6 md:px-10 md:py-8
-                       bg-white/80 dark:bg-slate-900/85
-                       backdrop-blur-md rounded-3xl shadow-2xl
-                       max-w-3xl w-full border border-white/30 dark:border-white/10">
+    <div class="absolute inset-0 bg-black/10 dark:bg-black/40"></div>
 
-                <a href="{{ route('home') }}">
-                    <img src="{{ asset('images/logoMonocromadoSinMARGEN.png') }}"
-                         alt="Gran Bretania"
-                         class="h-32 md:h-40 lg:h-48 w-auto
-                                drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)]
-                                dark:invert dark:brightness-0">
-                </a>
+            <div class="relative z-10 py-10 md:py-14 flex justify-center">
 
-    
+                <div class="inline-block rounded-2xl px-6 py-5 
+                                        bg-white/30 dark:bg-slate-800/60 backdrop-blur-sm 
+                                        shadow-xl border border-white/20 dark:border-white/10">
+
+                    <a href="{{ route('home') }}">
+                        <img src="{{ asset('images/logoMonocromadoSinMARGEN.png') }}" alt="Gran Bretania"
+                            class="mx-auto h-64 md:h-80 w-auto drop-shadow-[0_6px_10px_rgba(0,0,0,0.6)] dark:invert dark:brightness-0">
+                    </a>
+
+                </div>
+
             </div>
-        </div>
     </div>
 </section>
 
@@ -97,7 +70,7 @@
 
                 <h2 class="text-azul mb-8 dark:text-beige2">{{ __('Clases de inglés online') }}</h2>
 
-                <div class="grid md:grid-cols-2 gap-10 items-stretch">
+                    <div class="grid md:grid-cols-2 gap-10 items-stretch tablet-stack-768-820">
 
                     {{-- Texto --}}
                     <div class="h-full flex flex-col justify-between min-h-0">
@@ -113,35 +86,35 @@
                             <ul class="mt-6 grid sm:grid-cols-2 gap-4 text-base">
                                 <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6 dark:bg-azul">
                                     <span aria-hidden="true">🗣️</span>
-                                    <div>
+                                    <div class="min-w-0">
                                         <h3 class="font-semibold mb-2">{{ __('Conversación práctica') }}</h3>
-                                        <p class="opacity-80 leading-snug">{{ __('Gana fluidez y naturalidad al hablar.') }}
+                                        <p class="opacity-80 leading-snug break-words">{{ __('Gana fluidez y naturalidad al hablar.') }}
                                         </p>
                                     </div>
                                 </li>
                                 <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6 dark:bg-azul">
                                     <span aria-hidden="true">🎯</span>
-                                    <div>
+                                    <div class="min-w-0">
                                         <h3 class="font-semibold mb-2">{{ __('Preparación de exámenes') }}</h3>
-                                        <p class="opacity-80 leading-snug">
+                                        <p class="opacity-80 leading-snug break-words">
                                             {{ __('Cambridge, IELTS u objetivos académicos.') }}
                                         </p>
                                     </div>
                                 </li>
                                 <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6 dark:bg-azul">
                                     <span aria-hidden="true">💼</span>
-                                    <div>
+                                    <div class="min-w-0">
                                         <h3 class="font-semibold mb-2">{{ __('Inglés profesional') }}</h3>
-                                        <p class="opacity-80 leading-snug">
+                                        <p class="opacity-80 leading-snug break-words">
                                             {{ __('Trabajo, presentaciones y entrevistas.') }}
                                         </p>
                                     </div>
                                 </li>
                                 <li class="card flex items-start gap-3 bg-azul text-beige2 rounded-card p-6 dark:bg-azul">
                                     <span aria-hidden="true">📚</span>
-                                    <div>
+                                    <div class="min-w-0">
                                         <h3 class="font-semibold mb-2">{{ __('Refuerzo general') }}</h3>
-                                        <p class="opacity-80 leading-snug">{{ __('Comprensión, escritura y gramática.') }}
+                                        <p class="opacity-80 leading-snug break-words">{{ __('Comprensión, escritura y gramática.') }}
                                         </p>
                                     </div>
                                 </li>
@@ -247,10 +220,10 @@
                 </div>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-10 items-stretch">
+            <div class="grid md:grid-cols-2 gap-10 items-stretch tablet-stack-768-820">
 
                 {{-- Imagen--}}
-                <div class="h-full">
+                <div class="order-first md:order-none h-full relative">
                     <img src="{{ asset('images/definicion.jpg') }}" alt="{{ __('Servicio de traducciones profesionales') }}"
                         class="w-full h-full object-cover rounded-card shadow-sm">
                 </div>
@@ -258,7 +231,7 @@
                 {{-- Texto --}}
                 <div class="h-full">
                     <div class="flex flex-col h-full">
-                        <div class="flex-1 max-w-2xl">
+                        <div class="flex-1 max-w-2xl min-w-0">
                             <p>
                                 {!! __(
         'En :brand ofrecemos traducciones precisas, naturales y adaptadas al contexto. Cada encargo se realiza con atención al detalle y total confidencialidad, garantizando un resultado fiel al significado y tono original del texto.',
@@ -270,36 +243,36 @@
                             <ul class="mt-6 grid sm:grid-cols-2 gap-4 text-base">
                                 <li class="card flex items-start gap-3 bg-beige dark:bg-slate-900">
                                     <span aria-hidden="true">⚖️</span>
-                                    <div>
+                                    <div class="min-w-0">
                                         <h3 class="font-semibold mb-2">{{ __('Jurídica') }}</h3>
-                                        <p class="opacity-80 leading-snug">
+                                        <p class="opacity-80 leading-snug break-words">
                                             {{ __('Contratos, documentos legales y certificados.') }}
                                         </p>
                                     </div>
                                 </li>
                                 <li class="card flex items-start gap-3 bg-beige dark:bg-slate-900">
                                     <span aria-hidden="true">💊</span>
-                                    <div>
+                                    <div class="min-w-0">
                                         <h3 class="font-semibold mb-2">{{ __('Médica') }}</h3>
-                                        <p class="opacity-80 leading-snug">
+                                        <p class="opacity-80 leading-snug break-words">
                                             {{ __('Informes clínicos y documentación sanitaria.') }}
                                         </p>
                                     </div>
                                 </li>
                                 <li class="card flex items-start gap-3 bg-beige dark:bg-slate-900">
                                     <span aria-hidden="true">🎓</span>
-                                    <div>
+                                    <div class="min-w-0">
                                         <h3 class="font-semibold mb-2">{{ __('Académica') }}</h3>
-                                        <p class="opacity-80 leading-snug">
+                                        <p class="opacity-80 leading-snug break-words">
                                             {{ __('Artículos, proyectos y trabajos de investigación.') }}
                                         </p>
                                     </div>
                                 </li>
                                 <li class="card flex items-start gap-3 bg-beige dark:bg-slate-900">
                                     <span aria-hidden="true">🎬</span>
-                                    <div>
+                                    <div class="min-w-0">
                                         <h3 class="font-semibold mb-2">{{ __('Audiovisual') }}</h3>
-                                        <p class="opacity-80 leading-snug">
+                                        <p class="opacity-80 leading-snug break-words">
                                             {{ __('Subtitulación y guiones adaptados al público objetivo.') }}
                                         </p>
                                     </div>

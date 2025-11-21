@@ -55,10 +55,11 @@
 
                         <tbody>
                             @foreach ($bookings as $b)
-                                @php
+                                    @php
                                     // BADGES corporativos
                                     $status = $b->status;
-                                    $statusLabel = ucfirst($status);
+                                    // Usar traducciones desde resources/lang/{locale}/statuses.php
+                                    $statusLabel = __('statuses.' . $status);
 
                                     $badge = match ($status) {
                                         'confirmed' => 'bg-ok text-white',
@@ -125,23 +126,41 @@
                                                 @endif
 
                                                 {{-- BOTÓN CANCELAR --}}
-                                                <form method="POST" action="{{ route('user.bookings.destroy', $b) }}"
-                                                    class="inline-block">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" onclick="return confirmCancel(this)"
-                                                        data-refundable="{{ $isRefundable ? '1' : '0' }}"
-                                                        class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white border border-rojo text-rojo hover:bg-rojo hover:text-beige2 transition">
+                                                @if($hoursUntil < 0)
+                                                    <span title="La clase ya ha pasado" class="relative group inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white border border-gray-300 text-gray-400 cursor-not-allowed opacity-60">
                                                         ❌ Cancelar
-                                                    </button>
-                                                </form>
+                                                        <span class="absolute -top-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                                            La clase ya ha pasado
+                                                        </span>
+                                                    </span>
+                                                @else
+                                                    <form method="POST" action="{{ route('user.bookings.destroy', $b) }}"
+                                                        class="inline-block">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" onclick="return confirmCancel(this)"
+                                                            data-refundable="{{ $isRefundable ? '1' : '0' }}"
+                                                            class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white border border-rojo text-rojo hover:bg-rojo hover:text-beige2 transition">
+                                                            ❌ Cancelar
+                                                        </button>
+                                                    </form>
+                                                @endif
 
                                                 {{-- BOTÓN UNIRSE --}}
                                                 @if($b->status === 'confirmed' && !empty($b->meeting_url))
-                                                    <a href="{{ route('bookings.join', $b) }}" target="_blank"
-                                                        class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white border border-ok text-ok hover:bg-ok hover:text-beige2 transition">
-                                                        ▶️ Unirse
-                                                    </a>
+                                                    @if(isset($start) && $start->isFuture())
+                                                        <a href="{{ route('bookings.join', $b) }}" target="_blank"
+                                                            class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white border border-ok text-ok hover:bg-ok hover:text-beige2 transition">
+                                                            ▶️ Unirse
+                                                        </a>
+                                                    @else
+                                                        <span title="La clase ya ha pasado" class="relative group inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white border border-gray-300 text-gray-400 cursor-not-allowed opacity-60">
+                                                            ▶️ Unirse
+                                                            <span class="absolute -top-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                                                La clase ya ha pasado
+                                                            </span>
+                                                        </span>
+                                                    @endif
                                                 @endif
                                             @endif
 

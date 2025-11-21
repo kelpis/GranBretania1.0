@@ -136,11 +136,16 @@ class ClassBookingController extends Controller
         }
     }
 
+
+
     public function success()
     {
         return view('bookings.success');
     }
 
+
+
+    
     // Devuelve las horas disponibles para una fecha dada en formato JSON
     public function availability(Request $request)
     {
