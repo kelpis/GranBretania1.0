@@ -192,9 +192,7 @@
                 <x-responsive-nav-link :href="(auth()->check() && auth()->user()->is_admin) ? route('admin.index') : route('contact.create')" :active="request()->routeIs('contact.create') || request()->routeIs('admin.index')">
                     {{ __('Contacto') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('services.index')" :active="request()->routeIs('services.index')">
-                    {{ __('Servicios') }}
-                </x-responsive-nav-link>
+              
                 @auth
                     @if(auth()->user()->is_admin)
                         <x-responsive-nav-link :href="route('admin.availability.index')"

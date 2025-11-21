@@ -14,6 +14,8 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Models\TranslationRequest;
 use App\Http\Controllers\StripeWebhookController;
 use App\Http\Middleware\VerifyCsrfToken;
+use App\Http\Controllers\AdminTranslationController;
+
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -55,8 +57,7 @@ Route::get('/', function () {
 // --------------------------------------------------
 // Public pages
 // --------------------------------------------------
-// Página pública de servicios (clases online y traducciones)
-Route::get('/servicios', [App\Http\Controllers\ServiceController::class, 'index'])->name('services.index');
+
 // Política de protección de datos (página pública)
 Route::view('/politica-privacidad', 'legal.privacy')->name('privacy');
 // Política de cookies (página pública)
@@ -131,21 +132,32 @@ Route::middleware('auth')->group(function () {
     Route::delete('/mis-reservas/{booking}', [UserBookingController::class, 'destroy'])->name('user.bookings.destroy');
 
     // Permitir al usuario descargar su propio archivo de traducción (si subió uno)
+    // Permitir al usuario descargar su archivo de traducción
+    // Si existe traducción final (output_file_path), se descarga esa.
+    // Si no, se descarga el archivo original subido.
     Route::get('/mis-traducciones/{id}/archivo', function ($id) {
         $tr = TranslationRequest::findOrFail($id);
 
         // Asegurar que la traducción pertenece al usuario loggeado
-        if ($tr->email !== auth()->user()->email) {
+        $user = auth()->user();
+        if ($tr->user_id && $tr->user_id !== $user->id && $tr->email !== $user->email) {
+            abort(403);
+        } elseif (!$tr->user_id && $tr->email !== $user->email) {
             abort(403);
         }
 
-        if (!Storage::disk('local')->exists($tr->file_path)) {
+        // Priorizar archivo traducido final
+        $path = $tr->output_file_path ?: $tr->file_path;
+
+        if (!$path || !\Illuminate\Support\Facades\Storage::disk('local')->exists($path)) {
             abort(404, 'Archivo no encontrado en el servidor.');
         }
 
-        $filename = basename($tr->file_path);
-        return Storage::disk('local')->download($tr->file_path, $filename);
+        $filename = basename($path);
+
+        return Storage::disk('local')->download($path, $filename);
     })->name('user.translations.download');
+
 
     // Página dedicada: Mis traducciones (lista del usuario)
     Route::get('/mis-traducciones', function () {
@@ -198,6 +210,14 @@ Route::middleware(['auth', AdminMiddleware::class])
             $filename = basename($tr->file_path); // o guarda nombre original en BD
             return Storage::disk('local')->download($tr->file_path, $filename);
         })->name('translations.download');
+
+        // 👉 NUEVA RUTA: asignar precio y generar enlace de pago
+        Route::post('/traducciones/{translation}/presupuesto', [AdminTranslationController::class, 'quote'])
+            ->name('translations.quote');
+
+
+         Route::post('/traducciones/{translation}/entregar', [AdminTranslationController::class, 'deliver'])
+            ->name('translations.deliver');
 
 
         // Reservas admin

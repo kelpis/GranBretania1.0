@@ -9,6 +9,8 @@ use Stripe\Webhook;
 use App\Models\ClassBooking;
 use App\Notifications\BookingReceived;
 use App\Notifications\BookingAdminNotification;
+use App\Models\TranslationRequest;
+
 
 class StripeWebhookController extends Controller
 {
@@ -49,6 +51,40 @@ class StripeWebhookController extends Controller
          * =========================================================== */
         if ($event->type === 'checkout.session.completed') {
             $session = $event->data->object;
+
+            // 🔹 PRIMERO: comprobar si es una traducción
+            $metadata = $session->metadata ?? null;
+
+            $translationId = null;
+            $type = null;
+
+            if ($metadata) {
+                // metadata puede venir como objeto o como array
+                $translationId = $metadata->translation_id ?? ($metadata['translation_id'] ?? null);
+                $type          = $metadata->type ?? ($metadata['type'] ?? null);
+            }
+
+            if ($translationId && $type === 'translation') {
+                $translation = TranslationRequest::find($translationId);
+
+                if ($translation && ! $translation->paid_at) {
+                    $translation->paid_at       = now();
+                    $translation->payment_intent = $session->payment_intent ?? null;
+                    $translation->status        = 'paid';
+                    $translation->save();
+
+                    Log::info('Stripe webhook: translation marked paid', [
+                        'translation_id' => $translation->id,
+                        'session_id'     => $session->id,
+                    ]);
+
+                    // Aquí más adelante puedes añadir notificaciones al usuario/admin si quieres.
+                }
+
+                // Como es una traducción, no seguimos con la lógica de reservas.
+                return response()->json(['ok' => true]);
+            }
+
 
             // 1️⃣ Buscar por session guardada (más fiable)
             $booking = ClassBooking::where('stripe_session_id', $session->id)->first();
