@@ -28,7 +28,7 @@
 
                 {{-- FOTO / ILUSTRACIÓN --}}
                 <div class="flex justify-center">
-                    <div class="rounded-2xl overflow-hidden shadow-lg bg-white max-w-xs w-full dark:bg-slate-900">
+                    <div class="rounded-2xl overflow-hidden  bg-beige2 max-w-xs w-full dark:bg-slate-900">
                         {{-- Sustituye el src por tu imagen real --}}
                         <img src="/images/tania.png" alt="Tania, profesora de inglés y traductora en Gran Bretania"
                             class="w-full h-80 object-cover object-top">

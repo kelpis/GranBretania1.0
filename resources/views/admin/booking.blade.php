@@ -1,7 +1,7 @@
 <x-app-layout>
     
     <div class="bg-beige2 dark:bg-slate-950 -mx-4 sm:-mx-6 lg:-mx-8">
-          <div class="pt-12 pb-8 max-w-6xl mx-auto space-y-16 px-4 sm:px-6 lg:px-8">
+        <div class="pt-12 pb-8 max-w-6xl mx-auto space-y-16 px-4 sm:px-6 lg:px-8">
 
         {{-- Mensajes de estado --}}
         @if (session('ok'))
@@ -20,7 +20,6 @@
         <div class="rounded-2xl shadow-xl overflow-hidden border border-beige bg-beige2 dark:bg-slate-950 dark:border-slate-700">
             <div class="bg-azul text-beige2 px-6 py-4 flex items-center justify-between">
                 <h3 class="font-semibold text-lg">Reservas pendientes de confirmar</h3>
-                
             </div>
 
             <div>
@@ -78,10 +77,12 @@
                                     $fechaHoraClase = \Carbon\Carbon::parse($b->class_date.' '.substr($b->class_time,0,5));
                                 @endphp
                                 @if($b->paid && !$b->refunded && $fechaHoraClase->isFuture())
-                                    <form method="POST" action="{{ route('admin.bookings.refund', $b) }}">
-                                        @csrf
-                                        <button type="submit" onclick="return confirm('¿Devolver el pago y cancelar esta reserva?');" class="px-3 py-1 rounded-full bg-rojo text-beige2 text-xs font-medium hover:bg-red-800 transition">Cancelar y devolver</button>
-                                    </form>
+                                    {{-- Botón que abre modal de cancelar y devolver --}}
+                                    <button type="button"
+                                            onclick="openAdminCancelModal('{{ route('admin.bookings.refund', $b) }}')"
+                                            class="px-3 py-1 rounded-full bg-rojo text-beige2 text-xs font-medium hover:bg-red-800 transition">
+                                        Cancelar y devolver
+                                    </button>
                                 @endif
                             </div>
                         </div>
@@ -135,10 +136,12 @@
                                                 $fechaHoraClase = \Carbon\Carbon::parse($b->class_date.' '.substr($b->class_time,0,5));
                                             @endphp
                                             @if($b->paid && !$b->refunded && $fechaHoraClase->isFuture())
-                                                <form method="POST" action="{{ route('admin.bookings.refund', $b) }}">
-                                                    @csrf
-                                                    <button type="submit" onclick="return confirm('¿Devolver el pago y cancelar esta reserva?');" class="px-3 py-1 rounded-full bg-rojo text-beige2 text-xs font-medium hover:bg-red-800 transition">Cancelar y devolver</button>
-                                                </form>
+                                                {{-- Botón que abre modal de cancelar y devolver --}}
+                                                <button type="button"
+                                                        onclick="openAdminCancelModal('{{ route('admin.bookings.refund', $b) }}')"
+                                                        class="px-3 py-1 rounded-full bg-rojo text-beige2 text-xs font-medium hover:bg-red-800 transition">
+                                                    Cancelar y devolver
+                                                </button>
                                             @endif
                                         </div>
                                     </td>
@@ -198,10 +201,12 @@
                         <div class="mt-3 flex flex-wrap gap-2">
                             @php $fechaHoraClase = \Carbon\Carbon::parse($b->class_date.' '.substr($b->class_time,0,5)); @endphp
                             @if($b->paid && !$b->refunded && $fechaHoraClase->isFuture())
-                                <form method="POST" action="{{ route('admin.bookings.refund', $b) }}">
-                                    @csrf
-                                    <button type="submit" onclick="return confirm('¿Devolver el pago y cancelar esta reserva?');" class="px-3 py-1 rounded-full bg-rojo text-beige2 text-xs font-medium hover:bg-red-800 transition">Cancelar y devolver</button>
-                                </form>
+                                {{-- Botón que abre modal de cancelar y devolver --}}
+                                <button type="button"
+                                        onclick="openAdminCancelModal('{{ route('admin.bookings.refund', $b) }}')"
+                                        class="px-3 py-1 rounded-full bg-rojo text-beige2 text-xs font-medium hover:bg-red-800 transition">
+                                    Cancelar y devolver
+                                </button>
                             @else
                                 <span class="text-gray-500 text-xs">No aplicable</span>
                             @endif
@@ -246,10 +251,12 @@
                                 <td class="py-3 px-4">
                                     @php $fechaHoraClase = \Carbon\Carbon::parse($b->class_date.' '.substr($b->class_time,0,5)); @endphp
                                     @if($b->paid && !$b->refunded && $fechaHoraClase->isFuture())
-                                        <form method="POST" action="{{ route('admin.bookings.refund', $b) }}">
-                                            @csrf
-                                            <button type="submit" onclick="return confirm('¿Devolver el pago y cancelar esta reserva?');" class="px-3 py-1 rounded-full bg-rojo text-beige2 text-xs font-medium hover:bg-red-800 transition">Cancelar y devolver</button>
-                                        </form>
+                                        {{-- Botón que abre modal de cancelar y devolver --}}
+                                        <button type="button"
+                                                onclick="openAdminCancelModal('{{ route('admin.bookings.refund', $b) }}')"
+                                                class="px-3 py-1 rounded-full bg-rojo text-beige2 text-xs font-medium hover:bg-red-800 transition">
+                                            Cancelar y devolver
+                                        </button>
                                     @else
                                         <span class="text-gray-500 text-xs">No aplicable</span>
                                     @endif
@@ -293,4 +300,51 @@
         </div>
         </div>
     </div>
+
+    {{-- MODAL ADMIN: cancelar y devolver --}}
+    <div id="adminCancelModal"
+         class="fixed inset-0 hidden items-center justify-center bg-black/40 z-50">
+        <div class="bg-white rounded-2xl p-6 max-w-sm mx-auto shadow-xl text-center border border-beige dark:bg-slate-900 dark:text-slate-100">
+            <h3 class="text-lg font-semibold text-azul mb-3">Cancelar y devolver</h3>
+
+            <p class="text-gray-700 dark:text-slate-100 mb-6">
+                ¿Seguro que quieres <strong>cancelar esta reserva</strong> y <strong>devolver el pago al alumno</strong>?
+            </p>
+
+            <div class="flex justify-center gap-3">
+                <button type="button"
+                        onclick="closeAdminCancelModal()"
+                        class="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600">
+                    No cancelar
+                </button>
+
+                <form id="adminCancelForm" method="POST" class="inline">
+                    @csrf
+                    <button type="submit"
+                            class="px-4 py-2 rounded-lg bg-rojo text-beige2 hover:bg-red-700 transition">
+                        Sí, cancelar y devolver
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openAdminCancelModal(formAction) {
+            const modal = document.getElementById('adminCancelModal');
+            const form = document.getElementById('adminCancelForm');
+
+            form.action = formAction;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeAdminCancelModal() {
+            const modal = document.getElementById('adminCancelModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
+
 </x-app-layout>

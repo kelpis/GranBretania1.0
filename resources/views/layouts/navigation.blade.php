@@ -17,7 +17,7 @@
 
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:flex text-azul dark:text-white tracking-wide">
-                        <a href="{{ route('bookings.create') }}" class="px-2 py-1 text-sm font-medium 
+                        <a href="{{ route('bookings.create') }}" class="px-2 py-1 text-sm font-medium
                                 {{ request()->routeIs('bookings.create')
             ? 'text-azul border-b-2 border-azul dark:text-white dark:border-white'
             : 'text-azul/80 hover:text-azul dark:text-white/80 dark:hover:text-white' }}">

@@ -28,17 +28,28 @@ class UserBookingController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $bookings = ClassBooking::where('user_id', $user->id)
-            ->orderBy('class_date', 'desc')
-            ->orderBy('class_time', 'desc')
+
+        // Clases FUTURAS (próximas)
+        $upcoming = ClassBooking::where('user_id', $user->id)
+            ->whereDate('class_date', '>=', now()->toDateString())
+            ->orderBy('class_date')
+            ->orderBy('class_time')
             ->get();
 
-        // Obtener solicitudes de traducción asociadas al email del usuario
+        // Clases PASADAS (historial)
+        $history = ClassBooking::where('user_id', $user->id)
+            ->whereDate('class_date', '<', now()->toDateString())
+            ->orderBy('class_date', 'desc')
+            ->orderBy('class_time', 'desc')
+            ->limit(20) // o 10 si prefieres
+            ->get();
+
+        // Traducciones del usuario
         $translations = TranslationRequest::where('email', $user->email)
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('user.bookings.index', compact('bookings', 'translations'));
+        return view('user.bookings.index', compact('upcoming', 'history', 'translations'));
     }
 
     // Formulario para editar una reserva (si le pertenece)
@@ -138,9 +149,9 @@ class UserBookingController extends Controller
 
 
     public function editSuccess()
-{
-    return view('user.bookings.edit_success');
-}
+    {
+        return view('user.bookings.edit_success');
+    }
 
     // Cancela (soft change status) la reserva. Si se cancela con >=24h de antelación y existe pago,
     // se intenta reembolsar automáticamente; en caso contrario se cancela sin reembolso.

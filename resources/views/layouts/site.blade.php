@@ -54,7 +54,7 @@
                     {{-- ENLACES (escritorio) --}}
                     <nav class="flex items-center gap-4">
                         {{-- Desktop links: visible en lg+ --}}
-                        <div class="hidden lg:flex items-center gap-6 text-azul dark:text-beige2 tracking-wide text-lg">
+                        <div class="hidden lg:flex items-center gap-8 text-azul dark:text-beige2 tracking-wide text-lg">
                             <a href="{{ route('home') }}" class="hover:underline">Inicio</a>
                             <a href="{{ route('clases') }}" class="hover:underline">Clases</a>
                             <a href="{{ route('traducciones') }}" class="hover:underline">Traducciones</a>
@@ -137,7 +137,7 @@
                         class="block py-2 hover:underline">Contacto</a>
 
 
-                        
+
                     {{-- Acceder (visible en móvil dentro del menú) --}}
                     @auth
                         <a href="{{ route('profile.edit') }}" @click="open = false"
@@ -275,7 +275,5 @@
             console.log('DEBUG: site layout grecaptcha defined?', (typeof grecaptcha !== 'undefined'));
         });
     </script>
-    <div
-        style="position:fixed; right:8px; bottom:8px; background:rgba(0,0,0,0.7); color:#fff; padding:6px 8px; font-size:12px; border-radius:6px; z-index:999999">
-        reCAPTCHA: {{ config('services.recaptcha.site') ? 'SET' : 'MISSING' }}</div>
+   
 @endif
