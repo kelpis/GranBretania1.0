@@ -18,18 +18,7 @@
                 </div>
             @endif
 
-            @if (session('translation_payment_url'))
-                <div class="p-3 rounded-xl bg-azul/10 border border-azul/40 text-azul text-sm">
-                    Enlace de pago generado para la traducción #{{ session('translation_payment_id') }}:
-                    <a href="{{ session('translation_payment_url') }}" target="_blank" class="underline font-semibold">
-                        Abrir Stripe Checkout
-                    </a>
-                    <p class="text-xs text-gray-700 mt-1">
-                        Copia esta URL y envíasela al cliente por email.
-                    </p>
-                </div>
-            @endif
-
+         
 
             {{-- ========================= --}}
             {{-- CALCULADORA TRADUCCIÓN --}}
@@ -182,7 +171,7 @@
                                     <th class="p-3 text-left">Idiomas</th>
                                     <th class="p-3 text-left">Urgencia</th>
                                     <th class="p-3 text-left">Archivo</th>
-                                    <th class="p-3 text-left">Precio (€)</th>
+                                    <th class="p-3 text-left">Precio</th>
                                     <th class="p-3 text-left">Acciones</th>
                                 </tr>
                             </thead>
@@ -202,11 +191,11 @@
 
                                         {{-- Idiomas --}}
                                         <td class="p-3">
-                                            <span
-                                                class="px-2 py-1 rounded-full text-xs bg-azul text-beige2 font-semibold">{{ strtoupper($tr->source_lang) }}</span>
-                                            <span class="mx-1 font-bold">→</span>
-                                            <span
-                                                class="px-2 py-1 rounded-full text-xs bg-rojo text-beige2 font-semibold">{{ strtoupper($tr->target_lang) }}</span>
+                                            <div class="flex items-center gap-2 whitespace-nowrap overflow-hidden">
+                                                <span class="inline-block px-2 py-1 rounded-full text-xs bg-azul text-beige2 font-semibold">{{ strtoupper($tr->source_lang) }}</span>
+                                                <span class="mx-1 font-bold text-sm">→</span>
+                                                <span class="inline-block px-2 py-1 rounded-full text-xs bg-rojo text-beige2 font-semibold">{{ strtoupper($tr->target_lang) }}</span>
+                                            </div>
                                         </td>
 
                                         {{-- Urgencia --}}

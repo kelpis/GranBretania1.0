@@ -135,6 +135,9 @@
                     <a href="{{ route('faq') }}" @click="open = false" class="block py-2 hover:underline">FAQ</a>
                     <a href="{{ route('contact.create') }}" @click="open = false"
                         class="block py-2 hover:underline">Contacto</a>
+
+
+                        
                     {{-- Acceder (visible en móvil dentro del menú) --}}
                     @auth
                         <a href="{{ route('profile.edit') }}" @click="open = false"

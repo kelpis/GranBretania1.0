@@ -53,27 +53,27 @@
                                 $label  = $statusLabels[$status] ?? ucfirst($status);
                             @endphp
 
-                            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                            <div class="bg-white p-4 rounded-lg shadow-sm border dark:bg-slate-900 dark:text-slate-100 dark:border-slate-700">
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <div class="text-xs text-gray-500">Enviado</div>
-                                        <div class="font-medium text-sm text-negro">
+                                        <div class="font-medium text-sm text-negro dark:text-white">
                                             {{ \Carbon\Carbon::parse($t->created_at)->format('d/m/Y H:i') }}
                                         </div>
                                     </div>
 
                                     <div class="text-right">
                                         <div class="text-xs text-gray-500">Idiomas</div>
-                                        <div class="font-medium text-sm text-negro">
+                                        <div class="font-medium text-sm text-negro dark:text-white">
                                             {{ strtoupper($t->source_lang) }} → {{ strtoupper($t->target_lang) }}
                                         </div>
                                         <div class="mt-1 text-xs text-gray-500">Urgencia</div>
-                                        <div class="text-sm text-negro">{{ ucfirst($t->urgency) }}</div>
+                                        <div class="text-sm text-negro dark:text-white">{{ ucfirst($t->urgency) }}</div>
                                     </div>
                                 </div>
 
                                 @if($t->comments)
-                                    <div class="mt-3 text-sm text-negro">
+                                    <div class="mt-3 text-sm text-negro dark:text-white">
                                         {{ \Illuminate\Support\Str::limit($t->comments, 140) }}
                                     </div>
                                 @endif
@@ -127,16 +127,8 @@
 
                     {{-- DESKTOP: tabla --}}
                     <div class="hidden md:block w-full overflow-x-auto">
-                        <table class="min-w-[640px] w-full table-fixed text-sm">
-                            <colgroup>
-                                <col style="width:18%"> {{-- Enviado --}}
-                                <col style="width:20%"> {{-- Idiomas --}}
-                                <col style="width:12%"> {{-- Urgencia --}}
-                                <col style="width:25%"> {{-- Comentarios --}}
-                                <col style="width:13%"> {{-- Estado --}}
-                                <col style="width:12%"> {{-- Archivo --}}
-                            </colgroup>
-                            <thead class="bg-beige/80 text-azul uppercase text-xs tracking-wider">
+                        <table class="min-w-[640px] w-full table-auto text-sm text-azul dark:text-beige2">
+                            <thead class="bg-beige/80 text-azul uppercase text-xs tracking-wider dark:bg-slate-800/80 dark:text-beige2 dark:border-slate-700">
                                 <tr>
                                     <th class="py-3 px-4 text-left">Enviado</th>
                                     <th class="py-3 px-4 text-left">Idiomas</th>
@@ -156,25 +148,25 @@
                                             && \Illuminate\Support\Facades\Storage::disk('local')->exists($t->output_file_path);
                                     @endphp
 
-                                    <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition">
-                                        <td class="py-3 px-4 font-medium text-negro">
+                                    <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition dark:odd:bg-slate-800 dark:even:bg-slate-900 dark:hover:bg-slate-700">
+                                        <td class="py-3 px-4 font-medium text-negro dark:text-white">
                                             {{ \Carbon\Carbon::parse($t->created_at)->format('d/m/Y H:i') }}
                                         </td>
 
-                                        <td class="py-3 px-4 text-negro">
+                                        <td class="py-3 px-4 text-negro dark:text-white">
                                             {{ strtoupper($t->source_lang) }} → {{ strtoupper($t->target_lang) }}
                                         </td>
 
-                                        <td class="py-3 px-4 text-negro">
+                                        <td class="py-3 px-4 text-negro dark:text-white">
                                             {{ ucfirst($t->urgency) }}
                                         </td>
 
-                                        <td class="py-3 px-4 text-negro">
+                                        <td class="py-3 px-4 text-negro dark:text-white">
                                             {{ \Illuminate\Support\Str::limit($t->comments, 80) }}
                                         </td>
 
                                         {{-- Estado --}}
-                                        <td class="py-3 px-4 text-negro">
+                                        <td class="py-3 px-4 text-negro dark:text-white">
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                                                 @if($status === 'delivered')
                                                     bg-ok text-white
@@ -191,7 +183,7 @@
                                         </td>
 
                                         {{-- Archivo --}}
-                                        <td class="py-3 px-4 text-negro">
+                                        <td class="py-3 px-4 text-negro dark:text-white">
                                             @if($status === 'delivered' && $hasOutput)
                                                 <a href="{{ route('user.translations.download', $t->id) }}"
                                                    class="px-3 py-1 rounded-full bg-azul text-beige2 text-xs font-medium hover:bg-rojo transition">

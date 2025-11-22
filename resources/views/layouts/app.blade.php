@@ -132,9 +132,7 @@
                     z-index: 999999;
                 }
             </style>
-            <div class="recaptcha-debug-badge">
-                reCAPTCHA: {{ config('services.recaptcha.site') ? 'SET' : 'MISSING' }}
-            </div>
+            
         @endif
         @include('components.cookie-consent')
     </body>
