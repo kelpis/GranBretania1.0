@@ -117,15 +117,19 @@
                                                             ✏️ Editar
                                                         </a>
                                                     @else
-                                                        <button onclick="alert('{{ addslashes($reasonText) }}');"
-                                                            class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-400 border border-gray-300 cursor-not-allowed">
+                                                        <span
+                                                            class="relative group inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-400 border border-gray-300 cursor-not-allowed">
                                                             ✏️ Editar
-                                                        </button>
+                                                            <span
+                                                               class="absolute -top-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                                                No se puede editar con menos de 24 horas de antelación.
+                                                            </span>
+                                                        </span>
                                                     @endif
 
                                                     {{-- BOTÓN CANCELAR --}}
                                                     @if($hoursUntil < 0)
-                                                        <span title="La clase ya ha pasado"
+                                                        <span 
                                                             class="relative group inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white border border-gray-300 text-gray-400 cursor-not-allowed opacity-60">
                                                             ❌ Cancelar
                                                             <span
@@ -156,7 +160,7 @@
                                                                 ▶️ Unirse
                                                             </a>
                                                         @else
-                                                            <span title="La clase ya ha pasado"
+                                                            <span 
                                                                 class="relative group inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white border border-gray-300 text-gray-400 cursor-not-allowed opacity-60">
                                                                 ▶️ Unirse
                                                                 <span
@@ -286,7 +290,7 @@
         if (isRefundable === '1') {
             text.textContent = "¿Seguro que deseas cancelar la clase? Se reembolsará el importe automáticamente.";
         } else {
-            text.textContent = "¿Quieres cancelar la clase? No habrá reembolso por hacerlo con poca antelación.";
+            text.textContent = "¿Quieres cancelar la clase?Las cancelaciones realizadas con menos de 24 horas de antelación no dan derecho a reembolso.";
         }
 
         modal.classList.remove('hidden');

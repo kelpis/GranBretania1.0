@@ -73,8 +73,8 @@
 
                 <div class="rounded-lg border border-azul/20 overflow-hidden">
 
-                    {{-- MOBILE VERSION (CARDS) --}}
-                    <div class="md:hidden space-y-3 p-4">
+                    {{-- MOBILE / TABLET VERSION (CARDS) --}}
+                    <div class="lg:hidden space-y-3 p-4">
                         @forelse($items as $tr)
                             <div class="bg-white rounded-lg p-4 border shadow-sm dark:bg-slate-900 dark:text-slate-100">
                                 <div class="flex justify-between items-start">
@@ -145,6 +145,23 @@
                                             </button>
                                         </form>
                                     @endif
+
+                                    {{-- Subir traducción final (mobile) --}}
+                                    @if ($tr->status === 'paid')
+                                        <form method="POST" action="{{ route('admin.translations.deliver', $tr) }}"
+                                            enctype="multipart/form-data" class="space-y-1 mt-2">
+                                            @csrf
+
+                                            <label class="block text-xs text-azul">Subir traducción final</label>
+                                            <input type="file" name="output_file"
+                                                class="w-full text-xs border rounded p-1 bg-white dark:bg-slate-900 dark:text-beige2">
+
+                                            <button type="submit"
+                                                class="mt-1 px-3 py-1 rounded-full bg-ok text-white text-xs font-medium hover:bg-green-700 transition">
+                                                Marcar como entregada
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
 
@@ -157,10 +174,11 @@
 
 
 
-                    {{-- ========================= --}}
-                    {{-- DESKTOP VERSION --}}
-                    {{-- ========================= --}}
-                    <div class="hidden md:block overflow-x-auto">
+                    {{-- ========================= --}
+                    {{-- DESKTOP (LG+) VERSION --}}
+                    {{-- ========================= --
+                    -- Show full table only on large screens to avoid horizontal scroll on tablets --}}
+                    <div class="hidden lg:block overflow-x-auto">
                         <table class="w-full text-sm text-azul dark:text-beige2">
                             <thead
                                 class="bg-beige/80 uppercase text-xs tracking-wide border-b border-beige dark:bg-slate-800/80 dark:text-beige2 dark:border-slate-700">

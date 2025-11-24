@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::table('class_bookings', function (Blueprint $table) {
+        Schema::table('class_bookings', function (Blueprint $table) {
             // Teléfono: de varchar(255) a varchar(20)
             $table->string('phone', 20)->nullable()->change();
 
@@ -28,6 +28,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('class_bookings', function (Blueprint $table) {
+            // Volver al tipo original por si haces rollback
+            $table->string('phone', 255)->nullable()->change();
+            $table->string('currency', 255)->nullable()->change();
+            $table->integer('amount_paid')->nullable()->change();
+        });
     }
 };

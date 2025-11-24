@@ -26,7 +26,7 @@
         <div class="lg:col-span-2 bg-azul text-beige2 rounded-2xl shadow-lg p-8">
 
           @if (session('ok'))
-            <div class="mb-4 bg-ok/10 text-ok border border-ok/40 p-3 rounded text-sm dark:bg-emerald-950 dark:text-emerald-100 dark:border-emerald-500/60">
+            <div class="mb-4 bg-ok/10 text-white border border-ok/40 p-3 rounded text-sm dark:bg-emerald-950 dark:text-emerald-100 dark:border-emerald-500/60">
               {{ session('ok') }}
             </div>
           @endif
