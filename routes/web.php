@@ -51,7 +51,7 @@ Route::get('/lang/{locale}', function ($locale) {
 // Home / Landing
 // --------------------------------------------------
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.home');
 });
 
 // --------------------------------------------------
