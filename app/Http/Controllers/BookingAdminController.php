@@ -15,21 +15,21 @@ class BookingAdminController extends Controller
 {
     public function index()
     {
-        // 1) Pendientes: puedes dejarlas tal cual o filtrar por fecha si quieres
+        // Reservas pendientes
         $pendientes = ClassBooking::where('status', 'pending')
             ->where('paid', true)
             ->orderBy('class_date')
             ->orderBy('class_time')
             ->get();
 
-        // 2) Reservas confirmadas -> SOLO FUTURAS (a partir de hoy)
+        //Reservas confirmadas:SOLO FUTURAS
         $confirmadas = ClassBooking::where('status', 'confirmed')
             ->whereDate('class_date', '>=', Carbon::today())
             ->orderBy('class_date')
             ->orderBy('class_time')
             ->get();
 
-        // 3) Canceladas recientes -> últimas 10, ordenadas de más nueva a más vieja
+        //Canceladas recientes:últimas 10, ordenadas de más nueva a más vieja
         $canceladas = ClassBooking::where('status', 'cancelled')
             ->orderBy('class_date', 'desc')
             ->orderBy('class_time', 'desc')
@@ -39,6 +39,8 @@ class BookingAdminController extends Controller
         return view('admin.booking', compact('pendientes', 'confirmadas', 'canceladas'));
     }
 
+
+    //Confirmar reservas
     public function confirm(ClassBooking $booking)
     {
         // Evitar solape: si ya hay otra confirmada misma fecha/hora
@@ -63,9 +65,14 @@ class BookingAdminController extends Controller
         // Asegurarnos de refrescar el modelo para que contenga meeting_url actualizado
         $booking->refresh();
 
+        //Enviar notificacion con url de la meeting al usuario.
         try {
-            Notification::route('mail', $booking->email)
-                ->notify(new BookingConfirmedNotification($booking));
+            if ($booking->user) {
+                $booking->user->notify(new BookingConfirmedNotification($booking));
+            } else {
+                Notification::route('mail', $booking->email)
+                    ->notify(new BookingConfirmedNotification($booking));
+            }
         } catch (\Throwable $e) {
             Log::warning('Error al enviar confirmación: ' . $e->getMessage());
         }
@@ -73,13 +80,20 @@ class BookingAdminController extends Controller
         return back()->with('ok', 'Reserva confirmada y correo enviado.');
     }
 
+    //Cancelar reserva
+
     public function cancel(ClassBooking $booking)
     {
+        //Actualiza estado a cancelado
         $booking->update(['status' => 'cancelled']);
 
         try {
-            Notification::route('mail', $booking->email)
-                ->notify(new BookingCancelledNotification($booking));
+            if ($booking->user) {
+                $booking->user->notify(new BookingCancelledNotification($booking));
+            } else {
+                Notification::route('mail', $booking->email)
+                    ->notify(new BookingCancelledNotification($booking));
+            }
         } catch (\Throwable $e) {
             Log::warning('Error al enviar cancelación: ' . $e->getMessage());
         }

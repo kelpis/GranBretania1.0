@@ -26,8 +26,8 @@ class BookingAdminNotification extends Notification implements ShouldQueue
             ->greeting('¡Nueva solicitud de clase!')
             ->line("Fecha: {$this->booking->class_date}")
             ->line("Hora: {$this->booking->class_time}")
-            ->line("Nombre: {$this->booking->name}")
-            ->line("Email: {$this->booking->email}")
+            ->line("Nombre: " . ($this->booking->user->name ?? $this->booking->name))
+            ->line("Email: " . ($this->booking->user->email ?? $this->booking->email))
             ->lineIf($this->booking->phone, "Teléfono: {$this->booking->phone}")
             ->lineIf($this->booking->notes, "Notas: {$this->booking->notes}")
             ->salutation('— Sistema de reservas Gran Bretania');

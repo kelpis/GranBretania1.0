@@ -13,7 +13,8 @@ class StoreClassBookingRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        // Reservas solo para usuarios autenticados
+        return auth()->check();
     }
 
     public function rules(): array
@@ -21,10 +22,8 @@ class StoreClassBookingRequest extends FormRequest
         return [
          'class_date' => ['required', 'date', 'after_or_equal:today'],
             'class_time' => ['required', 'date_format:H:i'],
-            'name'       => ['required', 'string', 'max:120'],
-            'email'      => ['required', 'email'],
-            // Allow common phone characters: digits, spaces, +, parentheses and hyphens
-            'phone'      => ['nullable', 'string', 'max:40', 'regex:/^[0-9+\\s\\-()]+$/'],
+            // Nombre/email/phone son gestionados por el `User` (login obligatorio)
+            // datos mínimos de reserva
             'notes'      => ['nullable', 'string', 'max:255'],
             'gdpr'       => ['accepted'],
             // validate reCAPTCHA v3 with a conservative threshold (0.5) and expected action 'booking'

@@ -23,7 +23,7 @@ class BookingConfirmedNotification extends Notification
     {
         $mail = (new MailMessage)
             ->subject('¡Reserva confirmada!')
-            ->greeting("Hola {$this->booking->name}")
+            ->greeting("Hola " . ($this->booking->user->name ?? $this->booking->name))
             ->line('Tu clase ha sido CONFIRMADA.')
             ->line('Fecha: ' . \Carbon\Carbon::parse($this->booking->class_date)->format('d/m/Y'))
             ->line('Hora: ' . substr($this->booking->class_time, 0, 5))

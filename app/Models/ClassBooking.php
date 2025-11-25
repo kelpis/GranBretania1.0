@@ -7,19 +7,16 @@ use App\Models\User;
 
 class ClassBooking extends Model
 {
+    //Campos asignables al guardar o actualizar
     protected $fillable = [
         'class_date',
         'class_time',
-        'name',
-        'email',
         'user_id',
-        'phone',
         'notes',
         'status',
         'gdpr_given',
         'gdpr_at',
         'meeting_url',
-        // payment fields
         'paid',
         'paid_at',
         'payment_intent',
@@ -27,7 +24,7 @@ class ClassBooking extends Model
         'currency',
         'edit_count',
     ];
-
+    //Convertir campos al tipo necesario
     protected $casts = [
         'gdpr_given' => 'boolean',
         'gdpr_at' => 'datetime',
@@ -36,7 +33,7 @@ class ClassBooking extends Model
         'edit_count' => 'integer',
     ];
 
-    // Relación con el usuario (opcional)
+    // Relación con el usuario
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -22,7 +22,7 @@ class BookingCancelledNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Reserva cancelada')
-            ->greeting("Hola {$this->booking->name}")
+            ->greeting("Hola " . ($this->booking->user->name ?? $this->booking->name))
             ->line('Lamentamos informarte de que tu reserva ha sido cancelada.')
             ->line('Se ha procedido a realizar el reembolso del importe abonado. El reintegro aparecerá en tu cuenta en unos días, según tu entidad bancaria.')
             ->line('Si lo deseas, puedes volver a reservar otra fecha desde nuestra web.')

@@ -31,7 +31,7 @@
         .content p,
         .content h2 {
             text-align: center !important;
-            margin: 0 0 16px 0;
+            margin: 16px 0 16px 0;
             line-height: 1.6;
             color: #111;
         }
@@ -50,11 +50,12 @@
         }
 
         .footer {
-            padding: 18px;
-            background: #fafafa;
-            color: #777;
+            padding: 26px 18px;
+            background: #011A6B;
+            color: white;
             font-size: 12px;
             text-align: center;
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -62,20 +63,9 @@
 <body>
 <div class="wrapper">
 
-    {{-- HEADER --}}
-    <div class="header" style="
-        background:#011A6B;
-        padding: 30px 30px;
-        text-align: center;
-    ">
-        <h1 style="
-            margin: 0 auto;
-            font-size: 26px;
-            font-weight: 700;
-            color: #ffffff !important;
-            display: inline-block;
-            padding: 0 10px;
-        ">
+    {{-- HEADER: título alineado a la izquierda --}}
+    <div class="header" style="background:#011A6B; padding: 20px 30px; text-align: center;">
+        <h1 style="margin: 0 auto; font-size: 22px; font-weight:700; color:#ffffff; display:block; text-align:center;">
             Gran Bretania
         </h1>
     </div>

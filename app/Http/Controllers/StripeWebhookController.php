@@ -102,27 +102,14 @@ class StripeWebhookController extends Controller
                 }
             }
 
-            // 3️⃣ Fallback: buscar por email reciente si no hay metadata
+            // 3️⃣ Si no hay booking tras buscar por session o metadata, no intentamos
+            //     emparejar por email. Requerimos `stripe_session_id` o `metadata.booking_id`.
             if (! $booking) {
-                $customerEmail = $session->customer_email ?? ($session->customer_details->email ?? null);
-                if ($customerEmail) {
-                    $booking = ClassBooking::where('email', $customerEmail)
-                        ->where('paid', false)
-                        ->where('created_at', '>=', now()->subHours(48))
-                        ->orderBy('created_at', 'desc')
-                        ->first();
-
-                    if ($booking) {
-                        Log::info('Stripe webhook fallback matched booking by email', [
-                            'customer_email' => $customerEmail,
-                            'matched_booking_id' => $booking->id,
-                        ]);
-                    } else {
-                        Log::info('Stripe webhook fallback found no booking for email', [
-                            'customer_email' => $customerEmail,
-                        ]);
-                    }
-                }
+                Log::info('Stripe webhook: no class booking matched by stripe_session_id or metadata.booking_id', [
+                    'session_id' => $session->id ?? null,
+                    'metadata' => is_object($session->metadata) ? (array)$session->metadata : $session->metadata,
+                ]);
+                return response()->json(['ok' => true]);
             }
 
             // 4️⃣ Si encontramos la reserva y aún no estaba pagada
@@ -145,7 +132,8 @@ class StripeWebhookController extends Controller
 
                 // Enviar notificaciones
                 try {
-                    Notification::route('mail', $booking->email)
+                    $recipient = $booking->user->email ?? $booking->email;
+                    Notification::route('mail', $recipient)
                         ->notify(new BookingReceived($booking));
 
                     sleep(1); // pequeña pausa entre correos
@@ -164,40 +152,29 @@ class StripeWebhookController extends Controller
         if (in_array($event->type, ['payment_intent.succeeded', 'charge.succeeded', 'charge.updated'])) {
             $obj = $event->data->object;
             $bookingId = null;
-            $customerEmail = null;
 
             if (isset($obj->metadata) && !empty($obj->metadata)) {
                 $bookingId = $obj->metadata->booking_id ?? ($obj->metadata['booking_id'] ?? null);
             }
 
-            if (isset($obj->receipt_email)) {
-                $customerEmail = $obj->receipt_email;
-            }
-
-            if (isset($obj->charges->data[0])) {
-                $c = $obj->charges->data[0];
-                $customerEmail = $customerEmail ?? ($c->billing_details->email ?? ($c->receipt_email ?? null));
-            }
-
             Log::info('Stripe payment/charge event received', [
                 'type' => $event->type,
                 'booking_id_meta' => $bookingId,
-                'customer_email' => $customerEmail,
                 'object_id' => $obj->id ?? null,
             ]);
 
-            // Buscar booking por id o email
+            // Buscar booking solo por metadata.booking_id (no por email)
             $booking = null;
             if ($bookingId) {
                 $booking = ClassBooking::find($bookingId);
             }
 
-            if (! $booking && $customerEmail) {
-                $booking = ClassBooking::where('email', $customerEmail)
-                    ->where('paid', false)
-                    ->where('created_at', '>=', now()->subHours(48))
-                    ->orderBy('created_at', 'desc')
-                    ->first();
+            if (! $booking) {
+                Log::info('Stripe payment/charge event: no booking matched by metadata.booking_id', [
+                    'object_id' => $obj->id ?? null,
+                    'booking_id_meta' => $bookingId,
+                ]);
+                return response()->json(['ok' => true]);
             }
 
             if ($booking && ! $booking->paid) {
@@ -222,7 +199,8 @@ class StripeWebhookController extends Controller
 
                 // Notificaciones
                 try {
-                    Notification::route('mail', $booking->email)
+                    $recipient = $booking->user->email ?? $booking->email;
+                    Notification::route('mail', $recipient)
                         ->notify(new BookingReceived($booking));
 
                     sleep(1);

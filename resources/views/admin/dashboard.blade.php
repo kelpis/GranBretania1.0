@@ -111,7 +111,7 @@
                                                 {{ substr($b->class_time, 0, 5) }}
                                             </td>
                                             <td class="py-2 px-2">
-                                                {{ $b->name }}
+                                                {{ $b->user->name ?? $b->name }}
                                             </td>
                                             <td class="py-2 px-2">
                                                 @php

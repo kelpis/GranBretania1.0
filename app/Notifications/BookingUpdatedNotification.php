@@ -22,7 +22,7 @@ class BookingUpdatedNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Reserva modificada')
-            ->greeting("Hola {$this->booking->name}")
+            ->greeting("Hola " . ($this->booking->user->name ?? $this->booking->name))
             ->line('Tu reserva ha sido modificada con éxito.')
             ->line('Nueva fecha: '.\Carbon\Carbon::parse($this->booking->class_date)->format('d/m/Y'))
             ->line('Nueva hora: '.substr($this->booking->class_time,0,5))

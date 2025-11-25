@@ -50,11 +50,11 @@
 
                             <div class="mt-3">
                                 <div class="text-xs text-gray-500">Nombre</div>
-                                <div class="font-medium">{{ $b->name }}</div>
+                                <div class="font-medium">{{ $b->user->name ?? $b->name }}</div>
 
                                 <div class="text-xs text-gray-500 mt-2">Email</div>
                                 <div class="truncate">
-                                    <a href="mailto:{{ $b->email }}" class="underline text-azul dark:text-white hover:text-rojo dark:hover:text-rose-100">{{ $b->email }}</a>
+                                    <a href="mailto:{{ $b->user->email ?? $b->email }}" class="underline text-azul dark:text-white hover:text-rojo dark:hover:text-rose-100">{{ $b->user->email ?? $b->email }}</a>
                                 </div>
 
                                 @if(!empty($b->notes))
@@ -110,8 +110,8 @@
                                 <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition dark:odd:bg-slate-800 dark:even:bg-slate-900 dark:hover:bg-slate-700">
                                     <td class="py-3 px-4">{{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}</td>
                                     <td class="py-3 px-4">{{ substr($b->class_time, 0, 5) }}</td>
-                                    <td class="py-3 px-4">{{ $b->name }}</td>
-                                    <td class="py-3 px-4"><a href="mailto:{{ $b->email }}" class="underline text-azul dark:text-white hover:text-rojo dark:hover:text-rose-100">{{ $b->email }}</a></td>
+                                    <td class="py-3 px-4">{{ $b->user->name ?? $b->name }}</td>
+                                    <td class="py-3 px-4"><a href="mailto:{{ $b->user->email ?? $b->email }}" class="underline text-azul dark:text-white hover:text-rojo dark:hover:text-rose-100">{{ $b->user->email ?? $b->email }}</a></td>
                                     <td class="py-3 px-4">{{ $b->notes }}</td>
                                     <td class="py-3 px-4">
                                         @if($b->paid)
@@ -181,9 +181,9 @@
                                 <div class="text-xs text-gray-500 mt-2">Hora</div>
                                 <div class="text-sm text-azul">{{ substr($b->class_time, 0, 5) }}</div>
                                 <div class="text-xs text-gray-500 mt-2">Nombre</div>
-                                <div class="font-medium">{{ $b->name }}</div>
+                                <div class="font-medium">{{ $b->user->name ?? $b->name }}</div>
                                 <div class="text-xs text-gray-500 mt-2">Email</div>
-                                <div class="truncate"><a href="mailto:{{ $b->email }}" class="underline text-azul dark:text-white">{{ $b->email }}</a></div>
+                                <div class="truncate"><a href="mailto:{{ $b->user->email ?? $b->email }}" class="underline text-azul dark:text-white">{{ $b->user->email ?? $b->email }}</a></div>
                             </div>
 
                             <div class="text-right">
@@ -239,8 +239,8 @@
                             <tr class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition dark:odd:bg-slate-800 dark:even:bg-slate-900 dark:hover:bg-slate-700">
                                 <td class="py-3 px-4">{{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}</td>
                                 <td class="py-3 px-4">{{ substr($b->class_time, 0, 5) }}</td>
-                                <td class="py-3 px-4">{{ $b->name }}</td>
-                                <td class="py-3 px-4"><a href="mailto:{{ $b->email }}" class="underline text-azul dark:text-white hover:text-rojo dark:hover:text-rose-100">{{ $b->email }}</a></td>
+                                <td class="py-3 px-4">{{ $b->user->name ?? $b->name }}</td>
+                                <td class="py-3 px-4"><a href="mailto:{{ $b->user->email ?? $b->email }}" class="underline text-azul dark:text-white hover:text-rojo dark:hover:text-rose-100">{{ $b->user->email ?? $b->email }}</a></td>
                                 <td class="py-3 px-4">
                                     @if(!empty($b->meeting_url))
                                         <a href="{{ route('bookings.join', $b) }}" target="_blank" class="underline text-azul dark:text-white hover:text-rojo dark:hover:text-rose-100 break-all text-xs">{{ $b->meeting_url }}</a>
@@ -282,8 +282,8 @@
                 <ul class="list-disc pl-6 text-sm space-y-1">
                     @forelse ($canceladas->take(5) as $b)
                         <li>
-                            {{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}
-                            {{ substr($b->class_time, 0, 5) }} — {{ $b->name }} ({{ $b->email }})
+                                {{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}
+                            {{ substr($b->class_time, 0, 5) }} — {{ $b->user->name ?? $b->name }} ({{ $b->user->email ?? $b->email }})
                             @if(!empty($b->refunded))
                                 <span class="ml-2 px-2 py-0.5 text-xs rounded-full bg-info text-negro font-semibold">
                                     Devuelta

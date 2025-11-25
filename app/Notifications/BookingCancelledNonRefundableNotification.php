@@ -22,7 +22,7 @@ class BookingCancelledNonRefundableNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Reserva cancelada')
-            ->greeting("Hola {$this->booking->name}")
+            ->greeting("Hola " . ($this->booking->user->name ?? $this->booking->name))
             ->line('Tu reserva ha sido cancelada.')
             ->line('De acuerdo con nuestras condiciones, las cancelaciones realizadas con menos de 24 horas de antelación no dan derecho a reembolso.')
             ->line('Si crees que hay un error o necesitas asistencia, por favor contacta con nosotros.')

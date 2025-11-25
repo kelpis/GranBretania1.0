@@ -66,17 +66,12 @@ class ClassBookingController extends Controller
         $payload = [
             'class_date' => $data['class_date'],
             'class_time' => $data['class_time'],
-            'name'       => $data['name'],
-            'email'      => $data['email'],
-            'phone'      => $data['phone'] ?? null,
             'notes'      => $data['notes'] ?? null,
             'status'     => 'pending',
         ];
 
-        // Asignar user_id si hay usuario autenticado
-        if (Auth::check()) {
-            $payload['user_id'] = Auth::id();
-        }
+        // Usuario autenticado es obligatorio: asignar su id
+        $payload['user_id'] = Auth::id();
 
         // Mapear consentimiento GDPR si viene en el request
         if (isset($data['gdpr']) && $data['gdpr']) {
@@ -101,13 +96,14 @@ class ClassBookingController extends Controller
                     'price_data' => [
                         'currency' => 'eur',
                         'product_data' => [
-                            'name' => 'Reserva clase - ' . $booking->name,
-                        ],
-                        'unit_amount' => 2500, // 25.00 EUR in cents
+                                'name' => 'Reserva clase - ' . (Auth::user()->name ?? ($booking->name ?? 'Reserva')),
+                            ],
+                            'unit_amount' => 2500, // 25.00 EUR in cents
                     ],
                     'quantity' => 1,
                 ]],
-                'customer_email' => $booking->email,
+                        // Forzar email del cliente desde el usuario autenticado
+                        'customer_email' => Auth::user()->email ?? ($booking->email ?? null),
                 'metadata' => [
                     'booking_id' => $booking->id,
                 ],
@@ -240,7 +236,7 @@ class ClassBookingController extends Controller
         // Si no, permitir a usuarios autenticados que sean admin o dueños
         if (Auth::check()) {
             $user = Auth::user();
-            if ($user->is_admin || $user->email === $booking->email || $user->id === $booking->user_id) {
+            if ($user->is_admin || $user->id === $booking->user_id) {
                 if (! empty($booking->meeting_url)) {
                     return redirect()->away($booking->meeting_url);
                 }

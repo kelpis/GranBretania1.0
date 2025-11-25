@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class TranslationRequest extends Model
 {
+    //MODELO SOLICITUD TRADUCCIONES
+    //Campos asignables al guardar o actualizar
     protected $fillable = [
         'name',
         'email',
@@ -26,7 +28,7 @@ class TranslationRequest extends Model
         'output_file_path',
         'delivered_at',
     ];
-
+      //Convertir campos al tipo necesario
     protected $casts = [
         'gdpr_given'   => 'boolean',
         'gdpr_at'      => 'datetime',
@@ -38,12 +40,12 @@ class TranslationRequest extends Model
     {
         return $this->belongsTo(\App\Models\User::class);
     }
-
+    //Método de ayuda para comprobar si la solicitud ha sido pagada.
     public function isPaid()    
     {
         return $this->status === 'paid';
     }
-
+    //Método de ayuda para comprobar si la solicitud ha sido enviada.
     public function isDelivered()
     {
         return $this->status === 'delivered' && $this->output_file_path;

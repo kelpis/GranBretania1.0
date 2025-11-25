@@ -74,14 +74,14 @@
                     {{-- Nombre --}}
                     <div>
                         <x-input-label for="name" class="text-beige2" :value="__('Nombre')" />
-                        <x-text-input id="name" class="block mt-1 w-full bg-white text-azul rounded p-2" type="text" name="name" :value="old('name', $booking->name)" required />
+                        <x-text-input id="name" class="block mt-1 w-full bg-white text-azul rounded p-2" type="text" name="name" :value="old('name', $booking->user->name ?? $booking->name)" required />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
 
                     {{-- Teléfono --}}
                     <div>
                         <x-input-label for="phone" class="text-beige2" :value="__('Teléfono')" />
-                        <x-text-input id="phone" class="block mt-1 w-full bg-white text-azul rounded p-2" type="tel" name="phone" :value="old('phone', $booking->phone)" placeholder="(opcional)" />
+                        <x-text-input id="phone" class="block mt-1 w-full bg-white text-azul rounded p-2" type="tel" name="phone" :value="old('phone', $booking->user->phone ?? $booking->phone)" placeholder="(opcional)" />
                         <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                     </div>
 

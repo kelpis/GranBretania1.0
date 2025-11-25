@@ -17,11 +17,12 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    //Campos se pueden asignables
     protected $fillable = [
         'name',
         'email',
         'password',
-        //'is_admin',
+        
     ];
 
     /**
@@ -39,6 +40,7 @@ class User extends Authenticatable
      *
      * @var array<string,string>
      */
+    //Convierte atributos automáticamente para trabajar más cómodamente
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',

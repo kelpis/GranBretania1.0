@@ -130,8 +130,12 @@ class UserBookingController extends Controller
 
         // Notificar al usuario y al admin del cambio (proteger contra errores de envío)
         try {
-            Notification::route('mail', $booking->email)
-                ->notify(new BookingUpdatedNotification($booking));
+            if ($booking->user) {
+                $booking->user->notify(new BookingUpdatedNotification($booking));
+            } else {
+                Notification::route('mail', $booking->email)
+                    ->notify(new BookingUpdatedNotification($booking));
+            }
 
             Notification::route('mail', env('ADMIN_EMAIL', config('mail.from.address')))
                 ->notify(new BookingAdminUpdatedNotification($booking));

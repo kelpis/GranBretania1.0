@@ -23,7 +23,7 @@ class BookingReceived extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Tu clase ha sido reservada con éxito 🎉')
-            ->greeting("Hola {$this->booking->name} 👋")
+            ->greeting("Hola " . ($this->booking->user->name ?? $this->booking->name) . " 👋")
             ->line("Hemos recibido correctamente tu pago para la clase del " .
                 \Carbon\Carbon::parse($this->booking->class_date)->format('d/m/Y') .
                 " a las " . substr($this->booking->class_time, 0, 5) . ".")
