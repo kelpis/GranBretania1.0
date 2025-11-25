@@ -25,11 +25,11 @@ class TranslationRequestController extends Controller
         $path = $request->file('file')->store('translations');
 
         $data = $request->safe()->except('file');
-        // Si el usuario está autenticado, vincular la solicitud a su cuenta
+        // El usuario debe estar autenticado (ver StoreTranslationRequest::authorize).
+        // Vincular la solicitud a la cuenta del usuario y no almacenar name/email
+        // en la tabla si se puede evitar (transición hacia normalización).
         if (Auth::check()) {
             $data['user_id'] = Auth::id();
-            // Forzar email del usuario autenticado para evitar suplantación
-            $data['email'] = Auth::user()->email;
         }
         // Mapear consentimiento GDPR
         if (isset($data['gdpr']) && $data['gdpr']) {
@@ -40,14 +40,24 @@ class TranslationRequestController extends Controller
 
         $tr = TranslationRequest::create(array_merge($data, ['file_path' => $path]));
 
-        // correo al usuario
-        Notification::route('mail', $tr->email)
-            ->notify(new TranslationReceived($tr));
+        // Notificar al usuario autenticado (preferir notify sobre route mail)
+        try {
+            if ($tr->user) {
+                $tr->user->notify(new TranslationReceived($tr));
+            } else {
+                // Fallback: use posted email if present (backwards compatibility)
+                Notification::route('mail', $request->input('email'))
+                    ->notify(new TranslationReceived($tr));
+            }
 
-        // (opcional) correo al admin con pequeña pausa si usas Mailtrap free
-        sleep(2);
-        Notification::route('mail', env('ADMIN_EMAIL', config('mail.from.address')))
-            ->notify(new TranslationAdminAlert($tr));
+            // Notificar al admin
+            // (opcional) pequeña pausa para proveedores de testing con límites
+            sleep(2);
+            Notification::route('mail', env('ADMIN_EMAIL', config('mail.from.address')))
+                ->notify(new TranslationAdminAlert($tr));
+        } catch (\Throwable $e) {
+            // No bloquear la experiencia de usuario por fallos de notificación
+        }
 
         return back()->with('ok', 'Solicitud enviada. Revisa tu correo para el acuse.');
     }

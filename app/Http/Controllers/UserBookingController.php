@@ -44,8 +44,8 @@ class UserBookingController extends Controller
             ->limit(20) // o 10 si prefieres
             ->get();
 
-        // Traducciones del usuario
-        $translations = TranslationRequest::where('email', $user->email)
+        // Traducciones del usuario (ahora vinculadas por user_id)
+        $translations = TranslationRequest::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->get();
 

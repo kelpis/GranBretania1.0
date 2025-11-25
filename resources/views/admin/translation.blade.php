@@ -84,7 +84,7 @@
                                             {{ $tr->created_at->format('d/m/Y H:i') }}</div>
 
                                         <div class="text-xs text-gray-500 mt-2">Nombre</div>
-                                        <div class="font-medium">{{ $tr->name }}</div>
+                                        <div class="font-medium">{{ $tr->user->name ?? '—' }}</div>
                                     </div>
 
                                     <div class="text-right">
@@ -102,8 +102,11 @@
                                 <div class="mt-3">
                                     <div class="text-xs text-gray-500">Email</div>
                                     <div class="truncate">
-                                        <a href="mailto:{{ $tr->email }}"
-                                            class="underline text-azul dark:text-white">{{ $tr->email }}</a>
+                                        @if($tr->user && $tr->user->email)
+                                            <a href="mailto:{{ $tr->user->email }}" class="underline text-azul dark:text-white">{{ $tr->user->email }}</a>
+                                        @else
+                                            <span class="text-gray-600">—</span>
+                                        @endif
                                     </div>
 
                                     <div class="text-xs text-gray-500 mt-2">Idiomas</div>
@@ -199,12 +202,13 @@
                                     <tr
                                         class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition dark:odd:bg-slate-800 dark:even:bg-slate-900 dark:hover:bg-slate-700">
                                         <td class="p-3">{{ $tr->created_at->format('d/m/Y H:i') }}</td>
-                                        <td class="p-3">{{ $tr->name }}</td>
+                                        <td class="p-3">{{ $tr->user->name ?? '—' }}</td>
                                         <td class="p-3">
-                                            <a href="mailto:{{ $tr->email }}"
-                                                class="text-azul underline hover:text-rojo transition dark:text-white dark:hover:text-rose-100">
-                                                {{ $tr->email }}
-                                            </a>
+                                            @if($tr->user && $tr->user->email)
+                                                <a href="mailto:{{ $tr->user->email }}" class="text-azul underline hover:text-rojo transition dark:text-white dark:hover:text-rose-100">{{ $tr->user->email }}</a>
+                                            @else
+                                                <span class="text-gray-600">—</span>
+                                            @endif
                                         </td>
 
                                         {{-- Idiomas --}}

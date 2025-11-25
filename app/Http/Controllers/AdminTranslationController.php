@@ -54,6 +54,8 @@ class AdminTranslationController extends Controller
         try {
             $stripe = new StripeClient($stripeSecret);
 
+            $recipientEmail = $translation->user->email ?? $translation->email;
+
             $session = $stripe->checkout->sessions->create([
                 'payment_method_types' => ['card'],
                 'mode' => 'payment',
@@ -71,7 +73,7 @@ class AdminTranslationController extends Controller
                 ]],
 
                 //El email se usa para que Stripe notifique,metadatos útiles para webhooks.
-                'customer_email' => $translation->email,
+                'customer_email' => $recipientEmail,
                 'metadata' => [
                     'translation_id' => $translation->id,
                     'type' => 'translation',
@@ -88,13 +90,17 @@ class AdminTranslationController extends Controller
 
 
             //ENVIAR EMAIL AUTOMÁTICO CON EL ENLACE DE PAGO STRIPE
-
-
-            Notification::route('mail', $translation->email)
-                ->notify(new TranslationPaymentLink(
-                    $translation,
-                    $session->url
-                ));
+            //Preferir notificar usando el modelo User (si existe) para que
+            //la notificación use sus canales/configuración y mantenga la relación.
+            if ($translation->user) {
+                $translation->user->notify(new TranslationPaymentLink($translation, $session->url));
+            } else {
+                Notification::route('mail', $recipientEmail)
+                    ->notify(new TranslationPaymentLink(
+                        $translation,
+                        $session->url
+                    ));
+            }
 
             return back()
                 ->with('ok', 'Presupuesto guardado y enlace de pago generado.')
@@ -129,9 +135,15 @@ class AdminTranslationController extends Controller
         $translation->status = 'delivered';
         $translation->save();
 
-        //Enviar email al usuario
-        Notification::route('mail', $translation->email)
-            ->notify(new TranslationDelivered($translation));
+        //Enviar email al usuario: preferimos notificar a través del modelo User
+        //para usar sus canales/colas; si no hay user, usamos el email almacenado.
+        $recipient = $translation->user->email ?? $translation->email;
+        if ($translation->user) {
+            $translation->user->notify(new TranslationDelivered($translation));
+        } else {
+            Notification::route('mail', $recipient)
+                ->notify(new TranslationDelivered($translation));
+        }
 
         return back()->with('ok', 'Traducción final subida y marcada como entregada.');
     }

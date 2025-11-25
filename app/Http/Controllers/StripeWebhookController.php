@@ -130,11 +130,15 @@ class StripeWebhookController extends Controller
 
                 Log::info('Stripe webhook: booking marked paid', ['booking_id' => $booking->id]);
 
-                // Enviar notificaciones
+                // Enviar notificaciones: preferimos notificar a través del modelo User
                 try {
-                    $recipient = $booking->user->email ?? $booking->email;
-                    Notification::route('mail', $recipient)
-                        ->notify(new BookingReceived($booking));
+                    if ($booking->user) {
+                        $booking->user->notify(new BookingReceived($booking));
+                    } else {
+                        $recipient = $booking->email;
+                        Notification::route('mail', $recipient)
+                            ->notify(new BookingReceived($booking));
+                    }
 
                     sleep(1); // pequeña pausa entre correos
 
@@ -197,11 +201,15 @@ class StripeWebhookController extends Controller
                     'event_type' => $event->type,
                 ]);
 
-                // Notificaciones
+                // Notificaciones: preferimos notificar a través del modelo User
                 try {
-                    $recipient = $booking->user->email ?? $booking->email;
-                    Notification::route('mail', $recipient)
-                        ->notify(new BookingReceived($booking));
+                    if ($booking->user) {
+                        $booking->user->notify(new BookingReceived($booking));
+                    } else {
+                        $recipient = $booking->email;
+                        Notification::route('mail', $recipient)
+                            ->notify(new BookingReceived($booking));
+                    }
 
                     sleep(1);
 

@@ -9,8 +9,8 @@ class TranslationRequest extends Model
     //MODELO SOLICITUD TRADUCCIONES
     //Campos asignables al guardar o actualizar
     protected $fillable = [
-        'name',
-        'email',
+        // 'name' and 'email' are legacy and will be removed once every request
+        // is associated to a user via `user_id`. Prefer `user->name`/`user->email`.
         'source_lang',
         'target_lang',
         'urgency',

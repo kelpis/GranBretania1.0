@@ -36,9 +36,9 @@ class TranslationAdminAlert extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-             ->subject('Nueva solicitud de traducción')
-            ->line("Nombre: {$this->tr->name}")
-            ->line("Email: {$this->tr->email}")
+            ->subject('Nueva solicitud de traducción')
+            ->line("Nombre: " . ($this->tr->user->name ?? $this->tr->name))
+            ->line("Email: " . ($this->tr->user->email ?? $this->tr->email))
             ->line("Idiomas: {$this->tr->source_lang} → {$this->tr->target_lang}")
             ->line("Urgencia: ".($this->tr->urgency ?? 'normal'))
             ->line("Comentarios: ".($this->tr->comments ?: '—'));

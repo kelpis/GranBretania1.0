@@ -27,8 +27,8 @@ class StoreTranslationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:120',
-            'email'=> 'required|email',
+            // Name/email are obtained from the authenticated user; form no longer
+            // needs to submit them (guests are not allowed to create requests).
             'source_lang' => 'required|string|max:10',
             'target_lang' => 'required|string|max:10|different:source_lang',
             'urgency' => 'nullable|in:normal,alta',

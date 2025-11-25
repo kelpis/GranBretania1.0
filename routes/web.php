@@ -140,9 +140,8 @@ Route::middleware('auth')->group(function () {
 
         // Asegurar que la traducción pertenece al usuario loggeado
         $user = auth()->user();
-        if ($tr->user_id && $tr->user_id !== $user->id && $tr->email !== $user->email) {
-            abort(403);
-        } elseif (!$tr->user_id && $tr->email !== $user->email) {
+        // Usamos user_id como fuente de la verdad; si no existe, denegamos acceso
+        if (! $tr->user_id || $tr->user_id !== $user->id) {
             abort(403);
         }
 
@@ -162,7 +161,7 @@ Route::middleware('auth')->group(function () {
     // Página dedicada: Mis traducciones (lista del usuario)
     Route::get('/mis-traducciones', function () {
         $user = auth()->user();
-        $items = TranslationRequest::where('email', $user->email)
+        $items = TranslationRequest::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->get();
 

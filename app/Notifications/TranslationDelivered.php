@@ -25,7 +25,7 @@ class TranslationDelivered extends Notification
     {
         return (new MailMessage)
             ->subject('Tu traducción está lista · Gran Bretania')
-            ->greeting("Hola {$this->tr->name} 👋")
+            ->greeting("Hola " . ($this->tr->user->name ?? $this->tr->name) . " 👋")
             ->line('¡Buenas noticias! Tu traducción ya ha sido completada.')
             ->line('Ya puedes descargar el documento final desde tu panel de usuario.')
             ->action('Descargar traducción', route('user.translations.index'))

@@ -36,7 +36,7 @@ class TranslationReceived extends Notification
     {
         return (new MailMessage)
             ->subject('Hemos recibido tu solicitud de traducción')
-            ->greeting("¡Gracias por tu solicitud, {$this->tr->name}!")
+            ->greeting("¡Gracias por tu solicitud, " . ($this->tr->user->name ?? $this->tr->name) . "!")
             ->line('Tu traducción ya está en proceso de revisión inicial.')
             ->line("Idiomas: {$this->tr->source_lang} → {$this->tr->target_lang}")
             ->line('Urgencia: ' . ucfirst($this->tr->urgency ?? 'normal'))
