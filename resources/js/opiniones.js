@@ -1,3 +1,5 @@
+//CARRUSEL DE OPINIONES
+
 document.addEventListener('DOMContentLoaded', () => {
     const track = document.getElementById('opinionesTrack');
     if (!track) return;

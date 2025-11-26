@@ -50,7 +50,7 @@ class AdminTranslationController extends Controller
         }
         //Genera una sesión de pago para el cliente con:
         //Método de pago: tarjeta
-        //Modo de pago ⇒ pago único
+        //Modo de pago = pago único
         try {
             $stripe = new StripeClient($stripeSecret);
 

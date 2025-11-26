@@ -13,9 +13,8 @@ class StoreTranslationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // Only allow the request if the user is authenticated.
-        // The routes are also protected with the 'auth' middleware so guests will be
-        // redirected to login; this is an additional safety check.
+        // Solo permitir peticiones con el usuario autentificado
+        // Ruta protegida.
         return Auth::check();
     }
 
@@ -27,17 +26,13 @@ class StoreTranslationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // Name/email are obtained from the authenticated user; form no longer
-            // needs to submit them (guests are not allowed to create requests).
             'source_lang' => 'required|string|max:10',
             'target_lang' => 'required|string|max:10|different:source_lang',
             'urgency' => 'nullable|in:normal,alta',
-            // Allowed file types: PDF, Word (doc, docx), OpenDocument (odt), TXT, RTF
-            // Increase allowed size to 10MB (10240 KB)
             'file' => 'required|file|mimes:pdf,doc,docx,odt,txt,rtf|max:10240', // 10MB
             'comments' => 'nullable|string|max:2000',
             'gdpr' => 'accepted',
-            // validate reCAPTCHA v3 with a conservative threshold (0.5) and expected action 'translation'
+            //Validar reCAPTCHA v3 con un umbral conservador (0.5) y con la acción esperada 'translation'
             'g-recaptcha-response' => ['required', new Recaptcha(0.5, 'translation')],
         ];
     }
@@ -50,5 +45,4 @@ class StoreTranslationRequest extends FormRequest
             'g-recaptcha-response.required' => 'Por favor completa el reCAPTCHA antes de enviar el formulario.',
         ];
     }
-
 }

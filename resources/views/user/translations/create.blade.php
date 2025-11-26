@@ -11,7 +11,7 @@
   <section class="bg-beige2 py-12 dark:bg-slate-950">
     <div class="container mx-auto px-4">
 
-      {{-- Cabecera --}}
+      
       <div class="max-w-2xl mx-auto text-center mb-10">
         <h2 class="text-azul text-3xl font-semibold mb-2 dark:text-beige2">Solicitud de traducción</h2>
         <p class="text-gray-700 text-base leading-relaxed mx-auto max-w-xl dark:text-slate-100">
@@ -19,10 +19,10 @@
         </p>
       </div>
 
-      {{-- Grid: formulario + info lateral --}}
+      
       <div class="grid lg:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
 
-        {{-- Columna formulario --}}
+        
         <div class="lg:col-span-2 bg-azul text-beige2 rounded-2xl shadow-lg p-8">
 
           @if (session('ok'))
@@ -45,7 +45,7 @@
             enctype="multipart/form-data" class="space-y-5" data-grecaptcha="v3" data-recaptcha-action="translation">
             @csrf
 
-            {{-- Nombre + Email en dos columnas --}}
+            
             <div class="grid md:grid-cols-2 gap-4">
               <div>
                 <x-input-label class="text-beige2">Nombre</x-input-label>
@@ -62,7 +62,7 @@
               </div>
             </div>
 
-            {{-- Idiomas origen/destino --}}
+            
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <x-input-label class="text-beige2">Idioma origen</x-input-label>
@@ -88,7 +88,7 @@
               </div>
             </div>
 
-            {{-- Urgencia + Archivo en una sola fila --}}
+            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
               <div class="md:col-span-2">
                 <x-input-label class="text-beige2">Archivo</x-input-label>
@@ -109,7 +109,7 @@
               </div>
             </div>
 
-            {{-- Observaciones --}}
+            
             <div>
               <x-input-label class="text-beige2">Observaciones (opcional)</x-input-label>
               <textarea name="comments" rows="4"
@@ -117,7 +117,7 @@
                 placeholder="Contexto, público objetivo, preferencias de estilo…">{{ old('comments') }}</textarea>
             </div>
 
-            {{-- GDPR --}}
+            
             <div>
               <label class="inline-flex items-center text-sm text-beige2">
                 <input type="checkbox" name="gdpr" value="1" required
@@ -138,7 +138,7 @@
           </form>
         </div>
 
-        {{-- Columna info lateral --}}
+        
         <aside class="bg-white rounded-2xl shadow p-6 text-sm text-gray-700 dark:bg-slate-900 dark:text-slate-100 dark:border dark:border-slate-700">
           <h3 class="text-azul text-lg font-semibold mb-3 dark:text-beige2">¿Qué ocurre después?</h3>
           <ol class="list-decimal pl-5 space-y-1 mb-4">

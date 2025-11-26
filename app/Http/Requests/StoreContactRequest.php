@@ -28,8 +28,7 @@ class StoreContactRequest extends FormRequest
             'subject' => 'nullable|string|max:160',
             'message' => 'required|string|max:2000',
             'gdpr'    => 'accepted',
-            // reCAPTCHA v2 field (Google) - validated via App\Rules\Recaptcha
-            // validate reCAPTCHA v3 with a conservative threshold (0.5) and expected action 'contact'
+            //Validar reCAPTCHA v3 con un umbral conservador (0.5) y con la acción esperada 'contact'
             'g-recaptcha-response' => ['required', new Recaptcha(0.5, 'contact')],
         ];
     }

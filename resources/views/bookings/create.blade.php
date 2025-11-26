@@ -109,7 +109,7 @@
         </div>
     </div>
 
-    <script src="/js/bookings.js"></script>
+    @vite(['resources/js/bookings.js'])
 
   
 @endsection

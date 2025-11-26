@@ -20,7 +20,7 @@ class StripeWebhookController extends Controller
         $sigHeader     = $request->header('Stripe-Signature');
         $endpointSecret = env('STRIPE_WEBHOOK_SECRET');
 
-        // ⚠️ Aviso si la secret no está configurada o no tiene el formato esperado
+        //Aviso si la secret no está configurada o no tiene el formato esperado
         try {
             if (empty($endpointSecret) || !str_starts_with($endpointSecret, 'whsec_')) {
                 Log::warning('STRIPE_WEBHOOK_SECRET appears missing or unusual', [
@@ -31,7 +31,7 @@ class StripeWebhookController extends Controller
             // ignorar
         }
 
-        // 🧾 Verificar firma del webhook
+        // Verificar firma del webhook
         try {
             $event = Webhook::constructEvent($payload, $sigHeader, $endpointSecret);
             Log::info('Stripe webhook constructed', [
@@ -46,13 +46,13 @@ class StripeWebhookController extends Controller
             return response()->json(['error' => 'Invalid signature'], 400);
         }
 
-        /* ===========================================================
-         *  ✅ CASO PRINCIPAL: checkout.session.completed
-         * =========================================================== */
+     
+        //CASO PRINCIPAL: checkout.session.completed
+    
         if ($event->type === 'checkout.session.completed') {
             $session = $event->data->object;
 
-            // 🔹 PRIMERO: comprobar si es una traducción
+            //Comprobar si es una traducción
             $metadata = $session->metadata ?? null;
 
             $translationId = null;
@@ -78,7 +78,7 @@ class StripeWebhookController extends Controller
                         'session_id'     => $session->id,
                     ]);
 
-                    // Aquí más adelante puedes añadir notificaciones al usuario/admin si quieres.
+                    
                 }
 
                 // Como es una traducción, no seguimos con la lógica de reservas.
@@ -86,10 +86,10 @@ class StripeWebhookController extends Controller
             }
 
 
-            // 1️⃣ Buscar por session guardada (más fiable)
+            //Buscar por session guardada
             $booking = ClassBooking::where('stripe_session_id', $session->id)->first();
 
-            // 2️⃣ Si no existe, intentar por metadata.booking_id
+            // Si no existe, intentar por metadata.booking_id
             if (! $booking) {
                 $metadata = $session->metadata ?? null;
                 $bookingId = $metadata->booking_id ?? ($metadata['booking_id'] ?? null);
@@ -102,8 +102,8 @@ class StripeWebhookController extends Controller
                 }
             }
 
-            // 3️⃣ Si no hay booking tras buscar por session o metadata, no intentamos
-            //     emparejar por email. Requerimos `stripe_session_id` o `metadata.booking_id`.
+            //Si no hay booking tras buscar por session o metadata, no intentamos
+            //emparejar por email. Requerimos `stripe_session_id` o `metadata.booking_id`.
             if (! $booking) {
                 Log::info('Stripe webhook: no class booking matched by stripe_session_id or metadata.booking_id', [
                     'session_id' => $session->id ?? null,
@@ -112,7 +112,7 @@ class StripeWebhookController extends Controller
                 return response()->json(['ok' => true]);
             }
 
-            // 4️⃣ Si encontramos la reserva y aún no estaba pagada
+            //Si encontramos la reserva y aún no estaba pagada
             if ($booking && ! $booking->paid) {
                 $booking->paid = true;
                 $booking->paid_at = now();
@@ -130,7 +130,7 @@ class StripeWebhookController extends Controller
 
                 Log::info('Stripe webhook: booking marked paid', ['booking_id' => $booking->id]);
 
-                // Enviar notificaciones: preferimos notificar a través del modelo User
+                // Enviar notificaciones:notificamos a través del modelo User
                 try {
                     if ($booking->user) {
                         $booking->user->notify(new BookingReceived($booking));
@@ -150,9 +150,9 @@ class StripeWebhookController extends Controller
             }
         }
 
-        /* ===========================================================
-         *  🔄 EVENTOS SECUNDARIOS (backup): payment_intent / charge
-         * =========================================================== */
+        
+        //Eventos secundarios (backup): payment_intent / charge
+         
         if (in_array($event->type, ['payment_intent.succeeded', 'charge.succeeded', 'charge.updated'])) {
             $obj = $event->data->object;
             $bookingId = null;
@@ -201,7 +201,7 @@ class StripeWebhookController extends Controller
                     'event_type' => $event->type,
                 ]);
 
-                // Notificaciones: preferimos notificar a través del modelo User
+                // Notificaciones: notificamos a través del modelo User
                 try {
                     if ($booking->user) {
                         $booking->user->notify(new BookingReceived($booking));

@@ -14,23 +14,23 @@ class StoreClassBookingRequest extends FormRequest
     public function authorize(): bool
     {
         // Reservas solo para usuarios autenticados
-        return auth()->check();
+        return $this->user() !== null;
     }
 
     public function rules(): array
     {
         return [
-         'class_date' => ['required', 'date', 'after_or_equal:today'],
+            'class_date' => ['required', 'date', 'after_or_equal:today'],
             'class_time' => ['required', 'date_format:H:i'],
             // Nombre/email/phone son gestionados por el `User` (login obligatorio)
             // datos mínimos de reserva
             'notes'      => ['nullable', 'string', 'max:255'],
             'gdpr'       => ['accepted'],
-            // validate reCAPTCHA v3 with a conservative threshold (0.5) and expected action 'booking'
+            //Validar reCAPTCHA v3 con un umbral conservador (0.5) y con la acción esperada 'booking
             'g-recaptcha-response' => ['required', new Recaptcha(0.5, 'booking')],
         ];
     }
-
+    //Validaciones adicionales
     protected function withValidator(Validator $validator)
     {
         $validator->after(function ($validator) {

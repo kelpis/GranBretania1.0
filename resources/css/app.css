@@ -1,28 +1,30 @@
+/* Archivo principal de estilos (Tailwind) - incluye capas y personalizaciones */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 
 @layer base{
+  /* Comportamientos base: smooth scrolling y helpers de Alpine */
   html { scroll-behavior: smooth; }
-  /* Alpine x-cloak helper to avoid flash of content */
+  
   [x-cloak] { display: none !important; }
     /* Aplicar márgenes/padding horizontales globales para heredar en las vistas */
     body { @apply m-0 px-4 sm:px-6 lg:px-8 bg-beige2 text-negro font-sans; }
 
-  /* 🌙 Versión oscura global del body */
+  /* Versión oscura global del body */
+  /* Variantes para modo oscuro */
   .dark body { @apply bg-slate-950 text-gray-100; }
 
   h1 { @apply text-4xl md:text-5xl font-bold leading-tight; }
   h2 { @apply text-3xl md:text-4xl font-semibold; }
   h3 { @apply text-2xl font-semibold; }
+  /* Tipografía y estilos */
   p, label, input, select, textarea { @apply font-mono text-[16px] leading-7; }
   a:focus, button:focus, input:focus { @apply outline-2 outline-offset-2 outline-azul; }
 }
 
-/* Más separación vertical entre secciones: aplica a todas las páginas.
-   section + section añade espacio extra cuando hay secciones consecutivas.
-   Ajusta por breakpoint para más separación en pantallas grandes. */
+/* Ajusta por breakpoint para más separación en pantallas grandes. */
 /* Menos espacio vertical en móviles: ajuste fino para que quede más compacto */
 section {
   margin-top: 0.125rem; /* 2px */
@@ -47,6 +49,7 @@ section + section {
   }
 }
 
+/* Componentes reutilizables (botones, tarjetas, etc.) */
 @layer components{
   .btn-primary {
     @apply inline-flex items-center justify-center px-6 py-4 rounded-xl bg-azul text-white font-semibold text-lg;
@@ -57,7 +60,7 @@ section + section {
     @apply bg-rojo text-white opacity-100;
   }
 
-  /* 🌙 Botón primario en oscuro (mantiene el azul, funciona bien en fondo oscuro) */
+  /* Botón primario en oscuro mantiene el azul*/
   .dark .btn-primary {
     @apply bg-azul text-white;
   }
@@ -72,7 +75,7 @@ section + section {
     @apply bg-beige text-negro opacity-100;
   }
 
-  /* 🌙 En oscuro dejamos el fondo rojo también (para que no salga beige en hover sobre fondo oscuro) */
+  /* En oscuro dejamos el fondo rojo también (para que no salga beige en hover sobre fondo oscuro) */
   .dark .btn-secondary {
     @apply bg-rojo text-white;
   }
@@ -80,7 +83,8 @@ section + section {
     @apply bg-azul text-white opacity-100;
   }
 
-   .btn-three {
+  /* Variante extra de botón */
+  .btn-three {
     @apply inline-flex items-center justify-center px-6 py-4 rounded-xl bg-rojo text-white font-semibold text-lg;
     transition: transform .15s ease, background-color .15s ease, opacity .15s ease;
   }
@@ -90,7 +94,7 @@ section + section {
     @apply bg-azul text-white opacity-100;
   }
 
-  /* 🌙 En oscuro hacemos que btn-three parta del azul para variar un poco */
+  /*En oscuro hacemos que btn-three parta del azul para variar un poco */
   .dark .btn-three {
     @apply bg-azul text-white;
   }
@@ -100,25 +104,23 @@ section + section {
 
   .card          { @apply bg-beige2 rounded-card shadow-sm p-6; }
 
-  /* 🌙 Tarjetas en oscuro (opiniones, bloques, etc.) */
+  /*Tarjetas en oscuro (opiniones, bloques, etc.) */
   .dark .card    { @apply bg-slate-900 text-slate-100 shadow-sm; }
 }
 
-/* Tablet-portrait specific stack between 768px and 820px width
-   Forces some two-column grids to become single-column and ensures
-   the image appears below the text in that narrow tablet range. */
+/* Ajustes específicos para tablets en rango 768px-820px: fuerza columnas y orden */
 @media (min-width: 768px) and (max-width: 820px) {
   .tablet-stack-768-820 {
     grid-template-columns: 1fr !important;
   }
 
-  /* If an element used `order-first` to float the image up on small screens,
-     push it after the text in this range so content flows top -> bottom. */
+    /* Si un elemento usa `order-first` para elevar la imagen en pantallas pequeñas,
+      empújalo después del texto en este rango para que el contenido fluya de arriba a abajo. */
   .tablet-stack-768-820 .order-first {
     order: 2;
   }
 
-  /* Allow flex children inside cards to shrink properly */
+  /* Permitir que los elementos flex hijos dentro de las tarjetas se encojan correctamente */
   .tablet-stack-768-820 .min-w-0 {
     min-width: 0;
   }

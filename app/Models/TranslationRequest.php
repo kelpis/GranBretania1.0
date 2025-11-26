@@ -35,7 +35,7 @@ class TranslationRequest extends Model
         'paid_at'      => 'datetime',
         'delivered_at' => 'datetime',
     ];
-    // Relación opcional con usuario (user_id nullable)
+    // Relación  con usuario (user_id )
     public function user()
     {
         return $this->belongsTo(\App\Models\User::class);

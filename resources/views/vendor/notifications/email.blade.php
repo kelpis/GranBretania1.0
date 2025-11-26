@@ -70,32 +70,32 @@
         </h1>
     </div>
 
-    {{-- CONTENIDO --}}
+    
     <div class="content">
         @php
-            // ¿Viene de ->markdown() con vista propia?
+            
             $usingSlot = isset($slot) && trim((string) $slot) !== '';
         @endphp
 
         @if ($usingSlot)
-            {{-- Caso 1: notificaciones con ->markdown() --}}
+            
             {!! Illuminate\Mail\Markdown::parse($slot) !!}
         @else
-            {{-- Caso 2: MailMessage con greeting/line/action --}}
+            
 
-            {{-- Saludo --}}
+            
             @if (! empty($greeting))
                 <h2 style="margin-bottom: 22px;">{{ $greeting }}</h2>
             @endif
 
-            {{-- Intro --}}
+            
             @if (! empty($introLines))
                 @foreach ($introLines as $line)
                     <p>{{ $line }}</p>
                 @endforeach
             @endif
 
-            {{-- Botón --}}
+            
             @isset($actionText)
                 <div style="margin: 30px 0;">
                     <a href="{{ $actionUrl }}" class="button">
@@ -104,14 +104,14 @@
                 </div>
             @endisset
 
-            {{-- Outro --}}
+            
             @if (! empty($outroLines))
                 @foreach ($outroLines as $line)
                     <p>{{ $line }}</p>
                 @endforeach
             @endif
 
-            {{-- Despedida --}}
+            
             <p style="margin-top: 30px;">
                 @if (! empty($salutation))
                     {!! nl2br(e($salutation)) !!}
@@ -122,7 +122,7 @@
         @endif
     </div>
 
-    {{-- FOOTER --}}
+    
     @isset($actionText)
         <div class="footer" style="font-size: 11px;">
             Si tienes problemas para hacer clic en el botón

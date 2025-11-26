@@ -22,6 +22,9 @@ class ClassBookingController extends Controller
         return view('bookings.create');
     }
 
+
+
+    
     // Guardar reserva
     public function store(StoreClassBookingRequest $request)
     {
@@ -29,7 +32,7 @@ class ClassBookingController extends Controller
         $data = $request->validated();
 
         // 2) Evitar franja ocupada: no permitir si ya existe otra reserva para la misma
-        //    fecha/hora cuyo estado NO sea 'cancelled' o 'rejected' (p.ej. pending/confirmed)
+        //    fecha/hora cuyo estado NO sea 'cancelled' o 'rejected' (p.ej. pendin
         $exists = ClassBooking::where('class_date', $data['class_date'])
             ->where('class_time', $data['class_time'])
             ->whereNotIn('status', ['cancelled', 'rejected'])
@@ -96,14 +99,14 @@ class ClassBookingController extends Controller
                     'price_data' => [
                         'currency' => 'eur',
                         'product_data' => [
-                                'name' => 'Reserva clase - ' . (Auth::user()->name ?? ($booking->name ?? 'Reserva')),
-                            ],
-                            'unit_amount' => 2500, // 25.00 EUR in cents
+                            'name' => 'Reserva clase - ' . (Auth::user()->name ?? ($booking->name ?? 'Reserva')),
+                        ],
+                        'unit_amount' => 2500, // 25.00 EUR en centimos , requisito stripe
                     ],
                     'quantity' => 1,
                 ]],
-                        // Forzar email del cliente desde el usuario autenticado
-                        'customer_email' => Auth::user()->email ?? ($booking->email ?? null),
+                // Forzar email del cliente desde el usuario autenticado
+                'customer_email' => Auth::user()->email ?? ($booking->email ?? null),
                 'metadata' => [
                     'booking_id' => $booking->id,
                 ],
@@ -124,7 +127,7 @@ class ClassBookingController extends Controller
                 // no bloquear el flujo por errores de logging
             }
 
-            // redirect to Stripe Checkout page
+            // redirigir a Stripe Checkout 
             return redirect($session->url);
         } catch (\Throwable $e) {
             Log::error('Stripe Checkout creation failed: ' . $e->getMessage());
@@ -133,7 +136,7 @@ class ClassBookingController extends Controller
     }
 
 
-
+    //Vista exito reserva
     public function success()
     {
         return view('bookings.success');
@@ -141,12 +144,13 @@ class ClassBookingController extends Controller
 
 
 
-    
+
     // Devuelve las horas disponibles para una fecha dada en formato JSON
     public function availability(Request $request)
     {
+        //Entrada y validacion
         $date = $request->query('date');
-        $exceptId = $request->query('except'); // optional booking id to ignore (for edit)
+        $exceptId = $request->query('except'); //Util para editar
 
         if (! $date) {
             return response()->json(['error' => 'date parameter required'], 422);
@@ -159,14 +163,14 @@ class ClassBookingController extends Controller
             $all[] = $hh;
         }
 
-        // Obtener reservas no canceladas/rechazadas para esa fecha
+        // Obtener reservas no canceladas para esa fecha
         $query = ClassBooking::where('class_date', $date)
             ->whereNotIn('status', ['cancelled', 'rejected']);
 
         if ($exceptId) {
             $query->where('id', '!=', $exceptId);
         }
-
+        //Transforma cada class_time a formato HH::MM
         $taken = $query->get()->map(function ($b) {
             return substr($b->class_time, 0, 5);
         })->toArray();
@@ -181,7 +185,7 @@ class ClassBookingController extends Controller
             [$H, $M] = explode(':', substr($time, 0, 5));
             return intval($H) * 60 + intval($M);
         };
-
+        //Convierte tiempos a minutos y marca cualquier t que caiga dentro de un rango bloqueado.
         $blockedTimes = [];
         foreach ($all as $t) {
             $tMin = $toMinutes($t);
@@ -194,7 +198,7 @@ class ClassBookingController extends Controller
                 }
             }
         }
-
+        //Filtrado final y exclusion de horas pasadas
         $available = array_values(array_filter($all, function ($t) use ($taken, $blockedTimes, $date) {
             // Excluir si ya tomado o bloqueado
             if (in_array($t, $taken) || in_array($t, $blockedTimes)) return false;
@@ -220,10 +224,12 @@ class ClassBookingController extends Controller
         return response()->json(['available' => $available]);
     }
 
-    /**
-     * Permite unirse a la videollamada de una reserva.
-     * Puede accederse si la URL firmada es válida o si el usuario autenticado
-     * es el propietario de la reserva o un admin.
+
+
+
+
+    /*Permite unirse a la videollamada de una reserva.
+    Puede accederse si la URL firmada es válida o si el usuario autenticado es el propietario de la reserva o un admin.
      */
     public function join(Request $request, ClassBooking $booking)
     {

@@ -24,7 +24,7 @@ class UserBookingController extends Controller
         $this->middleware('auth');
     }
 
-    // Lista las reservas del usuario (filtradas por email)
+    // Lista las reservas del usuario 
     public function index()
     {
         $user = Auth::user();
@@ -41,10 +41,10 @@ class UserBookingController extends Controller
             ->whereDate('class_date', '<', now()->toDateString())
             ->orderBy('class_date', 'desc')
             ->orderBy('class_time', 'desc')
-            ->limit(20) // o 10 si prefieres
+            ->limit(10) 
             ->get();
 
-        // Traducciones del usuario (ahora vinculadas por user_id)
+        // Traducciones del usuario (vinculadas por user_id)
         $translations = TranslationRequest::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -69,12 +69,11 @@ class UserBookingController extends Controller
             'class_date' => 'required|date',
             'class_time' => 'required',
             'name' => 'required|string|max:255',
-            // phone: allow digits, spaces, +, parentheses and hyphens
             'phone' => ['nullable', 'string', 'max:50', 'regex:/^[0-9+\\s\\-()]+$/'],
             'notes' => 'nullable|string|max:1000',
         ]);
 
-        // Evitar colisiones: comprobar que no exista otra reserva (distinta) en la misma fecha/hora
+        // Evitar colisiones: comprobar que no exista otra reserva  en la misma fecha/hora
         $conflict = ClassBooking::where('class_date', $data['class_date'])
             ->where('class_time', $data['class_time'])
             ->where('id', '!=', $booking->id)
@@ -106,24 +105,22 @@ class UserBookingController extends Controller
         }
 
         // Regla 1: edición permitida sólo si faltan >= 24h para la clase
-        // ✅ Regla: no se puede editar si faltan <24h para la reserva actual
         $originalDT = \Carbon\Carbon::parse("{$booking->class_date} {$booking->class_time}");
         if (now()->diffInHours($originalDT, false) < 24) {
             return back()->withErrors(['general' => 'No puedes editar la reserva con menos de 24 horas de antelación.'])->withInput();
         }
 
-        // ✅ Extra: la nueva fecha/hora debe ser futura
+        //Extra: la nueva fecha/hora debe ser futura
         $newDT = \Carbon\Carbon::parse($data['class_date'] . ' ' . substr($data['class_time'], 0, 5));
         if ($newDT->isPast()) {
             return back()->withErrors(['class_time' => 'Selecciona una fecha y hora futuras.'])->withInput();
         }
 
-        // Regla 2: límite de ediciones por reserva (2)
+        //Regla 2: límite de ediciones por reserva 2
         if (($booking->edit_count ?? 0) >= 2) {
             return back()->withErrors(['general' => 'Has alcanzado el límite de ediciones para esta reserva.'])->withInput();
         }
 
-        // Nota: editar no implica reembolso ni cambio en los campos de pago
         $booking->update($data);
         // Incrementar contador de ediciones
         $booking->increment('edit_count');
