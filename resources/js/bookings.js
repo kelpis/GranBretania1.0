@@ -1,17 +1,22 @@
-// client-side for booking create
+// Scripts del cliente para la página de creación de reservas
+// - Rellena el select de fechas (solo días laborables) durante los próximos `DAYS` días
+// - Consulta la disponibilidad de horas vía endpoint `bookings.availability` y llena el select de horas
+// - Valida el teléfono en cliente antes de enviar el formulario
+
 const dateSelect = document.getElementById('class_date');
 const timeSelect = document.getElementById('class_time');
 const help = document.getElementById('time-help');
 const url = dateSelect ? dateSelect.dataset.availabilityUrl : null;
 const oldDate = dateSelect ? dateSelect.dataset.oldDate : '';
 
-// helper
+// Helpers de formato de fecha
 function pad(n){ return n < 10 ? '0'+n : n }
 function formatYMD(d){ return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()); }
 function formatDisplay(d){ return pad(d.getDate()) + '/' + pad(d.getMonth()+1) + '/' + d.getFullYear(); }
 
-const DAYS = 30;
+const DAYS = 30; // número de días a mostrar en el select
 
+// Rellena el select de fechas excluyendo fines de semana
 (function populateDates(){
   if (!dateSelect) return;
   const today = new Date();
@@ -19,7 +24,7 @@ const DAYS = 30;
     const d = new Date(today);
     d.setDate(today.getDate() + i);
     const dow = d.getDay();
-    if (dow === 0 || dow === 6) continue;
+    if (dow === 0 || dow === 6) continue; // 0=Dom,6=Sáb
 
     const val = formatYMD(d);
     const opt = document.createElement('option');
@@ -31,6 +36,7 @@ const DAYS = 30;
   }
 })();
 
+// Consulta al servidor para obtener las horas disponibles de una fecha
 async function loadTimesFor(date) {
   if (!date || !url) return;
   if (!help) return;
@@ -59,10 +65,11 @@ async function loadTimesFor(date) {
   }
 }
 
+// Eventos para cargar horas cuando cambia la fecha o si la fecha ya viene seleccionada
 if (dateSelect) dateSelect.addEventListener('change', function(){ loadTimesFor(this.value); });
 if (dateSelect && dateSelect.value) loadTimesFor(dateSelect.value);
 
-// PHONE validation
+// Validación de teléfono en el formulario de creación
 (function(){
   const form = document.getElementById('booking-form');
   if (!form) return;
@@ -84,6 +91,7 @@ if (dateSelect && dateSelect.value) loadTimesFor(dateSelect.value);
   }
 
   if (phone) {
+    // Validación en tiempo real mientras el usuario escribe
     phone.addEventListener('input', function(){
       const v = phone.value.trim();
       if (v === '') { clearError(phone); return; }
@@ -95,6 +103,7 @@ if (dateSelect && dateSelect.value) loadTimesFor(dateSelect.value);
     });
   }
 
+  // Bloquear envío si el teléfono no cumple el patrón
   form.addEventListener('submit', function(e){
     if (phone && phone.value.trim() !== '' && !phonePattern.test(phone.value.trim())) {
       e.preventDefault();

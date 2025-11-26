@@ -1,3 +1,9 @@
+{{--
+    Layout base: app.blade.php
+    Propósito: layout sencillo para páginas de sesión/guest (login, register), carga de Vite y favicons.
+    Notas: mantiene el script de tema oscuro y la inclusión de `@vite(['resources/css/app.css','resources/js/app.js'])`.
+--}}
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>

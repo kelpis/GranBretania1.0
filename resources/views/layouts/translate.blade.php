@@ -1,3 +1,9 @@
+{{--
+    Layout: translate.blade.php
+    Propósito: página de servicios de traducción (idiomas, tipos y tarifas).
+    Notas: incluye tarjetas informativas y CTA a formulario de traducción.
+--}}
+
 @extends('layouts.site')
 
 @section('title', 'Traducciones · Gran Bretania')

@@ -1,3 +1,9 @@
+{{--
+    Vista: user/bookings/edit.blade.php
+    Propósito: formulario para que el usuario edite una reserva existente (fecha, hora, datos).
+    Notas: usa `bookings.availability` para cargar franjas; incluye protección CSRF y validaciones server-side.
+--}}
+
 @extends('layouts.site')
 
 @section('title', 'Editar reserva · Gran Bretania')
@@ -35,6 +41,7 @@
                 </div>
             @endif
 
+            {{-- Formulario de edición: envía PUT a user.bookings.update --}}
             <form id="booking-edit-form" method="POST" action="{{ route('user.bookings.update', $booking) }}" class="">
                 @csrf
                 @method('PUT')
@@ -104,6 +111,6 @@
         </div>
     </div>
 
-    <script src="/js/bookings.js"></script>
+    @vite(['resources/js/user-bookings.js'])
 
 @endsection

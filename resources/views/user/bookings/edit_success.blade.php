@@ -1,4 +1,10 @@
 
+{{--
+  Vista: user/bookings/edit_success.blade.php
+  Propósito: mensaje de éxito tras actualizar una reserva por parte del usuario.
+  Notas: vista estática que informa al usuario y ofrece un enlace de retorno al dashboard.
+--}}
+
 @extends('layouts.site')
 
 @section('Reserva editada', 'Reserva editada')
@@ -7,16 +13,18 @@
 <section class="py-24">
    <div class="py-10 max-w-3xl mx-auto px-4">
         <div class="bg-white border-l-4 border-green-500 shadow-lg rounded-xl p-8 dark:bg-slate-800/90">
-            
+            {{-- Encabezado: confirmación visual --}}
             <h3 class="text-xl font-semibold text-azul mb-3 dark:text-white">
                 ¡Tu reserva ha sido actualizada!
             </h3>
 
+            {{-- Mensaje informativo al usuario --}}
             <p class="text-gray-700 leading-relaxed dark:text-white">
-                Hemos guardado los cambios en tu reserva.  
+                Hemos guardado los cambios en tu reserva.
                 Recibirás un correo con los detalles actualizados.
             </p>
 
+            {{-- Acción: volver al panel del usuario --}}
             <div class="mt-8">
                 <a href="{{ route('dashboard') }}"
                    class="inline-flex items-center gap-2 px-6 py-3 

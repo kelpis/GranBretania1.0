@@ -1,5 +1,11 @@
+{{--
+    Partial: navigationAdmin.blade.php
+    Propósito: barra de navegación para usuarios administradores (enlaces a admin.*).
+    Notas: similar a `navigation.blade.php` pero con rutas admin; mantener consistencia de estilos.
+--}}
+
 <nav x-data="{ open: false }"
-    class="w-screen bg-beige border-b border-gray-100 dark:bg-slate-800 dark:border-slate-700 -mx-4 sm:-mx-6 lg:-mx-8">
+        class="w-screen bg-beige border-b border-gray-100 dark:bg-slate-800 dark:border-slate-700 -mx-4 sm:-mx-6 lg:-mx-8">
 
     <div class="w-full">
         <div class="w-full flex items-center justify-between h-20">

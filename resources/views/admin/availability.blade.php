@@ -1,10 +1,19 @@
 <x-app-layout>
 
+  {{--
+    Página: Administración → Franjas de disponibilidad
+    Propósito: interfaz para crear/editar/borrar franjas horarias, bloquear días
+    Notas:
+      - Formularios POST usan rutas en `admin.availability.*`.
+      - Usamos inputs ocultos para crear franjas de día completo (00:00–24:00).
+      - Las confirmaciones se gestionan con Alpine.js (x-data/x-show) para evitar
+        envíos accidentales.
+  --}}
 
   <div class="bg-beige2 dark:bg-slate-950 -mx-4 sm:-mx-6 lg:-mx-8">
   <div class="py-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
-    {{-- NOTIFICACIONES --}}
+    {{-- NOTIFICACIONES: mensajes de sesión (ok / error) que muestran resultado de acciones POST --}}
     @if (session('ok'))
       <div class="p-3 rounded-lg bg-ok/20 border border-ok/40 text-ok shadow-md dark:bg-emerald-950 dark:text-emerald-100 dark:border-emerald-500/60">
         {{ session('ok') }}
@@ -19,9 +28,9 @@
 
     
 
-    {{-- ============================= --}}
-    {{-- FRANJA PUNTUAL (AZUL FUERTE) --}}
-    {{-- ============================= --}}
+    
+    {{-- FRANJA PUNTUAL: formulario para añadir o actualizar una franja concreta (fecha, inicio, fin, estado) --}}
+  
     <div class="rounded-2xl shadow-xl border border-azul bg-azul/10 p-6 space-y-4 dark:bg-slate-700 dark:border-slate-700">
       <h3 class="font-semibold text-azul text-lg border-b border-azul/30 pb-2 dark:text-white">
         Añadir o actualizar franja puntual
@@ -62,9 +71,10 @@
       </form>
     </div>
 
-    {{-- ======================== --}}
-    {{-- BLOQUEAR DÍA (ROJO) --}}
-    {{-- ======================== --}}
+    {{-- ===================================================== --}}
+    {{-- BLOQUEAR DÍA (ROJO): crea una franja 00:00–24:00 con estado 'blocked' --}}
+    {{-- Se pide confirmación mediante modal Alpine antes de enviar. --}}
+    {{-- ===================================================== --}}
     <div class="rounded-2xl shadow-xl border border-rojo bg-rojo/10 p-6 dark:bg-slate-700 dark:border-slate-700">
       <h3 class="font-semibold text-rojo text-lg border-b border-rojo/30 pb-2">
         Bloquear día completo
@@ -103,9 +113,9 @@
       </form>
     </div>
 
-    {{-- ================================= --}}
-    {{-- GENERAR EN LOTE (AZUL MÁS MARCADO) --}}
-    {{-- ================================= --}}
+    
+    {{-- GENERAR EN LOTE: generar franjas en rango de fechas--}}
+  
     <div class="rounded-2xl shadow-xl border border-azul bg-azul/10 p-6 space-y-4 dark:bg-slate-700 dark:border-slate-700">
       <h3 class="font-semibold text-azul text-lg border-b border-azul/30 pb-2">
         Generar franjas (lote)
@@ -152,13 +162,13 @@
       </form>
     </div>
 
-    {{-- ======================== --}}
-    {{-- TABLA (TOTAL BLUE MODE) --}}
-    {{-- ======================== --}}
+   
+    {{-- LISTADO / TABLA: muestra las franjas creadas. En móvil se usan tarjetas y en escritorio una tabla. --}}
+   
     <div class="rounded-2xl shadow-xl border border-azul bg-azul/5 p-6 dark:bg-slate-700 dark:border-slate-700">
       <h3 class="font-semibold text-azul text-lg mb-3">Franjas</h3>
 
-      <!-- Mobile: tarjetas (visible en sm and below) -->
+      <!-- RESPONSIVE MOVIL: tarjetas (visible en sm and below) -->
       <div class="md:hidden space-y-3">
         @forelse ($slots as $s)
           <div class="bg-white p-4 rounded-lg border shadow-sm dark:bg-slate-900 dark:text-slate-100">
@@ -190,7 +200,7 @@
         @endforelse
       </div>
 
-      <!-- Desktop/tablet: tabla (md+) -->
+      <!-- RESPONSIVE Desktop/tablet: tabla (md+) -->
       <div class="hidden md:block overflow-x-auto">
         <table class="min-w-full text-sm text-azul dark:text-beige2">
           <thead class="bg-azul text-beige2 uppercase text-xs tracking-wide dark:bg-slate-800/90 dark:text-beige2">

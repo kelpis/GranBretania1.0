@@ -19,7 +19,7 @@ class ClassBookingController extends Controller
     // Formulario público
     public function create()
     {
-        return view('bookings.create');
+        return view('user.bookings.create');
     }
 
 
@@ -139,7 +139,7 @@ class ClassBookingController extends Controller
     //Vista exito reserva
     public function success()
     {
-        return view('bookings.success');
+        return view('user.bookings.success');
     }
 
 

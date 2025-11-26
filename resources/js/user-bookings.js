@@ -1,11 +1,16 @@
 // client-side for booking edit
+// Script para la página de edición de reservas (panel de usuario)
+// - Carga las horas disponibles para la fecha seleccionada, excluyendo la propia reserva mediante `except`
+// - Valida el campo teléfono y evita el envío si no cumple el patrón permitido
+
 (function(){
   const dateInput = document.querySelector('input[name="class_date"][data-availability-url]');
   const timeSelect = document.getElementById('class_time');
   const help = document.getElementById('time-help');
   const url = dateInput ? dateInput.dataset.availabilityUrl : null;
-  const except = dateInput ? dateInput.dataset.except : null;
+  const except = dateInput ? dateInput.dataset.except : null; // id de la reserva a excluir
 
+  // Solicita al servidor las horas libres para una fecha, pasando `except` para excluir la propia reserva
   async function loadTimesFor(date) {
     if (!date || !url) return;
     if (!help) return;
@@ -37,7 +42,7 @@
   if (dateInput) dateInput.addEventListener('change', function(){ loadTimesFor(this.value); });
   if (dateInput && dateInput.value) loadTimesFor(dateInput.value);
 
-  // Phone validation for edit form
+  // Validación cliente del teléfono en el formulario de edición
   (function(){
     const form = document.getElementById('booking-edit-form');
     if (!form) return;
@@ -59,6 +64,7 @@
     }
 
     if (phone) {
+      // Validación en tiempo real mientras se escribe
       phone.addEventListener('input', function(){
         const v = phone.value.trim();
         if (v === '') { clearError(phone); return; }
@@ -70,6 +76,7 @@
       });
     }
 
+    // Evita el envío si el teléfono es inválido
     form.addEventListener('submit', function(e){
       if (phone && phone.value.trim() !== '' && !phonePattern.test(phone.value.trim())) {
         e.preventDefault();

@@ -1,3 +1,9 @@
+{{--
+    Vista: user/bookings/index.blade.php
+    Propósito: lista de reservas del usuario, separa próximas de historial y permite acciones (editar, cancelar, unirse).
+    Notas: contiene tablas responsivas, modales de confirmación y utilidades JS para cancelar reservas.
+--}}
+
 @extends('layouts.site')
 
 @section('title', 'Mis clases · Gran Bretania')
@@ -20,13 +26,14 @@
                 $hasHistory = isset($history) && $history->isNotEmpty();
             @endphp
 
+            {{-- Si no hay reservas, mostrar mensaje amigable --}}
             @if(!$hasUpcoming && !$hasHistory)
                 <div class="bg-white p-6 shadow sm:rounded-lg">No tienes reservas.</div>
             @else
 
-                {{-- ========================= --}}
-                {{-- PRÓXIMAS CLASES --}}
-                {{-- ========================= --}}
+              
+                {{-- PRÓXIMAS CLASES: tabla con acciones (editar, cancelar, unirse) --}}
+            
                 @if($hasUpcoming)
                     <div class="rounded-2xl shadow-xl overflow-hidden border border-beige">
 
@@ -251,7 +258,7 @@
     </div>
 
    
-{{-- MODAL DE CONFIRMACIÓN --}}
+{{-- MODAL DE CONFIRMACIÓN: usado por el botón Cancelar (openCancelModal) --}}
 <div id="cancelModal"
      class="fixed inset-0 hidden items-center justify-center bg-black/40 z-50">
 

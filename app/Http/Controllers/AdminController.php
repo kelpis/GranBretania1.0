@@ -33,8 +33,13 @@ class AdminController extends Controller
             ->count();
 
 
-        // Traducciones pendientes
-        $pendingTranslations = TranslationRequest::count();
+        // Traducciones pendientes: contar solicitudes que aún no están entregadas.
+        // Consideramos 'pendientes' las solicitudes cuyo estado no es 'delivered'
+        // o que carecen de estado (NULL). Esto refleja ítems que requieren
+        // acción del admin (presupuestar, comprobar pago o entregar).
+        $pendingTranslations = TranslationRequest::where('status', '!=', 'delivered')
+            ->orWhereNull('status')
+            ->count();
 
         //Agrupa las cifras anteriores para pasar a la vista
         $stats = [

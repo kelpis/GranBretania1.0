@@ -1,3 +1,9 @@
+{{--
+    Layout base: guest.blade.php
+    Propósito: layout minimal para vistas de invitados (login, register, contraseñas).
+    Notas: incluye Vite y favicons; mantener simple para formularios centrados.
+--}}
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>

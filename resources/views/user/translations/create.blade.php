@@ -1,3 +1,9 @@
+{{--
+  Vista: user/translations/create.blade.php
+  Propósito: formulario para solicitar una traducción; adjuntar archivo y datos de contacto.
+  Notas: el formulario incluye reCAPTCHA v3 (data-grecaptcha) y se valida server-side en `translation.store`.
+--}}
+
 @extends('layouts.site')
 
 @section('title', 'Solicitud de traducción · Gran Bretania')
@@ -41,6 +47,7 @@
             </div>
           @endif
 
+          {{-- Formulario principal: envío multipart a translation.store (calculo de presupuesto y reCAPTCHA) --}}
           <form id="translation-form" method="POST" action="{{ route('translation.store') }}"
             enctype="multipart/form-data" class="space-y-5" data-grecaptcha="v3" data-recaptcha-action="translation">
             @csrf
@@ -164,6 +171,6 @@
     </div>
   </section>
 
-  <script src="/js/translation.js"></script>
+  @vite(['resources/js/translation.js'])
 
 @endsection

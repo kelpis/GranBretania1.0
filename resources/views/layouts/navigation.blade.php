@@ -1,18 +1,24 @@
+{{--
+    Partial: navigation.blade.php
+    Propósito: barra de navegación principal (desktop + mobile) para usuarios no-admin.
+    Notas: incluye enlaces a reservas, traducciones y control de tema oscuro. Admin incluye `navigationAdmin`.
+--}}
+
 @if(auth()->check() && auth()->user()->is_admin)
-    @include('layouts.navigationAdmin')
+        @include('layouts.navigationAdmin')
 @else
     <nav x-data="{ open: false }"
-        class="w-screen bg-beige dark:bg-slate-800/90 dark:text-beige2 border-b border-gray-100 dark:border-slate-700 -mx-4 sm:-mx-6 lg:-mx-8">
+        class="w-screen bg-beige dark:bg-slate-800/90 dark:text-beige2 border-b border-gray-100 dark:border-slate-700 -mx-4 md:-mx-8 lg:-mx-12">
         <!-- Primary Navigation Menu (full-bleed content groups) -->
         <div class="w-full">
             <div class="w-full flex items-center justify-between h-16">
                 <div class="flex items-center gap-6">
                     <!-- Logo -->
                     <div class="shrink-0 flex items-center pl-3 sm:pl-6">
-                        <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
-                            <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania"
-                                class="h-16 w-auto dark:invert dark:brightness-0">
-                        </a>
+                            <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
+                                <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania"
+                                class="h-20 w-auto dark:invert dark:brightness-0">
+                            </a>
                     </div>
 
                     <!-- Navigation Links -->

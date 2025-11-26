@@ -20,31 +20,6 @@ use App\Http\Controllers\AdminTranslationController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Aquí agrupamos y documentamos las rutas públicas, de usuario y admin.
-| 
-|
-*/
-
-// --------------------------------------------------
-// Locale / Internationalization
-// --------------------------------------------------
-// Cambia idioma
-Route::get('/lang/{locale}', function ($locale) {
-    if (in_array($locale, ['es', 'en'])) {
-        session(['locale' => $locale]);
-    }
-
-    return back();
-})->name('lang.switch');
-
-
-
-
 
 
 // --------------------------------------------------
@@ -116,7 +91,7 @@ Route::get('/reservar/ok', [ClassBookingController::class, 'success'])
 
 
 
-// Join a videollamada asociada a una reserva (no auth enforced here)
+// Join a videollamada asociada a una reserva 
 Route::get('/reservas/{booking}/unirse', [App\Http\Controllers\ClassBookingController::class, 'join'])
     ->name('bookings.join');
 
@@ -148,7 +123,7 @@ Route::middleware('auth')->group(function () {
         // Priorizar archivo traducido final
         $path = $tr->output_file_path ?: $tr->file_path;
 
-        if (!$path || !\Illuminate\Support\Facades\Storage::disk('local')->exists($path)) {
+        if (!$path || !Storage::disk('local')->exists($path)) {
             abort(404, 'Archivo no encontrado en el servidor.');
         }
 

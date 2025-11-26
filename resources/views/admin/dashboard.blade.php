@@ -1,10 +1,18 @@
 <x-app-layout>
+
+    {{-- // Vista Admin: Dashboard--}}
     
     <div class="bg-beige2 dark:bg-slate-950 -mx-4 sm:-mx-6 lg:-mx-8">
         <div class="py-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
-        {{-- BIENVENIDA --}}
-        <section class="rounded-2xl bg-azul text-beige2 shadow-xl px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                {{--
+                    BIENVENIDA
+                    // Sección de bienvenida del admin:
+                    // - Muestra el nombre del usuario autenticado.
+                    // - Accesos rápidos a listas (reservas/traducciones).
+                    // Nota: mantener breve y con enlaces a las páginas de listado.
+                --}}
+                <section class="rounded-2xl bg-azul text-beige2 shadow-xl px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
                 <h1 class="text-2xl font-semibold mb-1">
                     Hola, {{ auth()->user()->name }} 
@@ -25,9 +33,13 @@
             </div>
         </section>
 
-        {{-- TARJETAS RESUMEN --}}
+                {{--
+                    TARJETAS RESUMEN
+                    // Métricas rápidas: reservas totales, próximas clases, clases hoy y traducciones pendientes.
+                    // Los valores provienen de `$stats` pasado desde el controlador; usar valores por defecto si faltan.
+                --}}
         @php
-            // Si aún no pasas stats desde el controlador, puedes dejar valores por defecto
+        
             $totalBookings       = $stats['total_bookings']        ?? 0;
             $upcomingBookings    = $stats['upcoming_bookings']     ?? 0;
             $todayClasses        = $stats['today_classes']         ?? 0;
@@ -76,10 +88,10 @@
             </article>
         </section>
 
-        {{-- DOS COLUMNAS: CLASES + TRADUCCIONES --}}
+        {{--DOS COLUMNAS: CLASES + TRADUCCIONES--}}
         <section class="grid lg:grid-cols-2 gap-6">
 
-            {{-- PRÓXIMAS CLASES --}}
+             {{--PRÓXIMAS CLASES--}}
             <div class="rounded-2xl border border-beige bg-beige2 shadow dark:bg-slate-950 dark:border-slate-700">
                 <div class="bg-azul text-beige2 px-5 py-3 rounded-t-2xl flex items-center justify-between">
                     <h3 class="font-semibold text-sm md:text-base">Próximas clases</h3>
@@ -139,7 +151,7 @@
                 </div>
             </div>
 
-            {{-- ÚLTIMAS TRADUCCIONES --}}
+                        {{--ÚLTIMAS TRADUCCIONEs--}}
             <div class="rounded-2xl border border-beige bg-beige2 shadow dark:bg-slate-950 dark:border-slate-700">
                 <div class="bg-azul text-beige2 px-5 py-3 rounded-t-2xl flex items-center justify-between">
                     <h3 class="font-semibold text-sm md:text-base">Últimas solicitudes de traducción</h3>

@@ -1,3 +1,9 @@
+{{--
+    Vistas de `bookings` → create.blade.php
+    Propósito: formulario para crear una reserva (fecha, hora, datos de contacto)
+    Notas: el JS de comportamiento se carga vía Vite al final del archivo (`resources/js/bookings.js`).
+--}}
+
 @extends('layouts.site')
 
 @section('title', 'Reservar · Gran Bretania')
@@ -109,6 +115,7 @@
         </div>
     </div>
 
+    {{-- Carga de scripts: `bookings.js` gestiona disponibilidad/horarios y validaciones cliente --}}
     @vite(['resources/js/bookings.js'])
 
   

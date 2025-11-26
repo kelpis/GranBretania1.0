@@ -1,3 +1,9 @@
+{{--
+    Layout principal: site.blade.php
+    Propósito: layout global con header, footer, carga de Vite y manejo de tema oscuro.
+    Notas: usado por la mayoría de vistas; evitar duplicar navs en plantillas que extienden este layout.
+--}}
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -6,19 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@yield('title', 'Gran Bretania')</title>
-    {{-- Script tema oscuro: respeta sistema + recuerda preferencia --}}
-    <script>
-        (function () {
-            const userTheme = localStorage.getItem('theme');
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            if (userTheme === 'dark' || (!userTheme && systemPrefersDark)) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        })();
-    </script>
+    {{-- Script del tema movido a `resources/js/theme.js` y cargado desde Vite (import en `app.js`) --}}
     {{-- Fuentes --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,11 +27,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-dvh flex flex-col bg-beige2">
+<body class="min-h-dvh flex flex-col bg-beige2 px-4 md:px-8 lg:px-12">
 
     @section('header')
     <header
-        class="sticky top-0 z-40 bg-beige/95 dark:bg-slate-800/90 backdrop-blur supports-[backdrop-filter]:bg-beige/80 shadow-sm -mx-4 sm:-mx-6 lg:-mx-8">
+        class="sticky top-0 z-40 bg-beige/95 dark:bg-slate-800/90 backdrop-blur supports-[backdrop-filter]:bg-beige/80 shadow-sm -mx-4 md:-mx-8 lg:-mx-12">
 
         <div class="container mx-auto px-4">
             <div x-data="{ open: false }" @keydown.escape="open = false" @click.away="open = false"
@@ -48,7 +42,7 @@
                     {{-- LOGO --}}
                     <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
                         <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania"
-                            class="h-16 w-auto dark:invert dark:brightness-0">
+                            class="h-20 w-auto dark:invert dark:brightness-0">
                     </a>
 
                     {{-- ENLACES (escritorio) --}}
@@ -166,7 +160,7 @@
     </main>
 
     {{-- Footer azul corporativo --}}
-    <footer class="bg-azul dark:bg-slate-900/90 text-white mt-12 -mx-4 sm:-mx-6 lg:-mx-8">
+    <footer class="bg-azul dark:bg-slate-900/90 text-white mt-12 -mx-4 md:-mx-8 lg:-mx-12">
 
         <div class="px-4 sm:px-6 lg:px-8">
             <div class="container mx-auto px-4 py-10 flex flex-col md:flex-row gap-8">

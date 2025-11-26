@@ -6,7 +6,7 @@
 <section id="contacto" class="py-16">
   <div class="container mx-auto px-4 grid md:grid-cols-2 gap-8 items-stretch min-h-[35rem]">
 
-    {{-- Columna izquierda: imagen + texto arriba --}}
+    {{-- Columna izquierda--}}
     <div class="relative rounded-xl overflow-hidden h-full">
       <img
         src="{{ asset('images/libros-ingleses.jpg') }}"
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    {{-- Columna derecha: formulario (igual altura) --}}
+    {{-- Columna derecha: formulario--}}
     <div class="h-full">
       <div class="bg-azul rounded-xl shadow p-6 md:p-8 h-full flex flex-col">
         @if (session('ok'))

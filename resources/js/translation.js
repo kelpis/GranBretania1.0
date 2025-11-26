@@ -1,11 +1,15 @@
-// client-side for translation form
+// Validaciones y UX para el formulario de solicitud de traducción
+// - Valida en cliente el archivo adjunto (extensión y tamaño máximo)
+// - Muestra mensajes de error en línea sin bloquear la UI
+
 (function(){
   const form = document.getElementById('translation-form');
   if (!form) return;
   const fileInput = form.querySelector('input[name="file"]');
   const allowed = ['pdf','doc','docx','odt','txt','rtf'];
-  const maxBytes = 10240 * 1024; // 10MB
+  const maxBytes = 10240 * 1024; // 10MB en bytes
 
+  // Muestra un mensaje de error justo después del input (o lo crea si no existe)
   function showError(el, msg) {
     let node = el.nextElementSibling;
     if (!node || !node.classList || !node.classList.contains('client-error')) {
@@ -15,11 +19,13 @@
     }
     node.textContent = msg;
   }
+  // Limpia el mensaje de error si existe
   function clearError(el) {
     const node = el.nextElementSibling;
     if (node && node.classList && node.classList.contains('client-error')) node.remove();
   }
 
+  // Validación en el evento change del input file
   if (fileInput) {
     fileInput.addEventListener('change', function(){
       clearError(fileInput);
@@ -39,6 +45,7 @@
     });
   }
 
+  // Comprobación final al enviar el formulario (por si se desactiva JS o no se ha cambiado el input)
   form.addEventListener('submit', function(e){
     clearError(fileInput);
     const f = fileInput.files && fileInput.files[0];

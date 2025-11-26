@@ -1,3 +1,9 @@
+{{--
+    Layout: home.blade.php
+    Propósito: página principal (hero, carrusel, CTA, secciones resumen).
+    Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimizadas.
+--}}
+
 @extends('layouts.site')
 
 @section('title', 'Inicio · Gran Bretania')

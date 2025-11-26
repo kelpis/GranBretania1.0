@@ -1,11 +1,11 @@
 <x-app-layout>
 
+    {{--Vista Admin: Traducciones --}}
+
     <div class="bg-beige2 dark:bg-slate-950 -mx-4 sm:-mx-6 lg:-mx-8">
         <div class="py-8 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
-            {{-- ========================= --}}
-            {{-- FLASH MESSAGES --}}
-            {{-- ========================= --}}
+
             @if (session('ok'))
                 <div class="p-3 rounded-xl bg-ok/10 border border-ok/40 text-ok text-sm">
                     {{ session('ok') }}
@@ -18,11 +18,13 @@
                 </div>
             @endif
 
-         
 
-            {{-- ========================= --}}
-            {{-- CALCULADORA TRADUCCIÓN --}}
-            {{-- ========================= --}}
+
+            {{--
+            CALCULADORA TRADUCCIÓN
+            No realiza ningún envío al servidor por sí misma; solo ayuda al administrador a fijar un precio.
+            --}}
+
             <div id="translation-calculator"
                 class="mb-12 rounded-2xl border border-azul/20 bg-azul text-white shadow p-6">
                 <h3 class="text-white font-semibold text-lg mb-4">Calculadora rápida de traducción</h3>
@@ -62,9 +64,13 @@
             </div>
 
 
-            {{-- ========================= --}}
-            {{-- TABLA DE TRADUCCIONES --}}
-            {{-- ========================= --}}
+
+            {{--
+            TABLA DE TRADUCCIONES
+            Listado de solicitudes: en móvil mostramos tarjetas con acciones inline;
+            en escritorio mostramos una tabla completa con más columnas y acciones.
+            --}}
+
             <div
                 class="rounded-2xl shadow-xl overflow-hidden border border-beige bg-beige2 dark:bg-slate-950 dark:border-slate-700">
                 <div class="bg-azul text-beige2 px-6 py-4">
@@ -73,7 +79,11 @@
 
                 <div class="rounded-lg border border-azul/20 overflow-hidden">
 
-                    {{-- MOBILE / TABLET VERSION (CARDS) --}}
+                    {{--
+                    RESPONSIVE MOVIL / TABLET VERSION (CARDS)
+                    Tarjetas apiladas para pantallas pequeñas. Cada tarjeta contiene:
+                    Mantener esta sección ligera para evitar scroll horizontal en móviles.
+                    --}}
                     <div class="lg:hidden space-y-3 p-4">
                         @forelse($items as $tr)
                             <div class="bg-white rounded-lg p-4 border shadow-sm dark:bg-slate-900 dark:text-slate-100">
@@ -81,7 +91,8 @@
                                     <div>
                                         <div class="text-xs text-gray-500">Fecha</div>
                                         <div class="font-medium text-sm text-azul">
-                                            {{ $tr->created_at->format('d/m/Y H:i') }}</div>
+                                            {{ $tr->created_at->format('d/m/Y H:i') }}
+                                        </div>
 
                                         <div class="text-xs text-gray-500 mt-2">Nombre</div>
                                         <div class="font-medium">{{ $tr->user->name ?? '—' }}</div>
@@ -103,7 +114,8 @@
                                     <div class="text-xs text-gray-500">Email</div>
                                     <div class="truncate">
                                         @if($tr->user && $tr->user->email)
-                                            <a href="mailto:{{ $tr->user->email }}" class="underline text-azul dark:text-white">{{ $tr->user->email }}</a>
+                                            <a href="mailto:{{ $tr->user->email }}"
+                                                class="underline text-azul dark:text-white">{{ $tr->user->email }}</a>
                                         @else
                                             <span class="text-gray-600">—</span>
                                         @endif
@@ -149,7 +161,7 @@
                                         </form>
                                     @endif
 
-                                    {{-- Subir traducción final (mobile) --}}
+                                    {{-- Subir traducción final (MOVIL) --}}
                                     @if ($tr->status === 'paid')
                                         <form method="POST" action="{{ route('admin.translations.deliver', $tr) }}"
                                             enctype="multipart/form-data" class="space-y-1 mt-2">
@@ -177,10 +189,8 @@
 
 
 
-                    {{-- ========================= --}
+
                     {{-- DESKTOP (LG+) VERSION --}}
-                    {{-- ========================= --
-                    -- Show full table only on large screens to avoid horizontal scroll on tablets --}}
                     <div class="hidden lg:block overflow-x-auto">
                         <table class="w-full text-sm text-azul dark:text-beige2">
                             <thead
@@ -205,7 +215,8 @@
                                         <td class="p-3">{{ $tr->user->name ?? '—' }}</td>
                                         <td class="p-3">
                                             @if($tr->user && $tr->user->email)
-                                                <a href="mailto:{{ $tr->user->email }}" class="text-azul underline hover:text-rojo transition dark:text-white dark:hover:text-rose-100">{{ $tr->user->email }}</a>
+                                                <a href="mailto:{{ $tr->user->email }}"
+                                                    class="text-azul underline hover:text-rojo transition dark:text-white dark:hover:text-rose-100">{{ $tr->user->email }}</a>
                                             @else
                                                 <span class="text-gray-600">—</span>
                                             @endif
@@ -214,9 +225,11 @@
                                         {{-- Idiomas --}}
                                         <td class="p-3">
                                             <div class="flex items-center gap-2 whitespace-nowrap overflow-hidden">
-                                                <span class="inline-block px-2 py-1 rounded-full text-xs bg-azul text-beige2 font-semibold">{{ strtoupper($tr->source_lang) }}</span>
+                                                <span
+                                                    class="inline-block px-2 py-1 rounded-full text-xs bg-azul text-beige2 font-semibold">{{ strtoupper($tr->source_lang) }}</span>
                                                 <span class="mx-1 font-bold text-sm">→</span>
-                                                <span class="inline-block px-2 py-1 rounded-full text-xs bg-rojo text-beige2 font-semibold">{{ strtoupper($tr->target_lang) }}</span>
+                                                <span
+                                                    class="inline-block px-2 py-1 rounded-full text-xs bg-rojo text-beige2 font-semibold">{{ strtoupper($tr->target_lang) }}</span>
                                             </div>
                                         </td>
 

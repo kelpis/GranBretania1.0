@@ -1,3 +1,9 @@
+{{--
+    Vista: user/translations/index.blade.php
+    Propósito: listado de solicitudes de traducción del usuario (móvil: tarjetas, desktop: tabla).
+    Notas: muestra estado, enlace de descarga cuando esté entregada y mensajes flash (Stripe, sesión).
+--}}
+
 @extends('layouts.site')
 
 @section('title', 'Mis traducciones · Gran Bretania')
@@ -23,6 +29,7 @@
                 </div>
             @endif
 
+            {{-- Si no hay solicitudes, mostrar mensaje sencillo --}}
             @if($items->isEmpty())
                 <div class="bg-white p-6 shadow sm:rounded-lg">
                     No tienes solicitudes de traducción.
@@ -30,7 +37,7 @@
             @else
                 <div class="rounded-2xl shadow-xl overflow-hidden border border-beige bg-beige2">
 
-                    {{-- CABECERA --}}
+                    {{-- CABECERA: título de la lista y estilos de cabecera --}}
                     <div class="bg-azul text-beige2 px-6 py-4">
                         <h2 class="font-semibold text-xl leading-tight">Mis traducciones</h2>
                     </div>
@@ -44,7 +51,7 @@
                         ];
                     @endphp
 
-                    {{-- MOBILE: tarjetas --}}
+                    {{-- Movil: tarjetas --}}
                     <div class="md:hidden px-4 py-4 space-y-3">
 
                         @foreach($items as $t)
