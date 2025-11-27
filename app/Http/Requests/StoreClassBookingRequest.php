@@ -23,6 +23,8 @@ class StoreClassBookingRequest extends FormRequest
             'class_date' => ['required', 'date', 'after_or_equal:today'],
             'class_time' => ['required', 'date_format:H:i'],
             // Nombre/email/phone son gestionados por el `User` (login obligatorio)
+            // Validar teléfono opcionalmente si se envía desde el formulario
+            'phone'      => ['nullable', 'string', 'max:30', 'regex:/^[0-9+\s\-()]+$/'],
             // datos mínimos de reserva
             'notes'      => ['nullable', 'string', 'max:255'],
             'gdpr'       => ['accepted'],
@@ -46,6 +48,7 @@ class StoreClassBookingRequest extends FormRequest
 
             $exists = ClassBooking::where('class_date', $data['class_date'])
                 ->where('class_time', $data['class_time'])
+                ->where('paid', true)
                 ->whereNotIn('status', ['cancelled', 'rejected'])
                 ->exists();
 
@@ -74,6 +77,7 @@ class StoreClassBookingRequest extends FormRequest
             'class_date.required' => 'Selecciona una fecha válida.',
             'class_date.date' => 'La fecha no tiene un formato válido.',
             'phone.regex' => 'El teléfono solo puede contener dígitos, espacios, +, paréntesis y guiones.',
+            'phone.max' => 'El teléfono es demasiado largo.',
             'g-recaptcha-response.required' => 'Por favor completa el reCAPTCHA antes de enviar el formulario.',
         ];
     }

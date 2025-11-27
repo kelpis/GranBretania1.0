@@ -24,19 +24,25 @@ class ClassBookingController extends Controller
 
 
 
-    
+
     // Guardar reserva
     public function store(StoreClassBookingRequest $request)
     {
         // 1) Datos validados
+
+
         $data = $request->validated();
+
 
         // 2) Evitar franja ocupada: no permitir si ya existe otra reserva para la misma
         //    fecha/hora cuyo estado NO sea 'cancelled' o 'rejected' (p.ej. pendin
         $exists = ClassBooking::where('class_date', $data['class_date'])
             ->where('class_time', $data['class_time'])
             ->whereNotIn('status', ['cancelled', 'rejected'])
+            ->where('paid', true) //Solo las  reservas pagadas se bloquean
             ->exists();
+
+   
 
         if ($exists) {
             return back()
@@ -165,7 +171,8 @@ class ClassBookingController extends Controller
 
         // Obtener reservas no canceladas para esa fecha
         $query = ClassBooking::where('class_date', $date)
-            ->whereNotIn('status', ['cancelled', 'rejected']);
+            ->whereNotIn('status', ['cancelled', 'rejected'])
+            ->where('paid', true);
 
         if ($exceptId) {
             $query->where('id', '!=', $exceptId);

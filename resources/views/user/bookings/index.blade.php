@@ -26,7 +26,7 @@
                 $hasHistory = isset($history) && $history->isNotEmpty();
             @endphp
 
-            {{-- Si no hay reservas, mostrar mensaje amigable --}}
+            {{-- Si no hay reservas--}}
             @if(!$hasUpcoming && !$hasHistory)
                 <div class="bg-white p-6 shadow sm:rounded-lg">No tienes reservas.</div>
             @else

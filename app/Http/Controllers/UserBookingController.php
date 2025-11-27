@@ -31,6 +31,7 @@ class UserBookingController extends Controller
 
         // Clases FUTURAS (próximas)
         $upcoming = ClassBooking::where('user_id', $user->id)
+            ->where('paid', true)
             ->whereDate('class_date', '>=', now()->toDateString())
             ->orderBy('class_date')
             ->orderBy('class_time')
@@ -38,10 +39,11 @@ class UserBookingController extends Controller
 
         // Clases PASADAS (historial)
         $history = ClassBooking::where('user_id', $user->id)
+            ->where('paid', true)
             ->whereDate('class_date', '<', now()->toDateString())
             ->orderBy('class_date', 'desc')
             ->orderBy('class_time', 'desc')
-            ->limit(10) 
+            ->limit(10)
             ->get();
 
         // Traducciones del usuario (vinculadas por user_id)
@@ -77,6 +79,7 @@ class UserBookingController extends Controller
         $conflict = ClassBooking::where('class_date', $data['class_date'])
             ->where('class_time', $data['class_time'])
             ->where('id', '!=', $booking->id)
+            ->where('paid', true)
             ->whereNotIn('status', ['cancelled', 'rejected'])
             ->exists();
 

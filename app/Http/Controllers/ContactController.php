@@ -12,15 +12,15 @@ use Illuminate\Http\Request;
 class ContactController extends Controller
 {
     //Muestra el formulario de contacto
-     
+
     public function create()
     {
         return view('contact.create');
     }
 
-    
+
     //Procesa el envío del formulario
-     
+
     public function store(StoreContactRequest $request)
     {
         //Guarda el mensaje en base de datos
@@ -42,7 +42,6 @@ class ContactController extends Controller
 
         Notification::route('mail', env('ADMIN_EMAIL'))
             ->notify(new ContactAdminAlert($msg));
-
 
         //Devuelve al formulario con mensaje de éxito
         return back()->with('ok', 'Mensaje enviado correctamente. Revisa tu correo para el acuse.');

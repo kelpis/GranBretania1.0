@@ -60,6 +60,35 @@ async function loadTimesFor(date) {
       if (oldTime && oldTime === t) opt.selected = true;
       timeSelect.appendChild(opt);
     });
+
+    // Filtrado adicional en cliente: si la fecha seleccionada es hoy, quitar
+    // las franjas cuya hora de inicio ya ha pasado en el reloj del usuario.
+    try {
+      const todayStr = formatYMD(new Date());
+      if (date === todayStr) {
+        const now = new Date();
+        const nowMin = now.getHours() * 60 + now.getMinutes();
+        // Recorremos las opciones y eliminamos las que sean <= ahora
+        Array.from(timeSelect.options).forEach(opt => {
+          const v = opt.value;
+          if (!v) return; // omitimos la opción vacía
+          const parts = v.split(':');
+          if (parts.length < 2) return;
+          const tMin = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+          if (tMin <= nowMin) {
+            // eliminar opción del select
+            try { opt.remove(); } catch (e) { /* soportar navegadores distintos */ }
+          }
+        });
+        // Si tras filtrar no quedan opciones útiles, mostrar mensaje
+        if (timeSelect.options.length <= 1) { // solo la opción por defecto
+          timeSelect.innerHTML = '<option value="">— Selecciona hora —</option>';
+          help.textContent = 'No hay horas disponibles para esta fecha.';
+        }
+      }
+    } catch (e) {
+      // Si falla el filtrado cliente no hacemos nada; la validación server-side sigue vigente
+    }
   } catch (e) {
     help.textContent = 'No se pudo comprobar disponibilidad.';
   }
