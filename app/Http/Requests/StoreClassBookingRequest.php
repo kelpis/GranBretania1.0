@@ -46,10 +46,17 @@ class StoreClassBookingRequest extends FormRequest
                 return;
             }
 
+            // Evitar franja ocupada: reservar si ya hay booking pagado o con hold activo
             $exists = ClassBooking::where('class_date', $data['class_date'])
                 ->where('class_time', $data['class_time'])
-                ->where('paid', true)
                 ->whereNotIn('status', ['cancelled', 'rejected'])
+                ->where(function ($q) {
+                    $q->where('paid', true)
+                      ->orWhere(function ($q2) {
+                          $q2->whereNotNull('reserved_until')
+                             ->where('reserved_until', '>', now());
+                      });
+                })
                 ->exists();
 
             if ($exists) {
@@ -65,6 +72,19 @@ class StoreClassBookingRequest extends FormRequest
                 }
             } catch (\Throwable $e) {
                 // si no se puede parsear, dejar que la regla 'date' reporte el error
+            }
+            // Validación: exigir al menos 5 horas de antelación para la clase
+            try {
+                $time = substr($data['class_time'], 0, 5);
+                $classDateTime = Carbon::parse($data['class_date'] . ' ' . $time);
+                $now = Carbon::now();
+                $minutesUntil = $now->diffInMinutes($classDateTime, false);
+
+                if ($minutesUntil < 300) { // menos de 5 horas
+                    $validator->errors()->add('class_time', 'Debes reservar con al menos 5 horas de antelación.');
+                }
+            } catch (\Throwable $e) {
+                // si falla el parseo, no añadimos este error específico
             }
         });
     }

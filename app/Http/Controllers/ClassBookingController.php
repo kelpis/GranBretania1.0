@@ -90,6 +90,18 @@ class ClassBookingController extends Controller
 
         $booking = ClassBooking::create($payload);
 
+        // Marcar un hold temporal para evitar overbooking (configurable via .env)
+        try {
+            if (env('ENABLE_RESERVATION_HOLDS', true)) {
+                $minutes = (int) env('RESERVATION_HOLD_MINUTES', 30);
+                $booking->reserved_until = now()->addMinutes($minutes);
+                $booking->save();
+            }
+        } catch (\Throwable $e) {
+            // No bloquear el flujo por un fallo al guardar el hold
+            Log::warning('Failed to set reservation hold: ' . $e->getMessage());
+        }
+
         // Crear sesión de Stripe Checkout y redirigir al usuario para pagar
         try {
             $stripeSecret = config('services.stripe.secret');
@@ -169,10 +181,17 @@ class ClassBookingController extends Controller
             $all[] = $hh;
         }
 
-        // Obtener reservas no canceladas para esa fecha
+        // Obtener reservas no canceladas para esa fecha: consideradas tomadas si están pagadas
+        // o si tienen un hold activo (`reserved_until` en el futuro)
         $query = ClassBooking::where('class_date', $date)
             ->whereNotIn('status', ['cancelled', 'rejected'])
-            ->where('paid', true);
+            ->where(function ($q) {
+                $q->where('paid', true)
+                  ->orWhere(function ($q2) {
+                      $q2->whereNotNull('reserved_until')
+                         ->where('reserved_until', '>', now());
+                  });
+            });
 
         if ($exceptId) {
             $query->where('id', '!=', $exceptId);
@@ -205,24 +224,22 @@ class ClassBookingController extends Controller
                 }
             }
         }
-        //Filtrado final y exclusion de horas pasadas
+        //Filtrado final y exclusion de franjas no disponibles
         $available = array_values(array_filter($all, function ($t) use ($taken, $blockedTimes, $date) {
             // Excluir si ya tomado o bloqueado
             if (in_array($t, $taken) || in_array($t, $blockedTimes)) return false;
 
-            // Si la fecha es hoy, excluir horas que ya hayan pasado respecto a la hora actual
+            // Excluir franjas con menos de 5 horas de antelación (para hoy o cualquier fecha cercana)
             try {
-                $d = Carbon::parse($date);
-                if ($d->isToday()) {
-                    [$H, $M] = explode(':', substr($t, 0, 5));
-                    $tMin = intval($H) * 60 + intval($M);
-                    $now = Carbon::now();
-                    $nowMin = $now->hour * 60 + $now->minute;
-                    // Si la franja es anterior o igual al momento actual, no mostrarla
-                    if ($tMin <= $nowMin) return false;
-                }
+                $time = substr($t, 0, 5);
+                $classDT = Carbon::parse($date . ' ' . $time);
+                $now = Carbon::now();
+                $minutesUntil = $now->diffInMinutes($classDT, false);
+
+                // Si faltan menos de 300 minutos (5 horas) o la franja ya está en el pasado, excluirla
+                if ($minutesUntil < 300) return false;
             } catch (\Throwable $e) {
-                // si falla el parseo, no hacemos el filtrado por hora
+                // si falla el parseo, no hacemos el filtrado por tiempo
             }
 
             return true;

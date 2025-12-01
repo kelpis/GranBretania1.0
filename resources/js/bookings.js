@@ -61,30 +61,32 @@ async function loadTimesFor(date) {
       timeSelect.appendChild(opt);
     });
 
-    // Filtrado adicional en cliente: si la fecha seleccionada es hoy, quitar
-    // las franjas cuya hora de inicio ya ha pasado en el reloj del usuario.
+    // Filtrado adicional en cliente: eliminar franjas con menos de 5 horas de antelación
     try {
-      const todayStr = formatYMD(new Date());
-      if (date === todayStr) {
-        const now = new Date();
-        const nowMin = now.getHours() * 60 + now.getMinutes();
-        // Recorremos las opciones y eliminamos las que sean <= ahora
-        Array.from(timeSelect.options).forEach(opt => {
-          const v = opt.value;
-          if (!v) return; // omitimos la opción vacía
-          const parts = v.split(':');
-          if (parts.length < 2) return;
-          const tMin = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
-          if (tMin <= nowMin) {
-            // eliminar opción del select
-            try { opt.remove(); } catch (e) { /* soportar navegadores distintos */ }
-          }
-        });
-        // Si tras filtrar no quedan opciones útiles, mostrar mensaje
-        if (timeSelect.options.length <= 1) { // solo la opción por defecto
-          timeSelect.innerHTML = '<option value="">— Selecciona hora —</option>';
-          help.textContent = 'No hay horas disponibles para esta fecha.';
+      const now = new Date();
+      Array.from(timeSelect.options).forEach(opt => {
+        const v = opt.value;
+        if (!v) return; // omitimos la opción vacía
+        const parts = v.split(':');
+        if (parts.length < 2) return;
+        // Construir datetime local a partir de la fecha seleccionada y la hora de la opción
+        const year = parseInt(date.substr(0,4), 10);
+        const month = parseInt(date.substr(5,2), 10) - 1; // meses 0-based
+        const day = parseInt(date.substr(8,2), 10);
+        const hour = parseInt(parts[0], 10);
+        const minute = parseInt(parts[1], 10);
+        const classDT = new Date(year, month, day, hour, minute);
+
+        const minutesUntil = Math.floor((classDT - now) / 60000);
+        if (minutesUntil < 300) {
+          try { opt.remove(); } catch (e) { /* soportar navegadores distintos */ }
         }
+      });
+
+      // Si tras filtrar no quedan opciones útiles, mostrar mensaje
+      if (timeSelect.options.length <= 1) { // solo la opción por defecto
+        timeSelect.innerHTML = '<option value="">— Selecciona hora —</option>';
+        help.textContent = 'No hay horas disponibles para esta fecha. (Se requiere 5 horas de antelación)';
       }
     } catch (e) {
       // Si falla el filtrado cliente no hacemos nada; la validación server-side sigue vigente
@@ -138,6 +140,37 @@ if (dateSelect && dateSelect.value) loadTimesFor(dateSelect.value);
       e.preventDefault();
       showError(phone, 'El teléfono solo puede contener dígitos, espacios, +, paréntesis y guiones.');
       phone.focus();
+      return;
+    }
+
+    // Validación cliente: comprobar regla de 5 horas de antelación antes de enviar
+    try {
+      const d = dateSelect ? dateSelect.value : null;
+      const t = timeSelect ? timeSelect.value : null;
+      if (!d || !t) return; // dejar que el servidor valide campos requeridos
+
+      const year = parseInt(d.substr(0,4), 10);
+      const month = parseInt(d.substr(5,2), 10) - 1;
+      const day = parseInt(d.substr(8,2), 10);
+      const parts = t.split(':');
+      if (parts.length < 2) return;
+      const hour = parseInt(parts[0], 10);
+      const minute = parseInt(parts[1], 10);
+
+      const classDT = new Date(year, month, day, hour, minute);
+      const now = new Date();
+      const minutesUntil = Math.floor((classDT - now) / 60000);
+
+      if (minutesUntil < 300) {
+        e.preventDefault();
+        // mostrar mensaje junto al help de hora
+        if (help) help.textContent = 'Debes reservar con al menos 5 horas de antelación.';
+        // desplazar foco al select de hora
+        if (timeSelect) timeSelect.focus();
+        return;
+      }
+    } catch (e) {
+      // Si falla el parseo, dejamos la validación al servidor
     }
   });
 })();

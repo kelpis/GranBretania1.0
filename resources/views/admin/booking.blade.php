@@ -126,7 +126,7 @@
                                     <th class="py-3 px-4 text-left">Email</th>
                                     <th class="py-3 px-4 text-left">Notas</th>
                                     <th class="py-3 px-4 text-left">Estado</th>
-                                    <th class="py-3 px-4 text-right">Acciones</th>
+                                    <th class="py-3 px-4 text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -280,7 +280,7 @@
                                 <th class="py-3 px-4 text-left">Nombre</th>
                                 <th class="py-3 px-4 text-left">Email</th>
                                 <th class="py-3 px-4 text-left">Enlace</th>
-                                <th class="py-3 px-4 text-right">Acciones</th>
+                                <th class="py-3 px-4 text-left">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>

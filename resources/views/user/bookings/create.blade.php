@@ -62,7 +62,7 @@
                                 </option>
                             @endforeach
                         </select>
-                        <p id="time-help" class="text-sm text-white/80 mt-1"></p>
+                        <p id="time-help" class="text-sm text-white/80 mt-1">Recuerda: la reserva debe realizarse con al menos <strong>5 horas</strong> de antelación.</p>
                         <x-input-error :messages="$errors->get('class_time')" class="mt-2" />
                     </div>
 

@@ -3,7 +3,7 @@
   Propósito: banner de consentimiento de cookies que muestra opciones "Aceptar" / "Rechazar".
   Comportamiento: guarda la decisión en la cookie `cookies_consent` y dispara eventos
   `cookies:accepted` y `cookies:rejected` para que otros scripts puedan reaccionar.
-  Notas: modificar aquí el texto o la duración (365 días) según la política de cookies.
+  
 --}}
 <div id="cookie-consent" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] sm:w-auto max-w-lg bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] p-4 rounded shadow-md" style="display: none;">
     <div class="flex flex-col sm:flex-row sm:items-center gap-3">

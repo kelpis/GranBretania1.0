@@ -215,6 +215,8 @@
             </div>
         </div>
     </footer>
+        {{-- Banner de cookies: componente global incluido en el layout público --}}
+        @include('components.cookie-consent')
 </body>
 
 </html>
