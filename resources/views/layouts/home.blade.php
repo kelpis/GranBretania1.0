@@ -12,135 +12,63 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
 
 
     {{-- -CARRUSEL --}}
+
     <section x-data="{
-                                                                                    images: [
-                                                                                        '{{ asset('images/edimburgo.jpg') }}',
-                                                                                        '{{ asset('images/londres.jpg') }}',
-                                                                                        '{{ asset('images/edimburgo2.jpg') }}',
-                                                                                    ],
-                                                                                   current: 0,
-                                                                        fading: false,
-                                                                        next() {
-                                                                            this.fading = true;
-                                                                            setTimeout(() => {
-                                                                                this.current = (this.current + 1) % this.images.length;
-                                                                                this.fading = false;
-                                                                            }, 1500);
-                                                                        },
-                                                                        init() {
-                                                                            setInterval(() => this.next(), 7000);
-                                                                        }
-                                                                    }" class="container mx-auto px-4 mt-6">
-        <div class="relative rounded-2xl overflow-hidden bg-center bg-cover
-                                                                                h-[360px] md:h-[460px] lg:h-[520px]"
-            :style="`background-image: url('${images[current]}')`">
+            images: [
+                '{{ asset('images/london.jpg') }}',
+                '{{ asset('images/londres.jpg') }}'
+            ],
+            current: 0,
+            next() {
+                this.current = (this.current + 1) % this.images.length;
+            }
+        }" x-init="
+            setInterval(() => next(), 6000);
+            $nextTick(() => document.getElementById('heroLogo').classList.add('animate-logo'));
+        " class="container mx-auto px-4 mt-8">
+        <div class="relative rounded-2xl overflow-hidden h-[380px] md:h-[480px] lg:h-[540px]">
 
-            {{-- overlay suave sobre la foto --}}
-            <div class="absolute inset-0 bg-black/20 dark:bg-black/40
-                                                                                    transition-opacity duration-[1500ms]"
-                :class="fading ? 'opacity-0' : 'opacity-100'">
+            {{-- CAPA 1 (imagen actual) --}}
+            <div class="absolute inset-0 bg-center bg-cover transition-all duration-[1300ms]"
+                :style="'background-image: url(' + images[current] + ')'">
             </div>
 
-            {{-- tarjeta centrada con logo + título --}}
-            <div class="absolute inset-0 bg-black/10 dark:bg-black/40"></div>
+            {{-- Overlay MUY suave --}}
+            <div class="absolute inset-0 bg-black/5 dark:bg-black/20"></div>
 
-            {{-- Logo layer: responsive — static on small, absolute on md+ to avoid overlap --}}
-            <div class="md:absolute z-30 left-6 md:left-10 top-6 md:top-12 relative flex justify-center md:justify-start">
-                <a href="{{ route('home') }}">
-                    <img src="{{ asset('images/logoMonocromadoSinMARGEN.png') }}" alt="Gran Bretania"
-                        class="h-44 md:h-64 lg:h-72 w-auto drop-shadow-[0_12px_28px_rgba(0,0,0,0.6)] dark:invert dark:brightness-0">
-                </a>
-            </div>
+            {{-- LOGO CENTRADO ARRIBA PERO UN POCO A LA DERECHA --}}
+            <div class="absolute top-4 left-1/2 -translate-x-[42%]">
 
-            {{-- Text layer: left aligned, pinned to bottom --}}
-            <div class="absolute z-10 left-4 bottom-6 md:left-8 md:bottom-12">
-                <div
-                    class="rounded-2xl px-6 py-5 bg-white/30 dark:bg-slate-800/60 backdrop-blur-sm shadow-xl border border-white/20 dark:border-white/10 max-w-md">
-                    <p class="text-xs md:text-sm tracking-[0.25em] uppercase text-black/70 dark:text-white/80 mb-1">Academia
-                        de inglés · Traducción</p>
-                    <h2 class="text-lg md:text-2xl font-semibold text-black dark:text-white">Enseñanza de inglés y
-                        traducciones</h2>
+                <div class="relative inline-block">
+
+                    {{-- Halo detrás del logo --}}
+                    <div class="absolute inset-0 bg-white/10 blur-xl rounded-xl scale-110"></div>
+
+                    {{-- LOGO con animación --}}
+                    <img id="heroLogo" src="{{ asset('images/logoMonocromadoSinMARGEN.png') }}" alt="Gran Bretania" class="relative z-10 
+                h-44 md:h-56 lg:h-72 
+                w-auto
+                drop-shadow-[0_8px_18px_rgba(0,0,0,0.5)]
+                opacity-0 scale-95 blur-sm
+                transition-all duration-[2200ms] ease-out delay-200">
+
                 </div>
+
             </div>
+
         </div>
     </section>
 
+    {{-- ESTILO DE ANIMACIÓN --}}
+    <style>
+        .animate-logo {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+            filter: blur(0) !important;
+        }
+    </style>
 
 
-    <section x-data="{
-                                                        images: [
-                                                            '{{ asset('images/edimburgo.jpg') }}',
-                                                            '{{ asset('images/london.jpg') }}',
-                                                            '{{ asset('images/londres.jpg') }}',
-                                                        ],
-                                                        current: 0,
-                                                        fading: false,
-                                                        next() {
-                                                            this.fading = true;
-                                                            setTimeout(() => {
-                                                                this.current = (this.current + 1) % this.images.length;
-                                                                this.fading = false;
-                                                            }, 900);
-                                                        },
-                                                        init() {
-                                                            setInterval(() => this.next(), 7000);
-                                                        }
-                                                    }" x-init="init" class="container mx-auto px-4 mt-8">
-        <div class="relative rounded-2xl overflow-hidden bg-center bg-cover
-                                                                h-[360px] md:h-[460px] lg:h-[520px]"
-            :style="`background-image: url('${images[current]}')`">
-
-            {{-- overlay suave --}}
-            <div class="absolute inset-0 bg-black/20 dark:bg-black/40
-                                                                    transition-opacity duration-[900ms]"
-                :class="fading ? 'opacity-0' : 'opacity-100'">
-            </div>
-
-            {{-- BLOQUE TRANSPARENTE A LA IZQUIERDA --}}
-            <div class="relative z-10 h-full flex items-center px-6 md:px-12">
-                <div class="flex flex-col items-center gap-4 max-w-xl w-full">
-
-                    {{-- LOGO CENTRADO SOBRE EL TEXTO CON HALO CUADRADO --}}
-                    <div class="relative flex justify-center w-full">
-
-                        {{-- CONTENEDOR DEL HALO + LOGO --}}
-                        <div class="relative inline-block">
-
-                            {{-- HALO CUADRADO DETRÁS DEL LOGO --}}
-                            <div class="absolute inset-0
-                                                bg-white/35 dark:bg-white/20
-                                                blur-2xl
-                                                rounded-xl
-                                                scale-130"></div> {{-- halo 30% más grande --}}
-
-                            {{-- LOGO (MÁS GRANDE QUE ANTES) --}}
-                            <a href="{{ route('home') }}" class="relative z-10 inline-block">
-                                <img src="{{ asset('images/logoMonocromadoSinMARGEN.png') }}" alt="Gran Bretania" class="h-52 md:h-64 lg:h-72 w-auto opacity-95
-                                                    drop-shadow-[0_10px_20px_rgba(0,0,0,0.55)]
-                                                    dark:invert dark:brightness-0">
-                            </a>
-
-                        </div>
-                    </div>
-
-
-
-                    <div class="rounded-3xl px-6 py-3 md:px-8 md:py-4
-                text-center w-auto
-                bg-gradient-to-r from-azul/95 to-azul/80
-                shadow-xl border border-azul/70
-                whitespace-nowrap">
-
-                        <h1 class="text-xl md:text-3xl lg:text-4xl font-semibold text-white drop-shadow-lg leading-tight">
-                            Enseñanza de inglés y traducciones
-                        </h1>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-    </section>
 
 
 

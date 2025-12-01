@@ -6,7 +6,7 @@
         <div class="max-w-md mx-auto bg-azul text-beige2 rounded-lg shadow-lg p-8">
             <h2 class="text-2xl font-semibold text-beige2 mb-4">{{ __('Reset Password') }}</h2>
 
-            <form method="POST" action="{{ route('password.store') }}">
+            <form method="POST" action="{{ route('password.store') }}" class="mt-6">
                 @csrf
 
                 <!-- Password Reset Token -->

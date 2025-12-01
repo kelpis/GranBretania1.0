@@ -167,7 +167,7 @@ class StripeWebhookController extends Controller
                 'object_id' => $obj->id ?? null,
             ]);
 
-            // Buscar booking solo por metadata.booking_id (no por email)
+            // Buscar booking solo por metadata.booking_id 
             $booking = null;
             if ($bookingId) {
                 $booking = ClassBooking::find($bookingId);
