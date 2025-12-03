@@ -47,15 +47,28 @@ class StoreClassBookingRequest extends FormRequest
             }
 
             // Evitar franja ocupada: reservar si ya hay booking pagado o con hold activo
+            // Permitir reintento si la reserva pertenece al mismo usuario
+            $currentUserId = $this->user() ? $this->user()->id : null;
+
             $exists = ClassBooking::where('class_date', $data['class_date'])
                 ->where('class_time', $data['class_time'])
                 ->whereNotIn('status', ['cancelled', 'rejected'])
-                ->where(function ($q) {
-                    $q->where('paid', true)
-                      ->orWhere(function ($q2) {
-                          $q2->whereNotNull('reserved_until')
-                             ->where('reserved_until', '>', now());
-                      });
+                ->where(function ($q) use ($currentUserId) {
+                    $q->where(function ($q1) use ($currentUserId) {
+                        $q1->where('paid', true)
+                           ->where(function ($q2) use ($currentUserId) {
+                               $q2->whereNull('user_id')
+                                  ->orWhere('user_id', '!=', $currentUserId);
+                           });
+                    })
+                    ->orWhere(function ($q3) use ($currentUserId) {
+                        $q3->whereNotNull('reserved_until')
+                           ->where('reserved_until', '>', now())
+                           ->where(function ($q4) use ($currentUserId) {
+                               $q4->whereNull('user_id')
+                                  ->orWhere('user_id', '!=', $currentUserId);
+                           });
+                    });
                 })
                 ->exists();
 

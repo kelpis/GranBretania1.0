@@ -139,7 +139,7 @@
 
                         <form method="POST" action="{{ route('logout') }}" class="mt-2">
                             @csrf
-                            <button type="submit" class="w-full text-left text-azul hover:underline py-2">Cerrar sesión</button>
+                            <button type="submit" class="w-full text-left text-azul dark:text-beige2 hover:underline py-2">Cerrar sesión</button>
                         </form>
                     @else
                         <a href="{{ route('login') }}" @click="open = false"

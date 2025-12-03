@@ -32,15 +32,20 @@ class ClassBookingController extends Controller
 
 
         $data = $request->validated();
+        $currentUserId = Auth::id();
 
 
         // 2) Evitar franja ocupada: no permitir si ya existe otra reserva para la misma
         //    fecha/hora cuyo estado NO sea 'cancelled' o 'rejected' (p.ej. pendin
         $exists = ClassBooking::where('class_date', $data['class_date'])
             ->where('class_time', $data['class_time'])
-            ->whereNotIn('status', ['cancelled', 'rejected'])
-            ->where('paid', true) //Solo las  reservas pagadas se bloquean
-            ->exists();
+                        ->whereNotIn('status', ['cancelled', 'rejected'])
+                        ->where('paid', true)
+                        ->where(function ($q) use ($currentUserId) {
+                                $q->whereNull('user_id')
+                                    ->orWhere('user_id', '!=', $currentUserId);
+                        })
+                        ->exists();
 
    
 
@@ -183,14 +188,26 @@ class ClassBookingController extends Controller
 
         // Obtener reservas no canceladas para esa fecha: consideradas tomadas si están pagadas
         // o si tienen un hold activo (`reserved_until` en el futuro)
+        // Excluir reservas que pertenezcan al usuario actual para permitir reintentos de pago
+        $currentUserId = Auth::id();
         $query = ClassBooking::where('class_date', $date)
             ->whereNotIn('status', ['cancelled', 'rejected'])
-            ->where(function ($q) {
-                $q->where('paid', true)
-                  ->orWhere(function ($q2) {
-                      $q2->whereNotNull('reserved_until')
-                         ->where('reserved_until', '>', now());
-                  });
+            ->where(function ($q) use ($currentUserId) {
+                $q->where(function ($q1) use ($currentUserId) {
+                    $q1->where('paid', true)
+                       ->where(function ($q2) use ($currentUserId) {
+                           $q2->whereNull('user_id')
+                              ->orWhere('user_id', '!=', $currentUserId);
+                       });
+                })
+                ->orWhere(function ($q3) use ($currentUserId) {
+                    $q3->whereNotNull('reserved_until')
+                       ->where('reserved_until', '>', now())
+                       ->where(function ($q4) use ($currentUserId) {
+                           $q4->whereNull('user_id')
+                              ->orWhere('user_id', '!=', $currentUserId);
+                       });
+                });
             });
 
         if ($exceptId) {

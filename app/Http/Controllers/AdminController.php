@@ -50,9 +50,10 @@ class AdminController extends Controller
         ];
 
         //Listados breves para mostrar en dashboard
-        //Coge las próximas reservas (iguales o posteriores a hoy), sin canceladas ni rechazadas, ordenadas por fecha, máximo 8
+        //Coge las próximas reservas pagadas (iguales o posteriores a hoy), sin canceladas ni rechazadas, ordenadas por fecha, máximo 8
         $nextBookings = ClassBooking::where('class_date', '>=', $today)
             ->whereNotIn('status', ['cancelled', 'rejected'])
+            ->where('paid', true)
             ->orderBy('class_date')
             ->limit(8)
             ->get();

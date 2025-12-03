@@ -14,18 +14,18 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
     {{-- -CARRUSEL --}}
 
     <section x-data="{
-            images: [
-                '{{ asset('images/london.jpg') }}',
-                '{{ asset('images/londres.jpg') }}'
-            ],
-            current: 0,
-            next() {
-                this.current = (this.current + 1) % this.images.length;
-            }
-        }" x-init="
-            setInterval(() => next(), 6000);
-            $nextTick(() => document.getElementById('heroLogo').classList.add('animate-logo'));
-        " class="container mx-auto px-4 mt-8">
+                images: [
+                    '{{ asset('images/london.jpg') }}',
+                    '{{ asset('images/londres.jpg') }}'
+                ],
+                current: 0,
+                next() {
+                    this.current = (this.current + 1) % this.images.length;
+                }
+            }" x-init="
+                setInterval(() => next(), 6000);
+                $nextTick(() => document.getElementById('heroLogo').classList.add('animate-logo'));
+            " class="container mx-auto px-4 mt-8">
         <div class="relative rounded-2xl overflow-hidden h-[380px] md:h-[480px] lg:h-[540px]">
 
             {{-- CAPA 1 (imagen actual) --}}
@@ -37,7 +37,7 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
             <div class="absolute inset-0 bg-black/5 dark:bg-black/20"></div>
 
             {{-- LOGO CENTRADO ARRIBA PERO UN POCO A LA DERECHA --}}
-            <div class="absolute top-4 left-1/2 -translate-x-[42%]">
+            <div class="absolute top-4 left-1/2 -translate-x-[40%]">
 
                 <div class="relative inline-block">
 
@@ -46,11 +46,11 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
 
                     {{-- LOGO con animación --}}
                     <img id="heroLogo" src="{{ asset('images/logoMonocromadoSinMARGEN.png') }}" alt="Gran Bretania" class="relative z-10 
-                h-44 md:h-56 lg:h-72 
-                w-auto
-                drop-shadow-[0_8px_18px_rgba(0,0,0,0.5)]
-                opacity-0 scale-95 blur-sm
-                transition-all duration-[2200ms] ease-out delay-200">
+                    h-44 md:h-56 lg:h-72 
+                    w-auto
+                    drop-shadow-[0_8px_18px_rgba(0,0,0,0.5)]
+                    opacity-0 scale-95 blur-sm
+                    transition-all duration-[2200ms] ease-out delay-200">
 
                 </div>
 
@@ -79,7 +79,7 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
         </h1>
 
         {{-- BLOQUE: Clases de inglés --}}
-        <section id="clases" class="bg-beige2 py-16 mt-24 dark:bg-slate-950">
+        <section id="clases" class="bg-beige2 py-16 mt-15 dark:bg-slate-950">
             <div class="container mx-auto px-4 text-left">
 
                 <h2 class="text-azul mb-8 dark:text-beige2">{{ __('Clases de inglés online') }}</h2>
@@ -226,7 +226,7 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
     </section>
 
     {{-- BLOQUE: Traducciones --}}
-    <section id="traducciones" class="bg-beige2 py-16 mt-24 dark:bg-slate-950">
+    <section id="traducciones" class="bg-beige2 py-16 mt-12 dark:bg-slate-950">
         <div class="container mx-auto px-4">
 
             <div class="grid md:grid-cols-2">

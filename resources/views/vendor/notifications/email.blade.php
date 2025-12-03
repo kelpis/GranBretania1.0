@@ -154,21 +154,6 @@
 
         {{-- Footer: dentro del wrapper para que coincida con la anchura del header --}}
         {{-- Footer: dentro del wrapper para que coincida con la anchura del header --}}
-        @isset($actionText)
-                <div class="footer" style="
-                font-size:11px;
-                padding:26px 18px;
-                background:#011A6B;
-                color:white;
-                display:block;
-                width:100%;
-                box-sizing:border-box;
-                border-bottom-left-radius:14px;
-                border-bottom-right-radius:14px;
-            ">
-                    ...
-                </div>
-        @else
                 <div class="footer" style="
                 padding:26px 18px;
                 display:block;
@@ -199,7 +184,6 @@
                         </div>
                     </div>
                 </div>
-        @endisset
 
 
 
