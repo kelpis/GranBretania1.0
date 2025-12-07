@@ -18,6 +18,16 @@ class StoreTranslationRequest extends FormRequest
         return Auth::check();
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'source_lang' => trim(strip_tags($this->source_lang)),
+            'target_lang' => trim(strip_tags($this->target_lang)),
+            'urgency' => $this->urgency ? trim(strip_tags($this->urgency)) : null,
+            'comments' => $this->comments ? trim(strip_tags($this->comments)) : null,
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

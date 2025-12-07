@@ -27,8 +27,8 @@
             {{--Listado de reservas recién recibidas que requieren acción del admin:
             - Confirmar (especificando URL de videollamada)
             - Cancelar y devolver (si corresponde) — abre modal con confirmación
-            En móvil se muestran tarjetas; en escritorio se muestra una tabla con controles.
-            --}}
+            En móvil se muestran tarjetas; en escritorio se muestra una tabla con controles.--}}
+
             <div
                 class="rounded-2xl shadow-xl overflow-hidden border border-beige bg-beige2 dark:bg-slate-950 dark:border-slate-700">
                 <div class="bg-azul text-beige2 px-6 py-4 flex items-center justify-between">
@@ -36,7 +36,7 @@
                 </div>
 
                 <div>
-                    <!-- Mobile: tarjetas apiladas -->
+                    <!-- Movil: tarjetas apiladas -->
                     <div class="md:hidden space-y-3">
                         @forelse ($pendientes as $b)
                             <div class="bg-white p-4 rounded-lg border shadow-sm dark:bg-slate-900 dark:text-slate-100">
@@ -47,7 +47,8 @@
                                             {{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}
                                         </div>
                                         <div class="text-xs text-gray-500 mt-2">Hora</div>
-                                        <div class="text-sm text-azul dark:text-white">{{ substr($b->class_time, 0, 5) }}</div>
+                                        <div class="text-sm text-azul dark:text-white">{{ substr($b->class_time, 0, 5) }}
+                                        </div>
                                     </div>
 
                                     <div class="text-right">
@@ -196,7 +197,7 @@
             {{-- Sección de reservas que ya están confirmadas. Incluye:
             - Información básica (fecha, hora, alumno)
             - Estado de pago / reembolso
-            Esta lista puede provenir de `$confirmadas` pasada desde el controlador.--}}
+            Esta lista  proviene de `$confirmadas` pasada desde el controlador.--}}
             <div
                 class="rounded-2xl shadow-xl overflow-hidden border border-beige bg-beige2 dark:bg-slate-950 dark:border-slate-700">
                 <div class="bg-azul text-beige2 px-6 py-4">

@@ -112,7 +112,8 @@
               <h4 class="text-lg font-semibold mb-2">Confirmar bloqueo</h4>
               <p class="text-sm text-gray-700 dark:text-slate-300 mb-4">¿Estás seguro de que quieres bloquear todo el
                 día seleccionado? Esta acción creará una franja desde 00:00 hasta 24:00 con estado
-                <strong>bloqueado</strong>.</p>
+                <strong>bloqueado</strong>.
+              </p>
               <div class="flex justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-full border dark:border-slate-600 dark:text-slate-200"
                   @click="showConfirm = false">Cancelar</button>
@@ -153,7 +154,7 @@
           <input type="hidden" name="full_day" value="1">
 
           <div>
-            
+
 
             <label class="block text-xs text-gray-700">Estado</label>
             <select name="status"
@@ -182,7 +183,7 @@
       <div class="rounded-2xl shadow-xl border border-azul bg-azul/5 p-6 dark:bg-slate-700 dark:border-slate-700">
         <h3 class="font-semibold text-azul text-lg mb-3 dark:text-white">Franjas</h3>
 
-        <!-- RESPONSIVE MOVIL: tarjetas (visible en sm and below) -->
+        <!-- RESPONSIVE MOVIL: tarjetas (visible en sm) -->
         <div class="md:hidden space-y-3">
           @forelse ($slots as $s)
             <div class="bg-white p-4 rounded-lg border shadow-sm dark:bg-slate-900 dark:text-slate-100">
@@ -196,7 +197,8 @@
                   <div class="text-xs text-gray-500 mt-2">Estado</div>
                   <div
                     class="inline-block mt-1 px-2 py-1 rounded-full text-xs font-semibold {{ $s->status === 'available' ? 'bg-ok text-white' : 'bg-gray-600 text-white' }}">
-                    {{ $s->status === 'available' ? 'Disponible' : 'Bloqueado' }}</div>
+                    {{ $s->status === 'available' ? 'Disponible' : 'Bloqueado' }}
+                  </div>
                 </div>
 
                 <div class="flex flex-col items-end gap-2" x-data="{ showDelete:false }">

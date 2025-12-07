@@ -1,4 +1,4 @@
-// client-side for booking edit
+
 // Script para la página de edición de reservas (panel de usuario)
 // - Carga las horas disponibles para la fecha seleccionada, excluyendo la propia reserva mediante `except`
 // - Valida el campo teléfono y evita el envío si no cumple el patrón permitido

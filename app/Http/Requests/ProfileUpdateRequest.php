@@ -9,6 +9,17 @@ use Illuminate\Validation\Rule;
 class ProfileUpdateRequest extends FormRequest
 {
     /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'name' => trim(strip_tags($this->name)),  // Recorta espacios y elimina tags HTML
+            'email' => trim($this->email),  // Recorta espacios
+        ]);
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -16,13 +27,13 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:100'],
             'email' => [
                 'required',
                 'string',
                 'lowercase',
                 'email',
-                'max:255',
+                'max:150',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
         ];

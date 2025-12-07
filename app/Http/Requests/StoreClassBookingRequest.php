@@ -17,6 +17,14 @@ class StoreClassBookingRequest extends FormRequest
         return $this->user() !== null;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'phone' => $this->phone ? trim(strip_tags($this->phone)) : null,
+            'notes' => $this->notes ? trim(strip_tags($this->notes)) : null,
+        ]);
+    }
+
     public function rules(): array
     {
         return [

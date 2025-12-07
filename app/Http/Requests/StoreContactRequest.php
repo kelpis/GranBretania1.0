@@ -16,6 +16,19 @@ class StoreContactRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'name' => trim(strip_tags($this->name)),  // Recorta espacios y elimina tags HTML
+            'email' => trim($this->email),  // Recorta espacios
+            'subject' => trim(strip_tags($this->subject)),  // Recorta espacios y elimina tags HTML
+            'message' => trim(strip_tags($this->message)),  // Recorta espacios y elimina tags HTML
+        ]);
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -23,8 +36,8 @@ class StoreContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'    => 'required|string|max:120',
-            'email'   => 'required|email',
+            'name'    => 'required|string|max:100',
+            'email'   => 'required|email|max:150',
             'subject' => 'nullable|string|max:160',
             'message' => 'required|string|max:2000',
             'gdpr'    => 'accepted',

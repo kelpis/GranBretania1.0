@@ -39,7 +39,7 @@ function initTranslationCalculator() {
     resultEl.textContent = formatCurrency(total);
   }
 
-  // Escuchadores: recalcular al cambiar cualquiera de los inputs
+  // Listener: recalcular al cambiar cualquiera de los inputs
   wordsInput.addEventListener('input', compute);
   priceInput.addEventListener('input', compute);
 

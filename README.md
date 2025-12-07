@@ -1,66 +1,208 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Gran Bretania — Plataforma de reservas y traducciones en Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Gran Bretania es una aplicación web desarrollada en **Laravel 12** que permite gestionar clases de inglés mediante reservas online, pagos con Stripe y un sistema de traducciones profesionales. Incluye panel de usuario, panel administrativo, gestión de disponibilidad y envío de correos.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tecnologías principales
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Laravel 12 (PHP 8.2+)
+- MySQL
+- Blade + TailwindCSS + Vite
+- Stripe Checkout (modo test / producción)
+- Laravel Breeze (autenticación)
+- SMTP (Ethereal en desarrollo)
+- reCAPTCHA v2 (opcional)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Instalación
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. Clonar el repositorio
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+git clone https://github.com/kelpis/GranBretania1.0.git
+cd GranBretania1.0
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Instalar dependencias PHP
 
-## Laravel Sponsors
+```bash
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 3. Instalar dependencias frontend
 
-### Premium Partners
+```bash
+npm install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+## Configuración del entorno
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Copiar el archivo de entorno:
 
-## Code of Conduct
+```bash
+cp .env.example .env
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Generar la clave de la aplicación:
 
-## Security Vulnerabilities
+```bash
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Configuración base de datos (`.env`)
 
-## License
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=granbretania
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Configuración Stripe (modo test)
+
+```
+STRIPE_KEY=pk_test_xxxxxx
+STRIPE_SECRET=sk_test_xxxxxx
+STRIPE_WEBHOOK_SECRET=whsec_xxxxxx
+```
+
+### Configuración de correo (Ethereal para desarrollo)
+
+```
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.ethereal.email
+MAIL_PORT=587
+MAIL_USERNAME=xxxxx@ethereal.email
+MAIL_PASSWORD=xxxxx
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=granbretania@example.com
+MAIL_FROM_NAME="Gran Bretania"
+```
+
+### reCAPTCHA (opcional)
+
+La aplicación utiliza Google reCAPTCHA v3 para proteger los formularios públicos.
+
+```
+RECAPTCHA_SITE_KEY=xxxxxxxxxxxxxxxxxxxx
+RECAPTCHA_SECRET_KEY=xxxxxxxxxxxxxxxxxxxx
+```
+
+Si no se desea usar reCAPTCHA durante desarrollo, se debe ajustar la validación en las Requests:
+
+```
+'g-recaptcha-response' => ['nullable']
+```
+
+O bien comentar la regla correspondiente.  
+De lo contrario, los formularios no podrán enviarse sin claves válidas.
+
+### APP URL
+
+```
+APP_URL=http://localhost:8000
+```
+
+---
+
+## Migraciones
+
+```bash
+php artisan migrate --seed
+```
+
+---
+
+## Ejecución del proyecto
+
+Servidor Laravel:
+
+```bash
+php artisan serve
+```
+
+Frontend Vite:
+
+```bash
+npm run dev
+```
+
+Acceso por defecto:
+
+```
+http://localhost:8000
+```
+
+---
+
+## Compilación para producción
+
+```bash
+npm run build
+```
+
+---
+
+## Webhooks de Stripe (solo en desarrollo local)
+
+```bash
+stripe listen --forward-to http://localhost:8000/api/stripe/webhook
+```
+
+---
+
+## Estructura principal del proyecto
+
+```
+app/
+database/
+resources/
+routes/
+public/
+```
+
+---
+
+## Funcionalidades principales
+
+### Usuario
+- Reserva de clases con pago online
+- Edición/cancelación bajo restricciones
+- Solicitud de traducciones con subida de archivos
+- Descarga del documento final
+
+### Administrador
+- Confirmación de clases y enlace Meet
+- Cancelación con reembolso Stripe
+- Gestión de disponibilidad
+- Gestión de traducciones
+- Dashboard con métricas
+
+---
+
+## Despliegue en servidor (resumen)
+
+```bash
+composer install --no-dev --optimize-autoloader
+npm install
+npm run build
+php artisan migrate --force
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+El servidor web debe apuntar a la carpeta `public/`.
+
+---
+
+## Licencia
+
+Proyecto académico — uso educativo.
+
