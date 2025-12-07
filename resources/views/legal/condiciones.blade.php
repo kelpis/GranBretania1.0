@@ -87,7 +87,7 @@
                     <li>Las clases se imparten online a través de <strong>Google Meet</strong>.</li>
                     <li>Tienen una duración de <strong>60 minutos</strong>.</li>
                     <li>La reserva se confirma mediante pago previo.</li>
-                    <li>El usuario puede <strong>reprogramar hasta 2 veces</strong> la clase desde su área de usuario.</li>
+                    <li>El usuario puede <strong>reprogramar hasta 2 veces</strong> la clase desde su área de usuario con una antelacion de al menos 24 horas.</li>
                     <li>Las cancelaciones con menos de <strong>24 horas</strong> no dan derecho a reembolso.</li>
                     <li>Las cancelaciones con más de 24 h permiten reprogramación sin coste.</li>
                 </ul>
@@ -128,7 +128,7 @@
                 <h2 class="text-azul font-semibold text-lg mb-3 dark:text-beige2">6. Condiciones del servicio de interpretación</h2>
                 <ul class="list-disc ml-5 space-y-2">
                     <li>La interpretación es exclusivamente <strong>inglés ↔ español</strong>.</li>
-                    <li>Se realiza mediante Google Meet, Zoom o Microsoft Teams.</li>
+                    <li>Se realiza mediante Google Meet.</li>
                     <li>Es obligatorio facilitar agenda, temática y terminología base.</li>
                     <li>Las cancelaciones con menos de 48 h no tienen reembolso.</li>
                 </ul>
@@ -166,7 +166,7 @@
                 <h2 class="text-azul font-semibold text-lg mb-3 dark:text-beige2">Contacto</h2>
                 <p>
                     Para cualquier consulta relacionada con estas condiciones:
-                    <a href="mailto:tucorreo@granbretania.com" class="text-azul underline dark:text-beige2">tucorreo@granbretania.com</a>
+                    <a href="mailto:info@granbretania.com" class="text-azul underline dark:text-beige2">info@granbretania.com</a>
                     o utiliza el <a href="{{ route('contact.create') }}" class="text-azul underline dark:text-beige2">formulario de contacto</a>.
                 </p>
             </section>

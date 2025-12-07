@@ -43,6 +43,10 @@ class BookingAdminController extends Controller
     //Confirmar reservas
     public function confirm(ClassBooking $booking)
     {
+        // Validar que el admin proporcione una URL de videollamada válida
+        $validated = request()->validate([
+            'meeting_url' => ['required', 'url'],
+        ]);
         // Evitar solape: si ya hay otra confirmada misma fecha/hora
         $exists = ClassBooking::where('id', '!=', $booking->id)
             ->where('class_date', $booking->class_date)
@@ -54,13 +58,11 @@ class BookingAdminController extends Controller
             return back()->with('error', 'Ya hay otra reserva confirmada en esa franja.');
         }
 
-        // Permitir que el admin incluya la URL de la videollamada al confirmar
-        $data = ['status' => 'confirmed'];
-        if (request()->filled('meeting_url')) {
-            $data['meeting_url'] = request()->input('meeting_url');
-        }
-
-        $booking->update($data);
+        // Actualizar estado y guardar la URL validada
+        $booking->update([
+            'status' => 'confirmed',
+            'meeting_url' => $validated['meeting_url'],
+        ]);
 
         // Asegurarnos de refrescar el modelo para que contenga meeting_url actualizado
         $booking->refresh();

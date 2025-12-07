@@ -17,7 +17,7 @@
       </p>
     </header>
 
-    {{-- LAYOUT DOS COLUMNAS: ÍNDICE + CONTENIDO --}}
+  
     <div class="grid lg:grid-cols-4 gap-10">
 
       {{-- ÍNDICE LATERAL --}}
@@ -47,13 +47,13 @@
         <section id="responsable" class="bg-white rounded-2xl shadow p-6 dark:bg-slate-900">
           <h2 class="text-azul font-semibold text-lg mb-3 dark:text-beige2">1. Responsable del tratamiento</h2>
           <p>
-            Responsable: <strong>Gran Bretania</strong> (indicar nombre y apellidos de la profesional o razón social).<br>
-            NIF/CIF: (indicar).<br>
-            Domicilio: (dirección completa).<br>
+            Responsable: <strong>Gran Bretania</strong><br>
+            NIF/CIF: XXXXXX.<br>
+            Domicilio:XXXXX.<br>
             Email de contacto:
-            <a href="mailto:tucorreo@granbretania.com" class="text-azul underline dark:text-beige2 dark:hover:text-rojo">
-              tucorreo@granbretania.com
-            </a>.
+            <a href="mailto:info@granbretania.com" class="text-azul underline dark:text-beige2 dark:hover:text-rojo">
+              info@granbretania.com
+            </a>
           </p>
         </section>
 
@@ -121,10 +121,7 @@
           <p class="mt-2">
             Los documentos aportados para traducción se conservarán el tiempo estrictamente necesario para la prestación
             del servicio
-            y la atención de posibles aclaraciones, respetando en todo momento la
-            <a href="{{ route('privacy') }}" class="text-azul underline dark:text-beige2 dark:hover:text-rojo">
-              política de protección de datos
-            </a>.
+            y la atención de posibles aclaraciones, respetando en todo momento la política de protección de datos.
           </p>
         </section>
 
@@ -137,7 +134,7 @@
           </p>
           <ul class="list-disc ml-5 space-y-1">
             <li>Proveedor de hosting y correo electrónico.</li>
-            <li>Plataformas de pago seguras (si corresponde).</li>
+            <li>Plataformas de pago seguras (Stripe).</li>
             <li>Asesoría fiscal o contable, en caso necesario.</li>
           </ul>
           <p class="mt-2 text-xs text-gray-600 dark:text-slate-400">
@@ -161,8 +158,8 @@
           </ul>
           <p class="mt-3">
             Para ejercer estos derechos, puedes escribir a:
-            <a href="mailto:tucorreo@granbretania.com" class="text-azul underline dark:text-beige2 dark:hover:text-rojo">
-              tucorreo@granbretania.com
+            <a href="mailto:info@granbretania.com" class="text-azul underline dark:text-beige2 dark:hover:text-rojo">
+              info@granbretania.com
             </a>,
             indicando “Protección de datos” en el asunto y adjuntando una copia de tu documento de identidad.
           </p>
@@ -195,8 +192,8 @@
           <h2 class="text-azul font-semibold text-lg mb-3 dark:text-beige2">10. Contacto</h2>
           <p>
             Si tienes dudas sobre esta política o sobre cómo tratamos tus datos, puedes escribirnos a
-            <a href="mailto:tucorreo@granbretania.com" class="text-azul underline dark:text-beige2 dark:hover:text-rojo">
-              tucorreo@granbretania.com
+            <a href="mailto:info@granbretania.com" class="text-azul underline dark:text-beige2 dark:hover:text-rojo">
+              info@granbretania.com
             </a>
             o utilizar nuestro
             <a href="{{ route('contact.create') }}" class="text-azul underline dark:text-beige2 dark:hover:text-rojo">

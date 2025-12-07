@@ -42,6 +42,74 @@
                             <h2 class="font-semibold text-xl leading-tight">Mis clases (próximas)</h2>
                         </div>
 
+                        {{-- Mobile: tarjetas para próximas clases (no tocar versión desktop) --}}
+                        <div class="md:hidden space-y-3 p-4">
+                            @foreach ($upcoming as $b)
+                                @php
+                                    $status = $b->status;
+                                    $statusLabel = __('statuses.' . $status);
+                                    $badge = match ($status) {
+                                        'confirmed' => 'bg-ok text-white',
+                                        'pending' => 'bg-info text-negro',
+                                        'cancelled' => 'bg-rojo text-beige2',
+                                        default => 'bg-gray-200 text-negro'
+                                    };
+                                    $start = \Carbon\Carbon::parse($b->class_date . ' ' . substr($b->class_time, 0, 5));
+                                    $hoursUntil = now()->diffInHours($start, false);
+                                    $hasEditsLeft = (($b->edit_count ?? 0) < 2);
+                                    $isEditable = ($hoursUntil >= 24) && $hasEditsLeft;
+                                    $startCancel = \Carbon\Carbon::parse($b->class_date . ' ' . substr($b->class_time, 0, 5));
+                                    $hoursUntilCancel = now()->diffInHours($startCancel, false);
+                                    $isRefundable = ($hoursUntilCancel >= 24 && $b->paid && !empty($b->payment_intent));
+                                @endphp
+
+                                <div class="bg-white p-4 rounded-lg border shadow-sm dark:bg-slate-900 dark:text-white">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <div class="text-xs text-gray-500 dark:text-white">Fecha</div>
+                                            <div class="font-medium text-sm text-azul dark:text-white">{{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}</div>
+                                            <div class="text-xs text-gray-500 mt-2 dark:text-white">Hora</div>
+                                            <div class="text-sm text-azul dark:text-white">{{ substr($b->class_time, 0, 5) }}</div>
+                                            <div class="text-xs text-gray-500 mt-2 dark:text-white">Estado</div>
+                                            <div class="inline-block mt-1 px-2 py-1 rounded-full text-xs font-semibold {{ $badge }}">{{ $statusLabel }}</div>
+                                        </div>
+
+                                        <div class="flex flex-col items-end gap-2">
+                                            <div class="flex flex-wrap gap-2">
+                                                @if($b->status !== 'cancelled')
+                                                @if($isEditable)
+                                                    <a href="{{ route('user.bookings.edit', $b) }}" class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white border border-azul text-negro hover:bg-azul hover:text-beige2 dark:hover:text-white transition dark:text-negro">✏️ Editar</a>
+                                                @else
+                                                        <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-400 border border-gray-300 cursor-not-allowed">✏️ Editar</span>
+                                                    @endif
+
+                                                    @if($hoursUntil < 0)
+                                                        <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white border border-gray-300 text-gray-400 cursor-not-allowed opacity-60">❌ Cancelar</span>
+                                                    @else
+                                                        <form method="POST" action="{{ route('user.bookings.destroy', $b) }}" class="inline-block">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button" onclick="openCancelModal('{{ route('user.bookings.destroy', $b) }}', '{{ $isRefundable ? '1' : '0' }}')" class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white border border-rojo text-negro hover:bg-rojo hover:text-beige2 transition dark:text-negro">❌ Cancelar</button>
+                                                        </form>
+                                                    @endif
+
+                                                    @if($b->status === 'confirmed' && !empty($b->meeting_url))
+                                                        @if(isset($start) && $start->isFuture())
+                                                            <a href="{{ route('bookings.join', $b) }}" target="_blank" class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white border border-ok text-negro hover:bg-ok hover:text-beige2 transition dark:text-negro">▶️ Unirse</a>
+                                                        @else
+                                                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-white border border-gray-300 text-gray-400 cursor-not-allowed opacity-60">▶️ Unirse</span>
+                                                        @endif
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        {{-- Desktop: tabla (sin cambios) --}}
+                        <div class="hidden md:block overflow-x-auto">
                         <table class="w-full table-fixed text-sm">
                             <colgroup>
                                 <col style="width:20%"> <!-- Fecha -->
@@ -199,6 +267,41 @@
                             <h2 class="font-semibold text-xl leading-tight">Historial de clases</h2>
                         </div>
 
+                        {{-- Mobile: tarjetas para historial (md:hidden) --}}
+                        <div class="md:hidden space-y-3 p-4">
+                            @foreach($history as $b)
+                                @php
+                                    $status = $b->status;
+                                    $statusLabel = __('statuses.' . $status);
+                                    $badge = match ($status) {
+                                        'confirmed' => 'bg-ok text-white',
+                                        'pending' => 'bg-info text-negro',
+                                        'cancelled' => 'bg-rojo text-beige2',
+                                        default => 'bg-gray-200 text-negro'
+                                    };
+                                @endphp
+
+                                <div class="bg-white p-4 rounded-lg border shadow-sm dark:bg-slate-900 dark:text-white">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <div class="text-xs text-gray-500 dark:text-white">Fecha</div>
+                                            <div class="font-medium text-sm text-azul dark:text-white">{{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}</div>
+                                            <div class="text-xs text-gray-500 mt-2 dark:text-white">Hora</div>
+                                            <div class="text-sm text-azul dark:text-white">{{ substr($b->class_time, 0, 5) }}</div>
+                                            <div class="text-xs text-gray-500 mt-2 dark:text-white">Estado</div>
+                                            <div class="inline-block mt-1 px-2 py-1 rounded-full text-xs font-semibold {{ $badge }}">{{ $statusLabel }}</div>
+                                        </div>
+
+                                        <div class="text-xs text-gray-500 dark:text-white">
+                                            Clase pasada
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        {{-- Desktop: tabla historial (sin cambios) --}}
+                        <div class="hidden md:block overflow-x-auto">
                         <table class="w-full table-fixed text-sm">
                             <colgroup>
                                 <col style="width:25%"> <!-- Fecha -->

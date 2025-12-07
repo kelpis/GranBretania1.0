@@ -37,7 +37,7 @@
                     {{-- CTA: LinkedIn --}}
                     <div class="flex-1 flex items-center justify-center mt-4">
                         <a href="https://www.linkedin.com/in/tania" target="_blank" rel="noopener noreferrer"
-                           class="inline-flex items-center px-6 py-3 md:px-6 md:py-3 rounded-full bg-rojo text-white text-base md:text-lg hover:bg-beige hover:text-azul transition shadow-sm">
+                           class="inline-flex items-center px-6 py-3 md:px-6 md:py-3 rounded-full bg-rojo text-white text-base md:text-lg hover:bg-azul hover:text-beige transition shadow-sm">
                             Visita mi LinkedIn
                         </a>
                     </div>
@@ -177,7 +177,7 @@
                 </div>
                 <div class="flex gap-3">
                     <a href="{{ route('contact.create') }}"
-                        class="inline-flex items-center px-5 py-2 rounded-full bg-beige text-azul font-medium text-sm hover:bg-rojo transition dark:bg-slate-900 dark:text-beige2">
+                        class="inline-flex items-center px-5 py-2 rounded-full bg-beige text-azul font-medium text-sm transition-colors duration-150 hover:bg-rojo hover:text-white dark:bg-slate-800 dark:text-beige2 dark:hover:bg-beige dark:hover:text-azul">
                         Ir al formulario de contacto
                     </a>
                     <a href="{{ route('clases') }}"

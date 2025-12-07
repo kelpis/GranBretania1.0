@@ -58,13 +58,13 @@
                         </div>
 
 
-                        {{-- Mobile menu panel (moved to header-right) --}}
+                        
                     </nav>
                 </div>
 
                 {{-- RIGHT: botón Acceder y hamburguesa móvil --}}
                 <div class="flex items-center gap-3">
-                    {{-- Mobile hamburger button: visible < lg --}} <div class="lg:hidden">
+                     <div class="lg:hidden">
                         <button @click="open = ! open" :aria-expanded="open.toString()" aria-controls="mobile-menu"
                             class="inline-flex items-center justify-center p-2 rounded-md text-azul border border-azul/20 bg-white/90">
                             <svg x-show="!open" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -100,7 +100,7 @@
                     </button>
 
                     @auth
-                        <a href="{{ route('dashboard') }}" class="btn-three text-beige2 !py-2 !px-4 !mr-8">{{ auth()->user()->name }}</a>
+                        <a href="{{ (auth()->check() && auth()->user()->is_admin) ? route('admin.index') : route('dashboard') }}" class="btn-three text-beige2 !py-2 !px-4 !mr-8">{{ auth()->user()->name }}</a>
                     @else
                         <a href="{{ route('login') }}" class="btn-three text-beige2 !py-2 !px-4 !mr-8">Acceder</a>
                     @endauth
@@ -134,7 +134,7 @@
 
                     {{-- Acceder (visible en móvil dentro del menú) --}}
                     @auth
-                        <a href="{{ route('profile.edit') }}" @click="open = false"
+                        <a href="{{ (auth()->check() && auth()->user()->is_admin) ? route('admin.index') : route('dashboard') }}" @click="open = false"
                             class="block w-full mt-3 btn-three text-beige2 text-center !py-2 !px-4">{{ auth()->user()->name }}</a>
 
                         <form method="POST" action="{{ route('logout') }}" class="mt-2">
@@ -180,7 +180,7 @@
                     </ul>
                 </div>
                 <div class="text-sm md:basis-1/4">
-                    <p class="opacity-80">info@granbretania.test</p>
+                    <p class="opacity-80">info@granbretania.com</p>
                     <p class="opacity-80">+34 000 000 000</p>
 
                     {{-- Iconos redes sociales --}}

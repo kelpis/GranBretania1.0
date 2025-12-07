@@ -141,14 +141,14 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
                                 <a href="{{ route('bookings.create') }}" class="btn-primary">
                                     {{ __('Reservar clase') }}
                                 </a>
-                                <a href="{{ route('clases') }}" class="btn-secondary">
+                                <a href="{{ route('clases') }}" class="btn-three">
                                     {{ __('Saber más') }}
                                 </a>
                             </div>
                         </div>
                     </div>
 
-                    {{-- Imagen / ilustración (opcional) --}}
+                    
                     <div class="order-first md:order-none h-full relative">
                         <img src="{{ asset('images/alumnoOnline.webp') }}" width="1024" height="1024"
                             alt="{{ __('Clase de inglés personalizada online') }}"
@@ -200,7 +200,7 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
         <section
             class="relative py-16 text-center transform-gpu transition-transform duration-200 hover:scale-105 bg-cover bg-center rounded-xl overflow-hidden mt-24"
             style="background-image: url('{{ asset('images/learn-english.jpg') }}')">
-            <!-- Gradient overlay -->
+            
             <div class="absolute inset-0" aria-hidden="true"
                 style="background: linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.04) 40%, rgba(0,0,0,0.18) 100%);">
             </div>

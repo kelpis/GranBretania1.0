@@ -138,6 +138,16 @@
     {{-- MENU MÓVIL --}}
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden w-screen bg-beige dark:bg-slate-800">
 
+        <div class="px-4 py-2 border-b border-gray-100 dark:border-slate-700 flex justify-end">
+            <button type="button"
+                onclick="(function(){const html=document.documentElement;const isDark=html.classList.toggle('dark');localStorage.setItem('theme', isDark? 'dark':'light');})()"
+                aria-label="Alternar modo oscuro"
+                class="inline-flex items-center justify-center px-2 py-1 rounded-full border border-azul/40 dark:border-gray-500 text-lg text-azul dark:text-gray-100 bg-white/80 dark:bg-slate-800/80 shadow-sm">
+                <span class="dark:hidden">🌙</span>
+                <span class="hidden dark:inline">☀️</span>
+            </button>
+        </div>
+
         <div class="pt-2 pb-3 space-y-1">
 
             <x-responsive-nav-link :href="route('admin.bookings.index')"
@@ -203,3 +213,4 @@
 
     </div>
 </nav>
+

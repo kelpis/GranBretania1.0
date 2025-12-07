@@ -64,7 +64,10 @@ section + section {
   .dark .btn-primary {
     @apply bg-azul text-white;
   }
-
+  .dark .btn-primary:hover {
+    @apply bg-beige text-negro opacity-100;
+  }
+ 
   .btn-secondary {
     @apply inline-flex items-center justify-center px-6 py-4 rounded-xl bg-rojo text-white font-semibold text-lg;
     transition: transform .15s ease, background-color .15s ease, opacity .15s ease;
@@ -94,13 +97,13 @@ section + section {
     @apply bg-azul text-white opacity-100;
   }
 
-  /*En oscuro hacemos que btn-three parta del azul para variar un poco */
+  /*En oscuro hacemos que btn-three parta del azul para variar un poco 
   .dark .btn-three {
     @apply bg-azul text-white;
   }
   .dark .btn-three:hover {
     @apply bg-rojo text-white opacity-100;
-  }
+  }*/
 
   .card          { @apply bg-beige2 rounded-card shadow-sm p-6; }
 

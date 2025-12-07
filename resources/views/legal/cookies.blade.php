@@ -85,7 +85,7 @@
         </p>
         <ul class="list-disc ml-5 space-y-1">
           <li><strong>Google Analytics</strong>: recopila datos de navegación anónimos.</li>
-          <li><strong>YouTube, Vimeo</strong>: si insertas vídeos en la web.</li>
+          
         </ul>
         <p class="mt-2 text-xs text-gray-600 dark:text-slate-400">
           Estos terceros usan sus propias políticas de cookies.

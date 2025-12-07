@@ -10,7 +10,7 @@
     <header class="max-w-3xl mb-8">
         <h1 class="text-azul text-3xl md:text-4xl font-semibold mb-3 dark:text-beige2">Aviso legal</h1>
         <p class="text-gray-700 dark:text-slate-100">
-            Este Aviso Legal regula el acceso y uso del sitio web <strong>Gran Bretania</strong> (www.tudominio.com)
+            Este Aviso Legal regula el acceso y uso del sitio web <strong>Gran Bretania</strong> (www.granbretania.com)
             que su titular pone a disposición de los usuarios de Internet.
         </p>
     </header>
@@ -42,11 +42,11 @@
             <section id="titular" class="bg-white rounded-2xl shadow p-6 dark:bg-slate-900">
                 <h2 class="text-azul font-semibold text-lg mb-3 dark:text-beige2">1. Titular de la web</h2>
                 <p>
-                    Titular: <strong>Gran Bretania</strong> — (Nombre completo o razón social).<br>
-                    NIF/CIF: (indicar).<br>
-                    Domicilio: (dirección completa).<br>
-                    Email: <a href="mailto:tucorreo@granbretania.com" 
-                              class="text-azul underline dark:text-beige2">tucorreo@granbretania.com</a>.<br>
+                    Titular: <strong>Gran Bretania</strong>.<br>
+                    NIF/CIF: XXXXX.<br>
+                    Domicilio:XXXX.<br>
+                    Email: <a href="mailto:info@granbretania.com" 
+                              class="text-azul underline dark:text-beige2">info@granbretania.com</a>.<br>
                     Actividad: Formación online en inglés, traducciones e interpretación.
                 </p>
             </section>
@@ -104,7 +104,7 @@
                 <h2 class="text-azul font-semibold text-lg mb-3 dark:text-beige2">7. Legislación aplicable</h2>
                 <p>
                     Este Aviso Legal se rige por la legislación española.
-                    Para cualquier conflicto, serán competentes los Juzgados y Tribunales de <strong>(tu ciudad)</strong>.
+                    Para cualquier conflicto, serán competentes los Juzgados y Tribunales de <strong>Asturias</strong>.
                 </p>
             </section>
 
@@ -113,8 +113,8 @@
                 <h2 class="text-azul font-semibold text-lg mb-3 dark:text-beige2">8. Contacto</h2>
                 <p>
                     Para cualquier consulta relacionada con este Aviso Legal:
-                    <a href="mailto:tucorreo@granbretania.com" 
-                       class="text-azul underline dark:text-beige2">tucorreo@granbretania.com</a>
+                    <a href="mailto:info@granbretania.com" 
+                       class="text-azul underline dark:text-beige2">info@granbretania.com</a>
                     o utiliza el <a href="{{ route('contact.create') }}" 
                                     class="text-azul underline dark:text-beige2">formulario de contacto</a>.
                 </p>

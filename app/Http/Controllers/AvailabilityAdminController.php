@@ -31,16 +31,20 @@ class AvailabilityAdminController extends Controller
         ]);
 
         // si se quiere bloquear y hay reserva confirmada (en ese rango), evitarlo
-        if ($data['status'] === 'blocked') {
+            if ($data['status'] === 'blocked') {
             // comprobar bookings cuyo class_time cae dentro del rango [start_time, end_time)
+            // Tratar como conflicto tanto reservas con status='confirmed' como aquellas ya pagadas (paid = true)
             $hasConfirmed = ClassBooking::where('class_date', $data['date'])
-                ->where('status', 'confirmed')
                 ->where('class_time', '>=', $data['start_time'])
                 ->where('class_time', '<', $data['end_time'])
+                ->where(function ($q) {
+                    $q->where('status', 'confirmed')
+                      ->orWhere('paid', true);
+                })
                 ->exists();
 
             if ($hasConfirmed) {
-                return back()->with('error', 'No se puede bloquear: existe una reserva confirmada en esa franja.');
+                return back()->with('error', 'No se puede bloquear: existe una reserva confirmada o ya pagada en esa franja.');
             }
         }
         //Guardar
@@ -91,9 +95,12 @@ class AvailabilityAdminController extends Controller
             if ($date->isWeekend()) continue;
 
             //Si hay cualquier reserva confirmada en ese día, es un conflicto y NO se generará disponibilidad.
-            if ($isFullDay) {
+                if ($isFullDay) {
                 $hasConfirmedAny = ClassBooking::where('class_date', $date->toDateString())
-                    ->where('status', 'confirmed')
+                    ->where(function ($q) {
+                        $q->where('status', 'confirmed')
+                          ->orWhere('paid', true);
+                    })
                     ->exists();
 
                 if ($hasConfirmedAny) {
@@ -107,7 +114,10 @@ class AvailabilityAdminController extends Controller
 
                 $hasConfirmedSlot = ClassBooking::where('class_date', $date->toDateString())
                     ->where('class_time', $start)
-                    ->where('status', 'confirmed')
+                    ->where(function ($q) {
+                        $q->where('status', 'confirmed')
+                          ->orWhere('paid', true);
+                    })
                     ->exists();
 
                 if ($hasConfirmedSlot) {
@@ -163,11 +173,14 @@ class AvailabilityAdminController extends Controller
         // evitar bloquear si hay confirmada (comparación por start_time para franjas horarias)
         $hasConfirmed = ClassBooking::where('class_date', $slot->date)
             ->where('class_time', $slot->start_time)
-            ->where('status', 'confirmed')
+            ->where(function ($q) {
+                $q->where('status', 'confirmed')
+                  ->orWhere('paid', true);
+            })
             ->exists();
 
         if ($slot->status === 'available' && $hasConfirmed) {
-            return back()->with('error', 'No se puede bloquear: hay una reserva confirmada en esa franja.');
+            return back()->with('error', 'No se puede bloquear: hay una reserva confirmada o ya pagada en esa franja.');
         }
 
         $slot->status = $slot->status === 'available' ? 'blocked' : 'available';
@@ -181,11 +194,14 @@ class AvailabilityAdminController extends Controller
     {
         $hasConfirmed = ClassBooking::where('class_date', $slot->date)
             ->where('class_time', $slot->start_time)
-            ->where('status', 'confirmed')
+            ->where(function ($q) {
+                $q->where('status', 'confirmed')
+                  ->orWhere('paid', true);
+            })
             ->exists();
 
         if ($hasConfirmed) {
-            return back()->with('error', 'No se puede borrar: hay una reserva confirmada asociada.');
+            return back()->with('error', 'No se puede borrar: hay una reserva confirmada o ya pagada asociada.');
         }
 
         $slot->delete();

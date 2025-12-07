@@ -22,7 +22,7 @@
                     </div>
 
                     <!-- Navigation Links -->
-                    <div class="hidden space-x-8 sm:flex text-azul dark:text-white tracking-wide">
+                    <div class="hidden space-x-8 lg:flex text-azul dark:text-white tracking-wide">
                         <a href="{{ route('bookings.create') }}" class="px-2 py-1 text-sm font-medium
                                 {{ request()->routeIs('bookings.create')
             ? 'text-azul border-b-2 border-azul dark:text-white dark:border-white'
@@ -67,9 +67,9 @@
                     </div>
                 </div>
 
-                <!-- Right side: user / guest links (desktop) + hamburger (mobile) -->
+                <!-- Barra derecha-->
                 <div class="flex items-center gap-3 pr-3 sm:pr-6">
-                    <div class="hidden sm:flex sm:items-center sm:ml-6">
+                    <div class="hidden lg:flex lg:items-center lg:ml-6">
 
                         <div class="me-3">
                             <button type="button" onclick="
@@ -118,7 +118,7 @@
 
                                 <x-slot name="content">
 
-                                    {{-- Profile --}}
+                                    {{-- Perfil --}}
                                     <x-dropdown-link :href="route('profile.edit')"
                                         class="hover:bg-azul/10 hover:text-azul transition">
                                         {{ __('Perfil') }}
@@ -142,7 +142,7 @@
                     </div>
 
                     @guest
-                        <div class="hidden sm:flex items-center gap-3">
+                        <div class="hidden lg:flex items-center gap-3">
                             <a href="{{ route('login') }}"
                                 class="text-sm text-gray-600 dark:text-beige2 hover:text-gray-900 dark:hover:text-beige2">Iniciar
                                 sesión</a>
@@ -151,8 +151,8 @@
                         </div>
                     @endguest
 
-                    <!-- Hamburger (mobile): aligned to the right and spaced from the edge -->
-                    <div class="pr-3 sm:pr-6 flex sm:hidden">
+                    <!-- Hamburger-->
+                    <div class="pr-3 lg:pr-6 flex lg:hidden">
                         <button @click="open = ! open"
                             class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-beige2 hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-slate-800 focus:text-gray-500 transition duration-150 ease-in-out">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -171,7 +171,17 @@
 
         <!-- Responsive Navigation Menu -->
         <div :class="{'block': open, 'hidden': ! open}"
-            class="hidden sm:hidden w-screen bg-beige dark:bg-slate-800/95 dark:text-beige2">
+            class="hidden lg:hidden w-screen bg-beige dark:bg-slate-800/95 dark:text-beige2">
+
+            <div class="px-4 py-2 border-b border-gray-100 dark:border-slate-700 flex justify-end">
+                <button type="button"
+                    onclick="(function(){const html=document.documentElement;const isDark=html.classList.toggle('dark');localStorage.setItem('theme', isDark? 'dark':'light');})()"
+                    aria-label="Alternar modo oscuro"
+                    class="inline-flex items-center justify-center px-2 py-1 rounded-full border border-azul/40 dark:border-gray-500 text-lg text-azul dark:text-gray-100 bg-white/80 dark:bg-slate-800/80 shadow-sm">
+                    <span class="dark:hidden">🌙</span>
+                    <span class="hidden dark:inline">☀️</span>
+                </button>
+            </div>
             <div class="pt-2 pb-3 space-y-1">
 
 

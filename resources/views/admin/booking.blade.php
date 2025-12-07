@@ -43,11 +43,11 @@
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <div class="text-xs text-gray-500">Fecha</div>
-                                        <div class="font-medium text-sm text-azul">
+                                        <div class="font-medium text-sm text-azul dark:text-white">
                                             {{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}
                                         </div>
                                         <div class="text-xs text-gray-500 mt-2">Hora</div>
-                                        <div class="text-sm text-azul">{{ substr($b->class_time, 0, 5) }}</div>
+                                        <div class="text-sm text-azul dark:text-white">{{ substr($b->class_time, 0, 5) }}</div>
                                     </div>
 
                                     <div class="text-right">
@@ -86,7 +86,7 @@
                                         @csrf
                                         @method('PATCH')
                                         <div class="flex flex-col sm:flex-row gap-2">
-                                            <input name="meeting_url" type="url"
+                                            <input name="meeting_url" type="url" required
                                                 placeholder="https://meet.google.com/xxx-xxxx-xxx"
                                                 value="{{ $b->meeting_url ?? '' }}"
                                                 class="px-2 py-1 border border-beige rounded-lg text-sm w-full focus:ring-azul focus:border-azul"
@@ -157,7 +157,7 @@
                                                     @csrf
                                                     @method('PATCH')
                                                     <div class="flex flex-wrap items-center gap-2">
-                                                        <input name="meeting_url" type="url"
+                                                        <input name="meeting_url" type="url" required
                                                             placeholder="https://meet.google.com/xxx-xxxx-xxx"
                                                             value="{{ $b->meeting_url ?? '' }}"
                                                             class="px-2 py-1 border border-beige rounded-lg text-sm w-64 focus:ring-azul focus:border-azul"
@@ -217,11 +217,11 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <div class="text-xs text-gray-500">Fecha</div>
-                                    <div class="font-medium text-sm text-azul">
+                                    <div class="font-medium text-sm text-azul dark:text-white">
                                         {{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}
                                     </div>
                                     <div class="text-xs text-gray-500 mt-2">Hora</div>
-                                    <div class="text-sm text-azul">{{ substr($b->class_time, 0, 5) }}</div>
+                                    <div class="text-sm text-azul dark:text-white">{{ substr($b->class_time, 0, 5) }}</div>
                                     <div class="text-xs text-gray-500 mt-2">Nombre</div>
                                     <div class="font-medium">{{ $b->user->name ?? $b->name }}</div>
                                     <div class="text-xs text-gray-500 mt-2">Email</div>

@@ -90,7 +90,7 @@
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <div class="text-xs text-gray-500">Fecha</div>
-                                        <div class="font-medium text-sm text-azul">
+                                        <div class="font-medium text-sm text-azul dark:text-white">
                                             {{ $tr->created_at->format('d/m/Y H:i') }}
                                         </div>
 
@@ -140,9 +140,9 @@
 
                                     {{-- Precio asignado --}}
                                     @if ($tr->final_price_cents)
-                                        <div class="text-sm">
-                                            Precio: <strong>{{ number_format($tr->final_price_cents / 100, 2, ',', '.') }}
-                                                €</strong>
+                                        <div class="text-sm text-gray-700 dark:text-slate-300">
+                                            Estado: <span class="font-semibold">{{ ucfirst($tr->status) }}</span><br>
+                                            Precio: <strong>{{ number_format($tr->final_price_cents / 100, 2, ',', '.') }} €</strong>
                                         </div>
                                     @endif
 
@@ -151,9 +151,9 @@
                                         <form method="POST" action="{{ route('admin.translations.quote', $tr) }}"
                                             class="space-y-1">
                                             @csrf
-                                            <label class="text-xs text-azul">Precio final (€)</label>
+                                            <label class="text-xs text-azul dark:text-white">Precio final (€)</label>
                                             <input type="number" name="amount_eur" step="0.01" min="1"
-                                                class="w-24 border rounded px-2 py-1 text-sm" placeholder="0.00">
+                                                class="w-24 border rounded px-2 py-1 text-sm dark:text-black" placeholder="0.00">
 
                                             <button class="px-3 py-1 rounded-full bg-azul text-beige2 text-xs font-medium">
                                                 Guardar y generar pago
@@ -167,7 +167,7 @@
                                             enctype="multipart/form-data" class="space-y-1 mt-2">
                                             @csrf
 
-                                            <label class="block text-xs text-azul">Subir traducción final</label>
+                                            <label class="block text-xs text-azul dark:text-white">Subir traducción final</label>
                                             <input type="file" name="output_file"
                                                 class="w-full text-xs border rounded p-1 bg-white dark:bg-slate-900 dark:text-beige2">
 
@@ -271,13 +271,13 @@
                                                     <form method="POST" action="{{ route('admin.translations.quote', $tr) }}"
                                                         class="space-y-1">
                                                         @csrf
-                                                        <label for="amount-{{ $tr->id }}" class="block text-xs text-azul">
+                                                        <label for="amount-{{ $tr->id }}" class="block text-xs text-azul dark:text-white">
                                                             Precio final (€)
                                                         </label>
                                                         <div class="flex items-center gap-2">
                                                             <input id="amount-{{ $tr->id }}" name="amount_eur" type="number"
                                                                 step="0.01" min="1"
-                                                                class="w-24 border rounded px-2 py-1 text-sm"
+                                                                class="w-24 border rounded px-2 py-1 text-sm dark:text-black"
                                                                 placeholder="0.00">
 
                                                             <button type="submit"
@@ -308,7 +308,7 @@
                                                         enctype="multipart/form-data" class="space-y-1">
                                                         @csrf
 
-                                                        <label class="block text-xs text-azul">Subir traducción final</label>
+                                                        <label class="block text-xs text-azul dark:text-white">Subir traducción final</label>
 
                                                         <input type="file" name="output_file"
                                                             class="w-full text-xs border rounded p-1 bg-white dark:bg-slate-900 dark:text-beige2">
