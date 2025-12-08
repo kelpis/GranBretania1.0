@@ -8,7 +8,7 @@ use App\Models\AvailabilitySlot;
 use App\Models\ClassBooking;
 use Illuminate\Http\Request;
 
-//CONTROLADOR FRANJAS HORARIAS
+//CONTROLADOR FRANJAS HORARIAS ADMIN
 
 class AvailabilityAdminController extends Controller
 {
@@ -65,7 +65,7 @@ class AvailabilityAdminController extends Controller
             'status'    => ['required', 'in:available,blocked'],
             'full_day'  => ['nullable', 'boolean'], // si true -> bloquea días enteros (00:00-24:00)
         ]);
-        //Convertimos fehcas en objetos Carbon para facilitar calculos
+        //Convertimos fechas en objetos Carbon para facilitar calculos
         
         $from = \Carbon\Carbon::parse($request->from_date);
         $to   = \Carbon\Carbon::parse($request->to_date);
@@ -131,46 +131,52 @@ class AvailabilityAdminController extends Controller
             return back()->with('error', $msg)->with('conflicts', $conflicts);
         }
 
-        
+        // Bucle principal: iterar sobre cada fecha en el rango
         for ($date = $from->copy(); $date->lte($to); $date->addDay()) {
+            // Saltar fines de semana (sábado y domingo)
             if ($date->isWeekend()) continue;
 
+            // Si se solicita bloqueo de día completo
             if ($isFullDay) {
-                // Crear una franja que cubra todo el día
+                // Crear una franja que cubra todo el día (00:00 a 24:00)
                 $start = '00:00';
                 $end = '24:00';
 
+                // Usar updateOrCreate para crear o actualizar la franja
                 AvailabilitySlot::updateOrCreate(
                     ['date' => $date->toDateString(), 'start_time' => $start, 'end_time' => $end],
                     ['status' => $request->status]
                 );
-                $count++;
-                $created[] = $date->toDateString() . ' ' . $start . '-' . $end;
-                continue;
+                $count++; // Contador de franjas creadas/actualizadas
+                $created[] = $date->toDateString() . ' ' . $start . '-' . $end; // Lista para mostrar en UI
+                continue; // Pasar a la siguiente fecha
             }
 
+            // Si no es día completo, crear franjas horarias individuales
             for ($h = (int)$request->start_hour; $h < (int)$request->end_hour; $h++) {
+                // Formatear hora de inicio y fin (ej. 09:00 - 10:00)
                 $start = sprintf('%02d:00', $h);
                 $end   = sprintf('%02d:00', $h + 1);
 
+                // Crear o actualizar la franja horaria
                 AvailabilitySlot::updateOrCreate(
                     ['date' => $date->toDateString(), 'start_time' => $start, 'end_time' => $end],
                     ['status' => $request->status]
                 );
-                $count++;
-                $created[] = $date->toDateString() . ' ' . $start . '-' . $end;
+                $count++; // Incrementar contador
+                $created[] = $date->toDateString() . ' ' . $start . '-' . $end; // Agregar a lista
             }
         }
 
-        // Devolvemos en la sesión el detalle de las franjas creadas para depuración en UI.
+        // Devolver mensaje de éxito con detalle de franjas creadas
         $msg = "Generadas/actualizadas {$count} franjas.";
         return back()->with('ok', $msg)->with('generated', $created);
     }
 
-    // Toggle rápido available/blocked
+    // Método para alternar rápidamente el estado de una franja (available/blocked)
     public function toggle(AvailabilitySlot $slot)
     {
-        // evitar bloquear si hay confirmada (comparación por start_time para franjas horarias)
+        // Verificar si hay reservas confirmadas o pagadas en esa franja para evitar bloqueos indebidos
         $hasConfirmed = ClassBooking::where('class_date', $slot->date)
             ->where('class_time', $slot->start_time)
             ->where(function ($q) {
@@ -179,19 +185,22 @@ class AvailabilityAdminController extends Controller
             })
             ->exists();
 
+        // Si se intenta bloquear y hay reserva confirmada, devolver error
         if ($slot->status === 'available' && $hasConfirmed) {
             return back()->with('error', 'No se puede bloquear: hay una reserva confirmada o ya pagada en esa franja.');
         }
 
+        // Alternar el estado
         $slot->status = $slot->status === 'available' ? 'blocked' : 'available';
         $slot->save();
 
         return back()->with('ok', 'Franja actualizada.');
     }
 
-    // Eliminar slot (si no compromete reservas confirmadas)
+    // Método para eliminar una franja (slot) si no afecta reservas confirmadas
     public function destroy(AvailabilitySlot $slot)
     {
+        // Verificar si hay reservas confirmadas o pagadas asociadas
         $hasConfirmed = ClassBooking::where('class_date', $slot->date)
             ->where('class_time', $slot->start_time)
             ->where(function ($q) {
@@ -200,10 +209,12 @@ class AvailabilityAdminController extends Controller
             })
             ->exists();
 
+        // Si hay reservas, no permitir eliminación
         if ($hasConfirmed) {
             return back()->with('error', 'No se puede borrar: hay una reserva confirmada o ya pagada asociada.');
         }
 
+        // Eliminar la franja
         $slot->delete();
         return back()->with('ok', 'Franja eliminada.');
     }

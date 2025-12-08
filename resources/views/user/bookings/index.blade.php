@@ -1,7 +1,6 @@
 {{--
     Vista: user/bookings/index.blade.php
-    Propósito: lista de reservas del usuario, separa próximas de historial y permite acciones (editar, cancelar, unirse).
-    Notas: contiene tablas responsivas, modales de confirmación y utilidades JS para cancelar reservas.
+    lista de reservas del usuario, separa próximas de historial y permite acciones (editar, cancelar, unirse).
 --}}
 
 @extends('layouts.site')
@@ -13,6 +12,8 @@
 @endsection
 
 @section('content')
+
+@vite(['resources/js/user-bookings.js', 'resources/js/user-bookings-modal.js'])
 
     <div class="py-6">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-4">
@@ -37,12 +38,12 @@
                 @if($hasUpcoming)
                     <div class="rounded-2xl shadow-xl overflow-hidden border border-beige">
 
-                        {{-- CABECERA AZUL CORPORATIVA --}}
+                        {{-- CABECERA --}}
                         <div class="bg-azul text-beige2 px-6 py-4">
                             <h2 class="font-semibold text-xl leading-tight">Mis clases (próximas)</h2>
                         </div>
 
-                        {{-- Mobile: tarjetas para próximas clases (no tocar versión desktop) --}}
+                        {{-- Movil: tarjetas para próximas clases--}}
                         <div class="md:hidden space-y-3 p-4">
                             @foreach ($upcoming as $b)
                                 @php
@@ -75,6 +76,7 @@
                                         </div>
 
                                         <div class="flex flex-col items-end gap-2">
+                                            {{-- Acciones disponibles: editar (si editable), cancelar (si no pasada), unirse (si confirmada y futura) --}}
                                             <div class="flex flex-wrap gap-2">
                                                 @if($b->status !== 'cancelled')
                                                 @if($isEditable)
@@ -108,7 +110,9 @@
                             @endforeach
                         </div>
 
-                        {{-- Desktop: tabla (sin cambios) --}}
+
+                        {{-- Desktop: tabla  --}}
+
                         <div class="hidden md:block overflow-x-auto">
                         <table class="w-full table-fixed text-sm">
                             <colgroup>
@@ -140,7 +144,7 @@
                                             default => 'bg-gray-200 text-negro'
                                         };
 
-                                        // Cálculos de tus reglas
+                                        // Cálculos de reglas cancelacion y edicion
                                         $start = \Carbon\Carbon::parse($b->class_date . ' ' . substr($b->class_time, 0, 5));
                                         $hoursUntil = now()->diffInHours($start, false);
                                         $hasEditsLeft = (($b->edit_count ?? 0) < 2);
@@ -257,9 +261,9 @@
                     </div>
                 @endif
 
-                {{-- ========================= --}}
+      
                 {{-- HISTORIAL DE CLASES --}}
-                {{-- ========================= --}}
+              
                 @if($hasHistory)
                     <div class="rounded-2xl shadow-xl overflow-hidden border border-beige mt-8">
 
@@ -267,7 +271,7 @@
                             <h2 class="font-semibold text-xl leading-tight">Historial de clases</h2>
                         </div>
 
-                        {{-- Mobile: tarjetas para historial (md:hidden) --}}
+                        {{-- Movil: tarjetas para historial (md:hidden) --}}
                         <div class="md:hidden space-y-3 p-4">
                             @foreach($history as $b)
                                 @php
@@ -300,7 +304,7 @@
                             @endforeach
                         </div>
 
-                        {{-- Desktop: tabla historial (sin cambios) --}}
+                        {{-- Desktop: tabla historial --}}
                         <div class="hidden md:block overflow-x-auto">
                         <table class="w-full table-fixed text-sm">
                             <colgroup>
@@ -361,21 +365,26 @@
     </div>
 
    
-{{-- MODAL DE CONFIRMACIÓN: usado por el botón Cancelar (openCancelModal) --}}
+{{-- MODAL DE CONFIRMACIÓN: usado por el botón Cancelar (llama a openCancelModal/closeCancelModal de user-bookings-modal.js) --}}
 <div id="cancelModal"
      class="fixed inset-0 hidden items-center justify-center bg-black/40 z-50">
 
+    {{-- Contenedor del modal: centrado, con fondo oscuro --}}
     <div class="bg-white rounded-2xl p-6 max-w-sm mx-auto shadow-xl text-center border border-beige">
+        {{-- Título del modal --}}
         <h3 class="text-lg font-semibold text-azul mb-3">Cancelar clase</h3>
 
+        {{-- Texto dinámico: se llena con JS según si es reembolsable --}}
         <p id="cancelModalText" class="text-gray-700 mb-6"></p>
 
+        {{-- Botones de acción: cerrar modal o confirmar cancelación --}}
         <div class="flex justify-center gap-3">
             <button onclick="closeCancelModal()"
                     class="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition">
                 No cancelar
             </button>
 
+            {{-- Formulario oculto para envío POST de cancelación --}}
             <form id="cancelModalForm" method="POST" class="inline">
                 @csrf
                 @method('DELETE')
@@ -389,30 +398,7 @@
 
 </div>
 
-<script>
-    function openCancelModal(formAction, isRefundable) {
-        const modal = document.getElementById('cancelModal');
-        const text = document.getElementById('cancelModalText');
-        const form = document.getElementById('cancelModalForm');
 
-        form.action = formAction;
-
-        if (isRefundable === '1') {
-            text.textContent = "¿Seguro que deseas cancelar la clase? Se reembolsará el importe automáticamente.";
-        } else {
-            text.textContent = "¿Quieres cancelar la clase?Las cancelaciones realizadas con menos de 24 horas de antelación no dan derecho a reembolso.";
-        }
-
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
-
-    function closeCancelModal() {
-        const modal = document.getElementById('cancelModal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }
-</script>
 
 
 @endsection

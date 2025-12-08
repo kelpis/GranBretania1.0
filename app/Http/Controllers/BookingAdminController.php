@@ -9,8 +9,8 @@ use App\Notifications\BookingCancelledNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon; // arriba del archivo
-
+use Illuminate\Support\Carbon; 
+//CONTROLADOR ADMIN RESERVAS CLASES
 class BookingAdminController extends Controller
 {
     public function index()

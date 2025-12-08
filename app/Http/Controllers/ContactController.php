@@ -8,7 +8,7 @@ use App\Notifications\ContactReceived;
 use App\Notifications\ContactAdminAlert;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\Request;
-
+//CONTROLADRO FORMULARIO PUBLICO DE CONTACTO
 class ContactController extends Controller
 {
     //Muestra el formulario de contacto

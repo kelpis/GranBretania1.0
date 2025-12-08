@@ -22,32 +22,34 @@ use Illuminate\Http\Request;
 
 
 
-// --------------------------------------------------
-// Home / Landing
-// --------------------------------------------------
+// Home 
+
 Route::get('/', function () {
     return view('layouts.home');
 });
 
-// --------------------------------------------------
-// Public pages
-// --------------------------------------------------
 
-// Política de protección de datos (página pública)
+// Paginas publicas
+
+
+
 Route::view('/politica-privacidad', 'legal.privacy')->name('privacy');
-// Política de cookies (página pública)
 Route::view('/cookies', 'legal.cookies')->name('cookies.policy');
-// Condiciones de los servicios (página pública)
 Route::view('/condiciones', 'legal.condiciones')->name('condiciones');
-// Aviso legal (página pública)
 Route::view('/aviso', 'legal.aviso')->name('aviso');
+Route::view('/', 'layouts.home')->name('home');
+Route::view('/clases', 'layouts.class')->name('clases');
+Route::view('/traducciones', 'layouts.translate')->name('traducciones');
+Route::view('/sobremi', 'layouts.aboutme')->name('sobremi');
+Route::view('/faq', 'layouts.faq')->name('faq');
 
-// --------------------------------------------------
-// Dashboard / Auth-protected pages
-// --------------------------------------------------
+
+// Dashboard / privadas paginas
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 // Rutas de perfil (requieren autenticación)
 Route::middleware('auth')->group(function () {
@@ -56,22 +58,22 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// --------------------------------------------------
-// Admin entry (panel principal)
-// --------------------------------------------------
+
+// Admin (panel principal)
+
 Route::middleware(['auth', AdminMiddleware::class])
     ->get('/admin', [AdminController::class, 'index'])
     ->name('admin.index');
 
 
-// Contact form
-// --------------------------------------------------
+// Contacto formulario
+
 Route::get('/contacto', [ContactController::class, 'create'])->name('contact.create');
 Route::post('/contacto', [ContactController::class, 'store'])->name('contact.store');
 
 
 // Booking (reservas) - protegidas por auth
-// --------------------------------------------------
+
 // Rutas para crear/guardar reserva
 Route::middleware('auth')->group(function () {
     Route::get('/reservar', [ClassBookingController::class, 'create'])
@@ -133,6 +135,7 @@ Route::middleware('auth')->group(function () {
     })->name('user.translations.download');
 
 
+
     // Página dedicada: Mis traducciones (lista del usuario)
     Route::get('/mis-traducciones', function () {
         $user = auth()->user();
@@ -144,9 +147,10 @@ Route::middleware('auth')->group(function () {
     })->name('user.translations.index');
 });
 
-// --------------------------------------------------
+
+
 // Solicitar traducción (loggeado)
-// --------------------------------------------------
+
 Route::middleware('auth')->group(function () {
     Route::get('/traduccion', [TranslationRequestController::class, 'create'])->name('translation.create');
 
@@ -160,9 +164,9 @@ Route::get('/translation-requests-redirect', function () {
     return redirect()->route('user.translations.index');
 })->name('translation.requests');
 
-// --------------------------------------------------
-// Admin routes (prefijo /admin)
-// --------------------------------------------------
+
+// Admin routes (prefijo /admin) PROTEGIDAS
+
 Route::middleware(['auth', AdminMiddleware::class])
     ->prefix('admin')->name('admin.')->group(function () {
 
@@ -185,21 +189,21 @@ Route::middleware(['auth', AdminMiddleware::class])
             return Storage::disk('local')->download($tr->file_path, $filename);
         })->name('translations.download');
 
-        // 👉 NUEVA RUTA: asignar precio y generar enlace de pago
+        //TRADUCCION: asignar precio y generar enlace de pago
         Route::post('/traducciones/{translation}/presupuesto', [AdminTranslationController::class, 'quote'])
             ->name('translations.quote');
 
 
-         Route::post('/traducciones/{translation}/entregar', [AdminTranslationController::class, 'deliver'])
+        Route::post('/traducciones/{translation}/entregar', [AdminTranslationController::class, 'deliver'])
             ->name('translations.deliver');
 
 
-        // Reservas admin
+        // Clases reservadas del admin
         Route::get('/reservas', [BookingAdminController::class, 'index'])->name('bookings.index');
         Route::patch('/reservas/{booking}/confirmar', [BookingAdminController::class, 'confirm'])->name('bookings.confirm');
         Route::patch('/reservas/{booking}/cancelar', [BookingAdminController::class, 'cancel'])->name('bookings.cancel');
 
-        // Franjass horarias (disponibilidad)
+        // Franjas horarias (disponibilidad)
         Route::get('/disponibilidad', [AvailabilityAdminController::class, 'index'])->name('availability.index');
         Route::post('/disponibilidad', [AvailabilityAdminController::class, 'store'])->name('availability.store');
         Route::post('/disponibilidad/generar', [AvailabilityAdminController::class, 'generate'])->name('availability.generate');
@@ -213,25 +217,8 @@ Route::middleware(['auth', AdminMiddleware::class])
     });
 
 
-// --------------------------------------------------
-// Static page views (simple blades)
-// --------------------------------------------------
-// La vista de inicio puede estar en resources/views/layouts/home.blade.php
-Route::view('/', 'layouts.home')->name('home');
-
-Route::view('/clases', 'layouts.class')->name('clases');
-Route::view('/traducciones', 'layouts.translate')->name('traducciones');
-Route::view('/sobremi', 'layouts.aboutme')->name('sobremi');
-Route::view('/faq', 'layouts.faq')->name('faq');
 
 // Auth routes (login/register/etc.)
 require __DIR__ . '/auth.php';
 
-// Temporary debug endpoint to inspect locale/session state
-Route::get('/locale-debug', function (Request $request) {
-    return response()->json([
-        'app_locale' => app()->getLocale(),
-        'session_locale' => session('locale'),
-        'session_cookie' => $request->cookie(config('session.cookie')),
-    ]);
-});
+

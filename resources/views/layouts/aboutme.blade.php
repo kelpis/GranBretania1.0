@@ -1,7 +1,6 @@
 {{--
     Layout: aboutme.blade.php
-    Propósito: página "Sobre mí" con biografía, valores y CTA.
-    Notas: usa el layout `layouts.site`; mantener contenido estático y accesible.
+   
 --}}
 
 @extends('layouts.site')

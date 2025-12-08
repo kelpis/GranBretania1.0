@@ -1,7 +1,6 @@
 {{--
     Layout: class.blade.php
-    Propósito: página informativa sobre las clases (tarifas, proceso, CTA).
-    Notas: recurso visual y enlaces a reservas; mantener la estructura de secciones para SEO.
+    
 --}}
 
 @extends('layouts.site')

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+//CONTROLADOR  POR DEFECTO  DE LARAVEL "GESTIÓN DE PERFILES"
 
 class ProfileController extends Controller
 {

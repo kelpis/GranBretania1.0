@@ -5,14 +5,8 @@
     <div class="bg-beige2 dark:bg-slate-950 -mx-4 sm:-mx-6 lg:-mx-8">
         <div class="py-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
-                {{--
-                    BIENVENIDA
-                    // Sección de bienvenida del admin:
-                    // - Muestra el nombre del usuario autenticado.
-                    // - Accesos rápidos a listas (reservas/traducciones).
-                    // Nota: mantener breve y con enlaces a las páginas de listado.
-                --}}
-                <section class="rounded-2xl bg-azul text-beige2 shadow-xl px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        
+        <section class="rounded-2xl bg-azul text-beige2 shadow-xl px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
                 <h1 class="text-2xl font-semibold mb-1">
                     Hola, {{ auth()->user()->name }} 
@@ -21,11 +15,15 @@
                     Desde aquí puedes revisar tus clases, traducciones y ajustar tu disponibilidad.
                 </p>
             </div>
+
+        
             <div class="flex flex-wrap gap-3">
+                {{-- Enlace a reservas --}}
                 <a href="{{ route('admin.bookings.index') }}"
                    class="inline-flex items-center px-4 py-2 rounded-full bg-beige text-azul text-sm font-medium hover:bg-white transition">
                     Ver reservas
                 </a>
+                {{-- Enlace a traducciones --}}
                 <a href="{{ route('admin.translations.index') }}"
                    class="inline-flex items-center px-4 py-2 rounded-full border border-beige2 text-beige2 text-sm hover:bg-beige2 hover:text-azul transition">
                     Ver traducciones
@@ -33,11 +31,7 @@
             </div>
         </section>
 
-                {{--
-                    TARJETAS RESUMEN
-                    // Métricas rápidas: reservas totales, próximas clases, clases hoy y traducciones pendientes.
-                    // Los valores provienen de `$stats` pasado desde el controlador; usar valores por defecto si faltan.
-                --}}
+                {{--TARJETAS RESUMEN--}}
         @php
         
             $totalBookings       = $stats['total_bookings']        ?? 0;
@@ -47,6 +41,7 @@
         @endphp
 
         <section class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {{-- Tarjeta reservas totales --}}
             <article class="rounded-2xl bg-white border border-beige shadow p-4 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100">
                 <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 dark:text-slate-100">
                     Reservas totales
@@ -57,6 +52,7 @@
                 </p>
             </article>
 
+            {{-- Tarjeta próximas clases --}}
             <article class="rounded-2xl bg-beige border border-beige shadow p-4 dark:bg-slate-800 dark:border-slate-700 dark:text-beige2">
                 <h3 class="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-1 dark:text-beige2">
                     Próximas clases
@@ -67,6 +63,7 @@
                 </p>
             </article>
 
+            {{-- Tarjeta clases para hoy --}}
             <article class="rounded-2xl bg-azul text-beige2 shadow p-4">
                 <h3 class="text-xs font-semibold text-beige uppercase tracking-wide mb-1">
                     Clases para hoy
@@ -77,6 +74,7 @@
                 </p>
             </article>
 
+            {{-- Tarjeta traducciones pendientes --}}
             <article class="rounded-2xl bg-rojo text-beige2 shadow p-4">
                 <h3 class="text-xs font-semibold uppercase tracking-wide mb-1">
                     Traducciones pendientes
@@ -92,6 +90,8 @@
         <section class="grid lg:grid-cols-2 gap-6">
 
              {{--PRÓXIMAS CLASES--}}
+
+             {{-- Tabla de próximas clases con enlace a ver todas --}}
             <div class="rounded-2xl border border-beige bg-beige2 shadow dark:bg-slate-950 dark:border-slate-700">
                 <div class="bg-azul text-beige2 px-5 py-3 rounded-t-2xl flex items-center justify-between">
                     <h3 class="font-semibold text-sm md:text-base">Próximas clases</h3>
@@ -102,6 +102,7 @@
                 </div>
 
                 <div class="p-5">
+                    {{-- Tabla de próximas clases --}}
                     @if(isset($nextBookings) && $nextBookings->count())
                         <div class="overflow-x-auto">
                             <table class="min-w-full text-xs md:text-sm text-azul dark:text-beige2">
@@ -126,6 +127,7 @@
                                                 {{ $b->user->name ?? $b->name }}
                                             </td>
                                             <td class="py-2 px-2">
+                                                {{-- Estados --}}
                                                 @php
                                                     $status = $b->status ?? 'pending';
                                                     $badge = match($status) {
@@ -152,6 +154,8 @@
             </div>
 
                         {{--ÚLTIMAS TRADUCCIONEs--}}
+                        
+                        {{-- Tabla de últimas traducciones con enlace a ver todas --}}
             <div class="rounded-2xl border border-beige bg-beige2 shadow dark:bg-slate-950 dark:border-slate-700">
                 <div class="bg-azul text-beige2 px-5 py-3 rounded-t-2xl flex items-center justify-between">
                     <h3 class="font-semibold text-sm md:text-base">Últimas solicitudes de traducción</h3>
@@ -162,6 +166,7 @@
                 </div>
 
                 <div class="p-5">
+                    {{-- Tabla de últimas traducciones --}}
                     @if(isset($recentTranslations) && $recentTranslations->count())
                         <div class="overflow-x-auto">
                             <table class="min-w-full text-xs md:text-sm text-azul dark:text-beige2">
@@ -183,11 +188,13 @@
                                                 {{ $tr->name }}
                                             </td>
                                             <td class="py-2 px-2">
+                                                {{-- Badge de idiomas --}}
                                                 <span class="px-2 py-0.5 rounded-full bg-azul text-beige2 text-[11px] font-semibold">
                                                     {{ strtoupper($tr->source_lang) }} → {{ strtoupper($tr->target_lang) }}
                                                 </span>
                                             </td>
                                             <td class="py-2 px-2">
+                                                {{-- Badge de urgencia --}}
                                                 @php
                                                     $urgencyBadge = $tr->urgency === 'alta'
                                                         ? 'bg-rojo text-beige2'

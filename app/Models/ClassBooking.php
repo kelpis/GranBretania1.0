@@ -50,7 +50,7 @@ class ClassBooking extends Model
         // Intenta la traducción en el archivo resources/lang/{locale}/statuses.php
         $translation = __("statuses.$key");
 
-        // Si no hay traducción (devuelve la clave sin traducir), devuelve un fallback bonito
+        // Si no hay traducción (devuelve la clave sin traducir), devuelve un fallback
         if ($translation === "statuses.$key") {
             return ucfirst(str_replace('_', ' ', $key));
         }

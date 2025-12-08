@@ -9,8 +9,10 @@ use Illuminate\Validation\Rule;
 class ProfileUpdateRequest extends FormRequest
 {
     /**
-     * Prepare the data for validation.
+     * Request para validar formularios edicion perfil
      */
+
+    //Sanitiza datos antes de enviarlos
     protected function prepareForValidation()
     {
         $this->merge([

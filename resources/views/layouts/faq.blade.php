@@ -1,8 +1,7 @@
 {{--
 Layout: faq.blade.php
-Propósito: página de preguntas frecuentes (FAQ).
-Notas: usar listas <details> para accesibilidad y mantener contenido actualizado.
-    --}}
+página de preguntas frecuentes (FAQ).
+--}}
 
     @extends('layouts.site')
 

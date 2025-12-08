@@ -1,8 +1,7 @@
 {{--
   Vista: user/translations/create.blade.php
-  Propósito: formulario para solicitar una traducción; adjuntar archivo y datos de contacto.
-  Notas: el formulario incluye reCAPTCHA v3 (data-grecaptcha) y se valida server-side en `translation.store`.
---}}
+  formulario para solicitar una traducción; adjuntar archivo y datos de contacto.
+ --}}
 
 @extends('layouts.site')
 
@@ -52,7 +51,7 @@
             enctype="multipart/form-data" class="space-y-5" data-grecaptcha="v3" data-recaptcha-action="translation">
             @csrf
 
-            
+            {{-- Campos de contacto: nombre y email (requeridos) --}}
             <div class="grid md:grid-cols-2 gap-4">
               <div>
                 <x-input-label class="text-beige2">Nombre</x-input-label>
@@ -69,7 +68,7 @@
               </div>
             </div>
 
-            
+            {{-- Selección de idiomas: origen y destino (requeridos) --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <x-input-label class="text-beige2">Idioma origen</x-input-label>
@@ -95,7 +94,7 @@
               </div>
             </div>
 
-            
+            {{-- Archivo a traducir: upload con validación de tipo y tamaño --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
               <div class="md:col-span-2">
                 <x-input-label class="text-beige2">Archivo</x-input-label>
@@ -116,7 +115,7 @@
               </div>
             </div>
 
-            
+            {{-- Comentarios adicionales: textarea opcional --}}
             <div>
               <x-input-label class="text-beige2">Observaciones (opcional)</x-input-label>
               <textarea name="comments" rows="4"
@@ -145,7 +144,7 @@
           </form>
         </div>
 
-        
+        {{-- Aside informativo: explica el proceso y tipos de textos --}}
         <aside class="bg-white rounded-2xl shadow p-6 text-sm text-gray-700 dark:bg-slate-900 dark:text-slate-100 dark:border dark:border-slate-700">
           <h3 class="text-azul text-lg font-semibold mb-3 dark:text-beige2">¿Qué ocurre después?</h3>
           <ol class="list-decimal pl-5 space-y-1 mb-4">

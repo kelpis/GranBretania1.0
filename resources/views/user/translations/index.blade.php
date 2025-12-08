@@ -1,7 +1,6 @@
 {{--
     Vista: user/translations/index.blade.php
-    Propósito: listado de solicitudes de traducción del usuario (móvil: tarjetas, desktop: tabla).
-    Notas: muestra estado, enlace de descarga cuando esté entregada y mensajes flash (Stripe, sesión).
+    listado de solicitudes de traducción del usuario (móvil: tarjetas, desktop: tabla).
 --}}
 
 @extends('layouts.site')

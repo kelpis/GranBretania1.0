@@ -1,6 +1,5 @@
 // Carrusel de opiniones (testimonios)
-// - Controla la navegación entre slides y los indicadores (dots)
-// - Auto-rotación con interval y pausa/reinicio al interactuar
+
 
 // Espera a que el DOM esté listo para buscar elementos
 document.addEventListener('DOMContentLoaded', () => {

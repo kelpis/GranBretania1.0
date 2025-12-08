@@ -1,7 +1,7 @@
 {{--
     Layout: translate.blade.php
-    Propósito: página de servicios de traducción (idiomas, tipos y tarifas).
-    Notas: incluye tarjetas informativas y CTA a formulario de traducción.
+    página de servicios de traducción (idiomas, tipos y tarifas).
+   
 --}}
 
 @extends('layouts.site')
@@ -80,7 +80,7 @@
                                 <img src="{{ asset('images/traduccion-jurada.jpg') }}" alt="Traducción jurídica"
                                     class="w-full h-full object-cover ">
 
-                                {{-- Título superpuesto --}}
+                                
                                 <div
                                     class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 flex items-end">
                                     <h4 class="text-white font-semibold text-lg">Traducción jurídica</h4>
@@ -179,7 +179,7 @@
     <section id="proceso-traducciones" class="py-16 bg-beige2 dark:bg-slate-950">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-6 items-start">
 
-            {{-- Timeline vertical--}}
+            {{-- Proceso--}}
             <div>
                 <h3 class="text-azul text-3xl md:text-4xl font-semibold mb-6 dark:text-beige2">
                     Proceso de trabajo

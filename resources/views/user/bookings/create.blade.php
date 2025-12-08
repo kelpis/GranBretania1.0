@@ -1,7 +1,6 @@
 {{--
-    Vistas de `bookings` → create.blade.php
-    Propósito: formulario para crear una reserva (fecha, hora, datos de contacto)
-    Notas: el JS de comportamiento se carga vía Vite al final del archivo (`resources/js/bookings.js`).
+Vistas de `bookings` create.blade.php
+formulario para crear una reserva (fecha, hora, datos de contacto)
 --}}
 
 @extends('layouts.site')
@@ -16,7 +15,8 @@
 
     <div class="max-w-2xl mx-auto my-12 text-center">
         <h2 class="text-azul text-3xl font-semibold mb-2 dark:text-white">Reservar clase</h2>
-        <p class="text-gray-700 text-base leading-relaxed mx-auto max-w-xl dark:text-white">Selecciona fecha y hora y rellena tus datos para completar la reserva.</p>
+        <p class="text-gray-700 text-base leading-relaxed mx-auto max-w-xl dark:text-white">Selecciona fecha y hora y
+            rellena tus datos para completar la reserva.</p>
     </div>
 
     <div class="container mx-auto px-4">
@@ -35,25 +35,31 @@
                 </div>
             @endif
 
-            <form id="booking-form" method="POST" action="{{ route('bookings.store') }}" class="" data-grecaptcha="v3" data-recaptcha-action="booking">
+            {{-- Formulario de reserva: envía POST a bookings.store con validación CSRF y reCAPTCHA --}}
+            <form id="booking-form" method="POST" action="{{ route('bookings.store') }}" class="" data-grecaptcha="v3"
+                data-recaptcha-action="booking">
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                    {{-- Fecha (full width) --}}
+                    {{-- Fecha --}}
                     <div class="md:col-span-2">
                         <x-input-label for="class_date" class="text-beige2" :value="__('Fecha')" />
-                        <select id="class_date" data-availability-url="{{ route('bookings.availability') }}" data-old-date="{{ old('class_date') }}" name="class_date" class="block mt-1 w-full bg-white text-azul rounded p-2" required aria-describedby="date-help">
+                        <select id="class_date" data-availability-url="{{ route('bookings.availability') }}"
+                            data-old-date="{{ old('class_date') }}" name="class_date"
+                            class="block mt-1 w-full bg-white text-azul rounded p-2" required aria-describedby="date-help">
                             <option value="">— Selecciona fecha —</option>
                         </select>
-                        <p id="date-help" class="text-sm text-white/80 mt-1">Solo días laborables (L–V). Los fines de semana no están disponibles.</p>
+                        <p id="date-help" class="text-sm text-white/80 mt-1">Solo días laborables (L–V). Los fines de semana
+                            no están disponibles.</p>
                         <x-input-error :messages="$errors->get('class_date')" class="mt-2" />
                     </div>
 
-                    {{-- Hora (full width) --}}
+                    {{-- Hora--}}
                     <div class="md:col-span-2">
                         <x-input-label for="class_time" class="text-beige2" :value="__('Hora')" />
-                        <select id="class_time" data-old-time="{{ old('class_time') }}" name="class_time" class="block mt-1 w-full bg-white text-azul rounded p-2" required>
+                        <select id="class_time" data-old-time="{{ old('class_time') }}" name="class_time"
+                            class="block mt-1 w-full bg-white text-azul rounded p-2" required>
                             <option value="">— Selecciona hora —</option>
                             @foreach (range(9, 21) as $h)
                                 @php $hh = str_pad($h, 2, '0', STR_PAD_LEFT) . ':00'; @endphp
@@ -62,50 +68,57 @@
                                 </option>
                             @endforeach
                         </select>
-                        <p id="time-help" class="text-sm text-white/80 mt-1">Recuerda: la reserva debe realizarse con al menos <strong>5 horas</strong> de antelación.</p>
+                        <p id="time-help" class="text-sm text-white/80 mt-1">Recuerda: la reserva debe realizarse con al
+                            menos <strong>5 horas</strong> de antelación.</p>
                         <x-input-error :messages="$errors->get('class_time')" class="mt-2" />
                     </div>
 
                     {{-- Nombre --}}
                     <div>
                         <x-input-label for="name" class="text-beige2" :value="__('Nombre')" />
-                        <x-text-input id="name" class="block mt-1 w-full bg-white text-azul rounded p-2" type="text" name="name" :value="old('name', auth()->user()->name ?? '')" required />
+                        <x-text-input id="name" class="block mt-1 w-full bg-white text-azul rounded p-2" type="text"
+                            name="name" :value="old('name', auth()->user()->name ?? '')" required />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
 
                     {{-- Teléfono --}}
                     <div>
                         <x-input-label for="phone" class="text-beige2" :value="__('Teléfono')" />
-                        <x-text-input id="phone" class="block mt-1 w-full bg-white text-azul rounded p-2" type="tel" name="phone" :value="old('phone')" placeholder="(opcional)" />
+                        <x-text-input id="phone" class="block mt-1 w-full bg-white text-azul rounded p-2" type="tel"
+                            name="phone" :value="old('phone')" placeholder="(opcional)" />
                         <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                     </div>
 
-                    {{-- Email (full width below) --}}
+                    {{-- Email --}}
                     <div class="md:col-span-2">
                         <x-input-label for="email" class="text-beige2" :value="__('Correo electrónico')" />
-                        <x-text-input id="email" class="block mt-1 w-full bg-white text-azul rounded p-2" type="email" name="email" :value="old('email', auth()->user()->email ?? '')" required />
+                        <x-text-input id="email" class="block mt-1 w-full bg-white text-azul rounded p-2" type="email"
+                            name="email" :value="old('email', auth()->user()->email ?? '')" required />
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
-                    {{-- Comentarios (full width) --}}
+                    {{-- Comentarios--}}
                     <div class="md:col-span-2">
                         <x-input-label for="notes" class="text-beige2" :value="__('Comentarios')" />
-                        <textarea id="notes" name="notes" class="block mt-1 w-full bg-white text-azul rounded p-2" rows="3" placeholder="Información adicional (opcional)">{{ old('notes') }}</textarea>
+                        <textarea id="notes" name="notes" class="block mt-1 w-full bg-white text-azul rounded p-2" rows="3"
+                            placeholder="Información adicional (opcional)">{{ old('notes') }}</textarea>
                         <x-input-error :messages="$errors->get('notes')" class="mt-2" />
                     </div>
 
-                    {{-- GDPR (full width) --}}
+                    {{-- GDPR  --}}
                     <div class="md:col-span-2">
                         <label class="inline-flex items-center text-sm text-beige2">
                             <input type="checkbox" name="gdpr" value="1" required class="rounded border-white/30 text-azul">
-                            <span class="ml-2">He leído y acepto la <a href="{{ route('privacy') }}" class="underline">política de protección de datos</a>.</span>
+                            <span class="ml-2">He leído y acepto la <a href="{{ route('privacy') }}"
+                                    class="underline">política de protección de datos</a>.</span>
                         </label>
                         <x-input-error :messages="$errors->get('gdpr')" class="mt-2" />
                     </div>
 
-                    {{-- Botón (full width) --}}
+                    {{-- Botón --}}
                     <div class="md:col-span-2 flex items-center justify-center mt-2">
-                        <button type="submit" class="btn-secondary hover:!bg-beige hover:!text-negro">Enviar reserva</button>
+                        <button type="submit" class="btn-secondary hover:!bg-beige hover:!text-negro">Enviar
+                            reserva</button>
                     </div>
 
                 </div>
@@ -115,8 +128,8 @@
         </div>
     </div>
 
-    {{-- Carga de scripts: `bookings.js` gestiona disponibilidad/horarios y validaciones cliente --}}
+    {{-- Scripts adicionales: carga bookings.js para manejo de disponibilidad y validaciones --}}
     @vite(['resources/js/bookings.js'])
 
-  
+
 @endsection

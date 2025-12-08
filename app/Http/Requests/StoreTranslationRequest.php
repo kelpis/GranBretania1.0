@@ -6,47 +6,51 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\Recaptcha;
 use Illuminate\Support\Facades\Auth;
 
+//Request para validar solicitudes de traducción.
+
+
 class StoreTranslationRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determina si el usuario está autorizado para hacer esta solicitud.
+     * Solo permite peticiones con el usuario autenticado (ruta protegida).
      */
     public function authorize(): bool
     {
-        // Solo permitir peticiones con el usuario autentificado
-        // Ruta protegida.
         return Auth::check();
     }
 
+    // Sanitiza datos :limpia campos de tags HTML y espacios.
     protected function prepareForValidation()
     {
         $this->merge([
-            'source_lang' => trim(strip_tags($this->source_lang)),
-            'target_lang' => trim(strip_tags($this->target_lang)),
-            'urgency' => $this->urgency ? trim(strip_tags($this->urgency)) : null,
-            'comments' => $this->comments ? trim(strip_tags($this->comments)) : null,
+            'source_lang' => trim(strip_tags($this->source_lang)), // Limpia idioma origen.
+            'target_lang' => trim(strip_tags($this->target_lang)), // Limpia idioma destino.
+            'urgency' => $this->urgency ? trim(strip_tags($this->urgency)) : null, // Limpia urgencia si existe.
+            'comments' => $this->comments ? trim(strip_tags($this->comments)) : null, // Limpia comentarios si existen.
         ]);
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Obtiene las reglas de validación que aplican a la solicitud.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'source_lang' => 'required|string|max:10',
-            'target_lang' => 'required|string|max:10|different:source_lang',
-            'urgency' => 'nullable|in:normal,alta',
-            'file' => 'required|file|mimes:pdf,doc,docx,odt,txt,rtf|max:10240', // 10MB
-            'comments' => 'nullable|string|max:2000',
-            'gdpr' => 'accepted',
-            //Validar reCAPTCHA v3 con un umbral conservador (0.5) y con la acción esperada 'translation'
+            'source_lang' => 'required|string|max:10', // Idioma origen obligatorio, string, máximo 10 caracteres.
+            'target_lang' => 'required|string|max:10|different:source_lang', // Idioma destino obligatorio, diferente al origen.
+            'urgency' => 'nullable|in:normal,alta', // Urgencia opcional, valores permitidos: normal o alta.
+            'file' => 'required|file|mimes:pdf,doc,docx,odt,txt,rtf|max:10240', // Archivo obligatorio, tipos permitidos, máximo 10MB.
+            'comments' => 'nullable|string|max:2000', // Comentarios opcionales, máximo 2000 caracteres.
+            'gdpr' => 'accepted', // Aceptación de GDPR obligatoria.
+            // Validar reCAPTCHA v3 con umbral 0.5 y acción 'translation'.
             'g-recaptcha-response' => ['required', new Recaptcha(0.5, 'translation')],
         ];
     }
 
+    // Mensajes personalizados para errores de validación.
     public function messages(): array
     {
         return [

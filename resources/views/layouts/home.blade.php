@@ -4,28 +4,29 @@ Propósito: página principal (hero, carrusel, CTA, secciones resumen).
 Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimizadas.
 --}}
 
+
 @extends('layouts.site')
 
 @section('title', 'Inicio · Gran Bretania')
-{{-- Use the layout header from `layouts.site` to avoid duplicate navs (desktop + mobile). --}}
+{{-- Usa layout header de `layouts.site` para evitar duplicar (desktop + mobile). --}}
 @section('content')
 
 
     {{-- -CARRUSEL --}}
 
     <section x-data="{
-                images: [
-                    '{{ asset('images/london.jpg') }}',
-                    '{{ asset('images/londres.jpg') }}'
-                ],
-                current: 0,
-                next() {
-                    this.current = (this.current + 1) % this.images.length;
-                }
-            }" x-init="
-                setInterval(() => next(), 6000);
-                $nextTick(() => document.getElementById('heroLogo').classList.add('animate-logo'));
-            " class="container mx-auto px-4 mt-8">
+                        images: [
+                            '{{ asset('images/london.jpg') }}',
+                            '{{ asset('images/londres.jpg') }}'
+                        ],
+                        current: 0,
+                        next() {
+                            this.current = (this.current + 1) % this.images.length;
+                        }
+                    }" x-init="
+                        setInterval(() => next(), 6000);
+                        $nextTick(() => document.getElementById('heroLogo').classList.add('animate-logo'));
+                    " class="container mx-auto px-4 mt-8">
         <div class="relative rounded-2xl overflow-hidden h-[380px] md:h-[480px] lg:h-[540px]">
 
             {{-- CAPA 1 (imagen actual) --}}
@@ -36,7 +37,7 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
             {{-- Overlay MUY suave --}}
             <div class="absolute inset-0 bg-black/5 dark:bg-black/20"></div>
 
-            {{-- LOGO CENTRADO ARRIBA PERO UN POCO A LA DERECHA --}}
+            {{-- LOGO CENTRADO ARRIBA --}}
             <div class="absolute top-4 left-1/2 -translate-x-[40%]">
 
                 <div class="relative inline-block">
@@ -46,11 +47,11 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
 
                     {{-- LOGO con animación --}}
                     <img id="heroLogo" src="{{ asset('images/logoMonocromadoSinMARGEN.png') }}" alt="Gran Bretania" class="relative z-10 
-                    h-44 md:h-56 lg:h-72 
-                    w-auto
-                    drop-shadow-[0_8px_18px_rgba(0,0,0,0.5)]
-                    opacity-0 scale-95 blur-sm
-                    transition-all duration-[2200ms] ease-out delay-200">
+                            h-44 md:h-56 lg:h-72 
+                            w-auto
+                            drop-shadow-[0_8px_18px_rgba(0,0,0,0.5)]
+                            opacity-0 scale-95 blur-sm
+                            transition-all duration-[2200ms] ease-out delay-200">
 
                 </div>
 
@@ -91,9 +92,8 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
                         <div class="w-full max-w-2xl mx-auto h-full flex flex-col justify-between">
                             <p class="mt-0 text-left md:text-left">
                                 {!! __(
-        'En :brand las clases de inglés se adaptan a ti. Con un enfoque práctico y cercano, aprenderás a comunicarte con seguridad desde el primer día. Trabajamos con una metodología flexible que combina conversación, gramática aplicada y recursos personalizados según tus objetivos.',
-        ['brand' => '<span class="font-semibold">Gran Bretania</span>']
-    ) !!}
+                                'En :brand las clases de inglés se adaptan a ti. Con un enfoque práctico y cercano, aprenderás a comunicarte con seguridad desde el primer día. Trabajamos con una metodología flexible que combina conversación, gramática aplicada y recursos personalizados según tus objetivos.',
+                                ['brand' => '<span class="font-semibold">Gran Bretania</span>']) !!}
                             </p>
 
                             {{-- Tipos de clases (resumen) --}}
@@ -137,6 +137,7 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
                             </ul>
 
                             {{-- CTA --}}
+
                             <div class="mt-8 flex flex-col sm:flex-row sm:justify-evenly items-center gap-4">
                                 <a href="{{ route('bookings.create') }}" class="btn-primary">
                                     {{ __('Reservar clase') }}
@@ -148,7 +149,7 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
                         </div>
                     </div>
 
-                    
+
                     <div class="order-first md:order-none h-full relative">
                         <img src="{{ asset('images/alumnoOnline.webp') }}" width="1024" height="1024"
                             alt="{{ __('Clase de inglés personalizada online') }}"
@@ -157,7 +158,9 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
                 </div>
         </section>
 
-        {{-- BLOQUE: Por qué elegirnos (Home) --}}
+
+        {{-- BLOQUE: Por qué elegirnos --}}
+
         <section class="bg-beige2 py-16 mt-6 dark:bg-slate-950">
             <div class="container mx-auto px-4 text-center">
                 <h2 class="text-azul dark:text-beige2">{{ __('¿Por qué elegirnos?') }}</h2>
@@ -200,7 +203,7 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
         <section
             class="relative py-16 text-center transform-gpu transition-transform duration-200 hover:scale-105 bg-cover bg-center rounded-xl overflow-hidden mt-24"
             style="background-image: url('{{ asset('images/learn-english.jpg') }}')">
-            
+
             <div class="absolute inset-0" aria-hidden="true"
                 style="background: linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.04) 40%, rgba(0,0,0,0.18) 100%);">
             </div>
@@ -226,6 +229,7 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
     </section>
 
     {{-- BLOQUE: Traducciones --}}
+
     <section id="traducciones" class="bg-beige2 py-16 mt-12 dark:bg-slate-950">
         <div class="container mx-auto px-4">
 
@@ -239,23 +243,23 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
             <div class="grid md:grid-cols-2 gap-10 items-stretch tablet-stack-768-820">
 
                 {{-- Imagen--}}
+
                 <div class="order-first md:order-none h-full relative">
                     <img src="{{ asset('images/definicion.jpg') }}" alt="{{ __('Servicio de traducciones profesionales') }}"
                         class="w-full h-full object-cover rounded-card shadow-sm">
                 </div>
 
                 {{-- Texto --}}
+
                 <div class="h-full">
                     <div class="flex flex-col h-full">
                         <div class="flex-1 max-w-2xl min-w-0">
-                            <p>
-                                {!! __(
-        'En :brand ofrecemos traducciones precisas, naturales y adaptadas al contexto. Cada encargo se realiza con atención al detalle y total confidencialidad, garantizando un resultado fiel al significado y tono original del texto.',
-        ['brand' => '<span class="font-semibold">Gran Bretania</span>']
-    ) !!}
+                            <p> {!! __('En :brand ofrecemos traducciones precisas, naturales y adaptadas al contexto. Cada encargo se realiza con atención al detalle y total confidencialidad, garantizando un resultado fiel al significado y tono original del texto.',
+                        ['brand' => '<span class="font-semibold">Gran Bretania</span>']) !!}
                             </p>
 
                             {{-- Tipos de traducción (resumen) --}}
+
                             <ul class="mt-6 grid sm:grid-cols-2 gap-4 text-base">
                                 <li class="card flex items-start gap-3 bg-beige dark:bg-slate-900">
                                     <span aria-hidden="true">⚖️</span>
@@ -295,7 +299,7 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
                                 </li>
                             </ul>
 
-                            {{-- CTA (alineada con la columna de texto) --}}
+                            {{-- CTA  --}}
                             <div class="mt-8">
                                 <div class="flex flex-col sm:flex-row sm:justify-evenly items-center gap-3">
                                     <a href="{{ route('translation.create') }}"
@@ -315,6 +319,10 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
         </div>
     </section>
 
+
+
+
+    {{-- BLOQUE EMPRESAS --}}
     <section id="empresas" class="relative py-20 text-white overflow-hidden mt-24">
         {{-- Imagen de fondo --}}
         <div class="absolute inset-0">
@@ -391,17 +399,16 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
         </div>
     </section>
 
+
+    {{-- BLOQUE SOBRE MI --}}
     <section class="bg-beige2 py-16 mt-24 dark:bg-slate-950">
         <div class="container mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
             <img src="{{ asset('images/profe.png') }}" alt="{{ __('Tania Morais Villar') }}"
                 class="rounded-xl shadow-md object-cover h-full max-h-96 object-top h-80 w-full">
             <div>
                 <h2 class="text-azul text-3xl font-semibold mb-4 dark:text-beige2">{{ __('Sobre mí') }}</h2>
-                <p class="text-gray-700 leading-relaxed dark:text-slate-100">
-                    {!! __(
-        'Soy Tania, profesora de inglés y traductora profesional. En :brand combino años de experiencia docente con una atención personalizada, adaptando cada clase o proyecto a las necesidades de mis alumnos y clientes.',
-        ['brand' => '<strong>Gran Bretania</strong>']
-    ) !!}
+                <p class="text-gray-700 leading-relaxed dark:text-slate-100">{!! __('Soy Tania, profesora de inglés y traductora profesional. En :brand combino años de experiencia docente con una atención personalizada, adaptando cada clase o proyecto a las necesidades de mis alumnos y clientes.',
+        ['brand' => '<strong>Gran Bretania</strong>']) !!}
                 </p>
                 <a href="{{ route('sobremi') }}" class="btn-secondary mt-6 inline-block">
                     {{ __('Conóceme mejor') }}
@@ -417,6 +424,7 @@ Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimi
             </h2>
 
             <div class="relative max-w-4xl mx-auto">
+                
                 {{-- Carrusel --}}
                 <div class="overflow-hidden">
                     <div id="opinionesTrack" class="flex transition-transform duration-500 ease-out">

@@ -9,14 +9,18 @@ use App\Models\ClassBooking;
 use Illuminate\Contracts\Validation\Validator;
 use Carbon\Carbon;
 
+//Request para validar solicitudes de creación de reservas de clases.
+
+
 class StoreClassBookingRequest extends FormRequest
 {
+    // Autorización: solo usuarios autenticados pueden crear reservas.
     public function authorize(): bool
     {
-        // Reservas solo para usuarios autenticados
         return $this->user() !== null;
     }
 
+    // Sanitiza datos antes de validarlos: limpia teléfono y notas de tags HTML y espacios.
     protected function prepareForValidation()
     {
         $this->merge([
@@ -25,22 +29,22 @@ class StoreClassBookingRequest extends FormRequest
         ]);
     }
 
+    // Reglas de validación básicas para los campos de la reserva.
     public function rules(): array
     {
         return [
-            'class_date' => ['required', 'date', 'after_or_equal:today'],
-            'class_time' => ['required', 'date_format:H:i'],
-            // Nombre/email/phone son gestionados por el `User` (login obligatorio)
-            // Validar teléfono opcionalmente si se envía desde el formulario
+            'class_date' => ['required', 'date', 'after_or_equal:today'], // Fecha obligatoria, >= hoy.
+            'class_time' => ['required', 'date_format:H:i'], // Hora obligatoria en formato HH:MM.
+            // Teléfono opcional con regex para caracteres permitidos.
             'phone'      => ['nullable', 'string', 'max:30', 'regex:/^[0-9+\s\-()]+$/'],
-            // datos mínimos de reserva
-            'notes'      => ['nullable', 'string', 'max:255'],
-            'gdpr'       => ['accepted'],
-            //Validar reCAPTCHA v3 con un umbral conservador (0.5) y con la acción esperada 'booking
+            'notes'      => ['nullable', 'string', 'max:255'], // Notas opcionales.
+            'gdpr'       => ['accepted'], // Aceptación de GDPR obligatoria.
+            // Validación de reCAPTCHA v3 con umbral 0.5 y acción 'booking'.
             'g-recaptcha-response' => ['required', new Recaptcha(0.5, 'booking')],
         ];
     }
-    //Validaciones adicionales
+
+    // Validaciones adicionales después de las reglas básicas.
     protected function withValidator(Validator $validator)
     {
         $validator->after(function ($validator) {
@@ -50,21 +54,21 @@ class StoreClassBookingRequest extends FormRequest
                 'class_time' => $allData['class_time'] ?? null,
             ];
 
+            // Si faltan fecha o hora, saltar validaciones adicionales.
             if (empty($data['class_date']) || empty($data['class_time'])) {
                 return;
             }
 
-            // Evitar franja ocupada: reservar si ya hay booking pagado (siempre bloquea)
-            // o con hold activo (bloquea solo si pertenece a otro usuario).
+            // Verificar que la franja no esté ocupada por reservas pagadas o holds activos de otros usuarios.
             $currentUserId = $this->user() ? $this->user()->id : null;
 
             $exists = ClassBooking::where('class_date', $data['class_date'])
                 ->where('class_time', $data['class_time'])
                 ->whereNotIn('status', ['cancelled', 'rejected'])
                 ->where(function ($q) use ($currentUserId) {
-                    // Criterio 1: cualquier reserva ya pagada ocupa la franja
+                    // Reservas pagadas siempre ocupan la franja.
                     $q->where('paid', true)
-                      // o Criterio 2: existe un hold activo que no pertenece al usuario actual
+                      // O holds activos que no pertenecen al usuario actual.
                       ->orWhere(function ($q2) use ($currentUserId) {
                           $q2->whereNotNull('reserved_until')
                              ->where('reserved_until', '>', now())
@@ -80,32 +84,34 @@ class StoreClassBookingRequest extends FormRequest
                 $validator->errors()->add('class_time', 'Lo sentimos — esa franja ya está ocupada.');
             }
 
-            // Validación: no permitir fines de semana
+            // Validación: no permitir reservas en fines de semana.
             try {
                 $dt = Carbon::parse($data['class_date']);
-                $dow = $dt->dayOfWeek; // 0 = domingo, 6 = sábado
+                $dow = $dt->dayOfWeek; // 0 = domingo, 6 = sábado.
                 if ($dow === Carbon::SATURDAY || $dow === Carbon::SUNDAY) {
                     $validator->errors()->add('class_date', 'No es posible reservar en fines de semana. Por favor elige un día laborable.');
                 }
             } catch (\Throwable $e) {
-                // si no se puede parsear, dejar que la regla 'date' reporte el error
+                // Si no se puede parsear, dejar que la regla 'date' reporte el error.
             }
-            // Validación: exigir al menos 5 horas de antelación para la clase
+
+            // Validación: exigir al menos 5 horas de antelación para la clase.
             try {
                 $time = substr($data['class_time'], 0, 5);
                 $classDateTime = Carbon::parse($data['class_date'] . ' ' . $time);
                 $now = Carbon::now();
                 $minutesUntil = $now->diffInMinutes($classDateTime, false);
 
-                if ($minutesUntil < 300) { // menos de 5 horas
+                if ($minutesUntil < 300) { // Menos de 5 horas (300 minutos).
                     $validator->errors()->add('class_time', 'Debes reservar con al menos 5 horas de antelación.');
                 }
             } catch (\Throwable $e) {
-                // si falla el parseo, no añadimos este error específico
+                // Si falla el parseo, no añadir este error específico.
             }
         });
     }
 
+    // Mensajes personalizados para errores de validación.
     public function messages(): array
     {
         return [

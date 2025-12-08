@@ -1,65 +1,70 @@
 {{--
-    Partial: navigation.blade.php
-    Propósito: barra de navegación principal (desktop + mobile) para usuarios no-admin.
-    Notas: incluye enlaces a reservas, traducciones y control de tema oscuro. Admin incluye `navigationAdmin`.
+Partial: navigation.blade.php
+barra de navegación principal (desktop + mobile) para usuarios no-admin.
 --}}
 
 @if(auth()->check() && auth()->user()->is_admin)
-        @include('layouts.navigationAdmin')
+    @include('layouts.navigationAdmin')
 @else
     <nav x-data="{ open: false }"
         class="w-screen bg-beige dark:bg-slate-800/90 dark:text-beige2 border-b border-gray-100 dark:border-slate-700 -mx-4 md:-mx-8 lg:-mx-12">
-        <!-- Primary Navigation Menu (full-bleed content groups) -->
+
         <div class="w-full">
             <div class="w-full flex items-center justify-between h-16">
+                {{-- Logo --}}
                 <div class="flex items-center gap-6">
-                    <!-- Logo -->
                     <div class="shrink-0 flex items-center pl-3 sm:pl-6">
-                            <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
-                                <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania"
+                        <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
+                            <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania"
                                 class="h-20 w-auto dark:invert dark:brightness-0">
-                            </a>
+                        </a>
                     </div>
 
-                    <!-- Navigation Links -->
+                    {{-- Navigation Enlaces --}}
                     <div class="hidden space-x-8 lg:flex text-azul dark:text-white tracking-wide">
+                        {{-- Enlace a reservar clase --}}
                         <a href="{{ route('bookings.create') }}" class="px-2 py-1 text-sm font-medium
-                                {{ request()->routeIs('bookings.create')
-            ? 'text-azul border-b-2 border-azul dark:text-white dark:border-white'
-            : 'text-azul/80 hover:text-azul dark:text-white/80 dark:hover:text-white' }}">
+                                        {{ request()->routeIs('bookings.create')
+                                        ? 'text-azul border-b-2 border-azul dark:text-white dark:border-white'
+                                        : 'text-azul/80 hover:text-azul dark:text-white/80 dark:hover:text-white' }}">
                             {{ __('Reservar clase') }}
                         </a>
 
+                        {{-- Enlace a mis clases --}}
                         <a href="{{ auth()->check() && auth()->user()->is_admin ? route('admin.bookings.index') : route('user.bookings.index') }}"
                             class="px-2 py-1 text-sm font-medium 
-                                    {{ request()->routeIs('user.bookings.*') || request()->routeIs('admin.bookings.*')
-            ? 'text-azul border-b-2 border-azul dark:text-white dark:border-white'
-            : 'text-azul/80 hover:text-azul dark:text-white/80 dark:hover:text-white' }}">
+                                            {{ request()->routeIs('user.bookings.*') || request()->routeIs('admin.bookings.*')
+                                            ? 'text-azul border-b-2 border-azul dark:text-white dark:border-white'
+                                            : 'text-azul/80 hover:text-azul dark:text-white/80 dark:hover:text-white' }}">
                             {{ __('Mis clases') }}
                         </a>
 
+                        {{-- Enlace a solicitar traducción --}}
                         <a href="{{ route('translation.create') }}" class="px-2 py-1 text-sm font-medium 
-                                    {{ request()->routeIs('translation.create')
-            ? 'text-azul border-b-2 border-azul dark:text-white dark:border-white'
-            : 'text-azul/80 hover:text-azul dark:text-white/80 dark:hover:text-white' }}">
+                                            {{ request()->routeIs('translation.create')
+                                            ? 'text-azul border-b-2 border-azul dark:text-white dark:border-white'
+                                            : 'text-azul/80 hover:text-azul dark:text-white/80 dark:hover:text-white' }}">
                             {{ __('Solicitar traducción') }}
                         </a>
 
+                        {{-- Enlace a mis traducciones --}}
                         @auth
                                     <a href="{{ auth()->user()->is_admin ? route('admin.translations.index') : route('user.translations.index') }}"
                                         class="px-2 py-1 text-sm font-medium 
-                                                {{ request()->routeIs('user.translations.*') || request()->routeIs('admin.translations.*')
-                            ? 'text-azul border-b-2 border-azul dark:text-white dark:border-white'
-                            : 'text-azul/80 hover:text-azul dark:text-white/80 dark:hover:text-white' }}">
+                                            {{ request()->routeIs('user.translations.*') || request()->routeIs('admin.translations.*')
+                                            ? 'text-azul border-b-2 border-azul dark:text-white dark:border-white'
+                                            : 'text-azul/80 hover:text-azul dark:text-white/80 dark:hover:text-white' }}">
                                         {{ __('Mis traducciones') }}
                                     </a>
                         @endauth
 
+                        {{-- Enlace a contacto --}}
+
                         <a href="{{ auth()->check() && auth()->user()->is_admin ? route('admin.index') : route('contact.create') }}"
                             class="px-2 py-1 text-sm font-medium 
-                                    {{ request()->routeIs('contact.create') || request()->routeIs('admin.index')
-            ? 'text-azul border-b-2 border-azul dark:text-white dark:border-white'
-            : 'text-azul/80 hover:text-azul dark:text-white/80 dark:hover:text-white' }}">
+                                            {{ request()->routeIs('contact.create') || request()->routeIs('admin.index')
+                                            ? 'text-azul border-b-2 border-azul dark:text-white dark:border-white'
+                                            : 'text-azul/80 hover:text-azul dark:text-white/80 dark:hover:text-white' }}">
                             {{ __('Contacto') }}
                         </a>
 
@@ -67,30 +72,32 @@
                     </div>
                 </div>
 
-                <!-- Barra derecha-->
+                {{-- Barra derecha: modo oscuro, usuario --}}
                 <div class="flex items-center gap-3 pr-3 sm:pr-6">
                     <div class="hidden lg:flex lg:items-center lg:ml-6">
 
+                        {{-- Botón modo oscuro --}}
                         <div class="me-3">
                             <button type="button" onclick="
-            const html = document.documentElement;
-            const isDark = html.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        " class="relative inline-flex items-center w-12 h-6 rounded-full transition-colors
-               bg-azul/20 dark:bg-slate-700 border border-azul/40 dark:border-gray-500">
+                                const html = document.documentElement;
+                                const isDark = html.classList.toggle('dark');
+                                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                                " class="relative inline-flex items-center w-12 h-6 rounded-full transition-colors
+                                bg-azul/20 dark:bg-slate-700 border border-azul/40 dark:border-gray-500">
 
                                 <!-- CÍRCULO -->
                                 <span class="absolute left-0 top-0 h-6 w-6 bg-white dark:bg-yellow-300 rounded-full shadow
-                     transform transition-transform duration-300
-                     dark:translate-x-6"></span>
+                                        transform transition-transform duration-300
+                                        dark:translate-x-6"></span>
 
-                                <!-- ICONOS -->
+                                            <!-- ICONOS -->
                                 <span class="absolute left-1 top-1 text-[10px] dark:hidden">🌙</span>
                                 <span class="absolute right-1 top-1 hidden dark:inline text-[10px]">☀️</span>
                             </button>
 
                         </div>
 
+                        {{-- Dropdown de usuario --}}
                         @auth
 
                             <!-- User dropdown -->
@@ -99,8 +106,8 @@
 
                                     <button
                                         class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium
-                                                                       bg-beige2 dark:bg-slate-800/80 dark:text-beige2 text-azul border border-azul/20 dark:border-slate-600 shadow-sm
-                                                                       hover:bg-azul hover:text-beige2 transition duration-150 ease-in-out">
+                                        bg-beige2 dark:bg-slate-800/80 dark:text-beige2 text-azul border border-azul/20 dark:border-slate-600 shadow-sm
+                                        hover:bg-azul hover:text-beige2 transition duration-150 ease-in-out">
 
                                         <div class="font-semibold">{{ auth()->user()->name }}</div>
 
@@ -141,6 +148,7 @@
                         @endauth
                     </div>
 
+                    {{-- Enlaces para invitados --}}
                     @guest
                         <div class="hidden lg:flex items-center gap-3">
                             <a href="{{ route('login') }}"
@@ -151,7 +159,7 @@
                         </div>
                     @endguest
 
-                    <!-- Hamburger-->
+                    {{-- Hamburger para móvil --}}
                     <div class="pr-3 lg:pr-6 flex lg:hidden">
                         <button @click="open = ! open"
                             class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-beige2 hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-slate-800 focus:text-gray-500 transition duration-150 ease-in-out">
@@ -169,10 +177,13 @@
             </div>
         </div>
 
-        <!-- Responsive Navigation Menu -->
+
+
+        {{-- Responsive Menu --}}
         <div :class="{'block': open, 'hidden': ! open}"
             class="hidden lg:hidden w-screen bg-beige dark:bg-slate-800/95 dark:text-beige2">
 
+            {{-- Botón modo oscuro en móvil --}}
             <div class="px-4 py-2 border-b border-gray-100 dark:border-slate-700 flex justify-end">
                 <button type="button"
                     onclick="(function(){const html=document.documentElement;const isDark=html.classList.toggle('dark');localStorage.setItem('theme', isDark? 'dark':'light');})()"
@@ -182,6 +193,7 @@
                     <span class="hidden dark:inline">☀️</span>
                 </button>
             </div>
+            {{-- Enlaces en menú móvil --}}
             <div class="pt-2 pb-3 space-y-1">
 
 
@@ -195,6 +207,7 @@
                     {{ __('Solicitar traducción') }}
                 </x-responsive-nav-link>
 
+                {{-- Enlaces para usuarios autenticados --}}
                 @auth
                     <x-responsive-nav-link :href="(auth()->user()->is_admin) ? route('admin.bookings.index') : route('user.bookings.index')" :active="request()->routeIs('user.bookings.*') || request()->routeIs('admin.bookings.*')">
                         {{ __('Mis reservas') }}
@@ -208,30 +221,15 @@
                 <x-responsive-nav-link :href="(auth()->check() && auth()->user()->is_admin) ? route('admin.index') : route('contact.create')" :active="request()->routeIs('contact.create') || request()->routeIs('admin.index')">
                     {{ __('Contacto') }}
                 </x-responsive-nav-link>
-              
-                @auth
-                    @if(auth()->user()->is_admin)
-                        <x-responsive-nav-link :href="route('admin.availability.index')"
-                            :active="request()->routeIs('admin.availability.*')">
-                            {{ __('Disponibilidad') }}
-                        </x-responsive-nav-link>
 
-                        <x-responsive-nav-link :href="route('admin.bookings.index')"
-                            :active="request()->routeIs('admin.bookings.*')">
-                            {{ __('Reservas (admin)') }}
-                        </x-responsive-nav-link>
 
-                        <x-responsive-nav-link :href="route('admin.translations.index')"
-                            :active="request()->routeIs('admin.translations.*')">
-                            {{ __('Traducciones (admin)') }}
-                        </x-responsive-nav-link>
-                    @endif
-                @endauth
             </div>
 
-            <!-- Responsive Settings Options -->
+
+            {{--Opciones de ajuste --}}
             <div class="pt-4 pb-1 border-t border-gray-200 dark:border-slate-700">
                 <div class="px-4">
+                    {{-- Información del usuario --}}
                     @auth
                         <div class="font-medium text-base text-gray-800 dark:text-beige2">{{ auth()->user()->name }}</div>
                         <div class="font-medium text-sm text-gray-500 dark:text-beige2">{{ auth()->user()->email }}</div>
@@ -241,6 +239,7 @@
                     @endauth
                 </div>
 
+                {{-- Enlaces de perfil --}}
                 <div class="mt-3 space-y-1">
                     @auth
                         <x-responsive-nav-link :href="route('profile.edit')">

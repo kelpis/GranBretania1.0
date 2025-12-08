@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TranslationRequestController extends Controller
 {
-    // GET /traduccion
+    // GET /traduccion form
     public function create()
     {
         
@@ -21,7 +21,7 @@ class TranslationRequestController extends Controller
 
     // POST /traduccion
     public function store(StoreTranslationRequest $request)
-    {
+    {   //Acceder al archivo subido desde el form y lo almacena en storage/app/translation
         $path = $request->file('file')->store('translations');
 
         $data = $request->safe()->except('file');
@@ -36,7 +36,7 @@ class TranslationRequestController extends Controller
             $data['gdpr_at'] = now();
             unset($data['gdpr']);
         }
-
+        //Combinamos el array con los datos validados y la ruta del archivo almacenado
         $tr = TranslationRequest::create(array_merge($data, ['file_path' => $path]));
 
         // Notificar al usuario autenticado 

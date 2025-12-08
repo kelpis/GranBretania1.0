@@ -1,8 +1,7 @@
 {{--
     Partial: navigationAdmin.blade.php
-    Propósito: barra de navegación para usuarios administradores (enlaces a admin.*).
-    Notas: similar a `navigation.blade.php` pero con rutas admin; mantener consistencia de estilos.
---}}
+    barra de navegación para usuarios administradores (enlaces a admin.*).--}}
+   
 
 <nav x-data="{ open: false }"
         class="w-screen bg-beige border-b border-gray-100 dark:bg-slate-800 dark:border-slate-700 -mx-4 sm:-mx-6 lg:-mx-8">
@@ -11,6 +10,7 @@
         <div class="w-full flex items-center justify-between h-20">
 
             <div class="flex items-center gap-6">
+                {{-- Logo --}}
                 <div class="shrink-0 flex items-center pl-3 sm:pl-6">
                     <a href="{{ route('admin.index') }}" class="flex items-center gap-3 shrink-0">
                         <img src="{{ asset('images/logoMonocroma.png') }}" alt="Gran Bretania"
@@ -25,8 +25,8 @@
                     <a href="{{ route('admin.bookings.index') }}" class="
                             px-2 py-1 text-sm font-medium border-b-2
                             {{ request()->routeIs('admin.bookings.*')
-    ? 'text-azul border-azul dark:text-beige2 dark:border-beige2'
-    : 'text-azul/80 border-transparent hover:text-azul dark:text-beige2 dark:hover:text-white' }}">
+                            ? 'text-azul border-azul dark:text-beige2 dark:border-beige2'
+                            : 'text-azul/80 border-transparent hover:text-azul dark:text-beige2 dark:hover:text-white' }}">
                         {{ __('Mis clases') }}
                     </a>
     
@@ -35,8 +35,8 @@
                     <a href="{{ route('admin.translations.index') }}" class="
                             px-2 py-1 text-sm font-medium border-b-2
                             {{ request()->routeIs('admin.translations.*')
-    ? 'text-azul border-azul dark:text-beige2 dark:border-beige2'
-    : 'text-azul/80 border-transparent hover:text-azul dark:text-beige2 dark:hover:text-white' }}">
+                            ? 'text-azul border-azul dark:text-beige2 dark:border-beige2'
+                            : 'text-azul/80 border-transparent hover:text-azul dark:text-beige2 dark:hover:text-white' }}">
                         {{ __('Mis traducciones') }}
                     </a>
 
@@ -44,8 +44,8 @@
                     <a href="{{ route('admin.availability.index') }}" class="
                             px-2 py-1 text-sm font-medium border-b-2
                             {{ request()->routeIs('admin.availability.*')
-    ? 'text-azul border-azul dark:text-beige2 dark:border-beige2'
-    : 'text-azul/80 border-transparent hover:text-azul dark:text-beige2 dark:hover:text-white' }}">
+                            ? 'text-azul border-azul dark:text-beige2 dark:border-beige2'
+                            : 'text-azul/80 border-transparent hover:text-azul dark:text-beige2 dark:hover:text-white' }}">
                         {{ __('Disponibilidad') }}
                     </a>
                 </div>
@@ -57,16 +57,16 @@
                 {{-- Botón modo oscuro (admin) --}}
                 <div class="me-3">
                     <button type="button" onclick="
-        const html = document.documentElement;
-        const isDark = html.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    " class="relative inline-flex items-center w-12 h-6 rounded-full transition-colors
-           bg-azul/20 dark:bg-slate-700 border border-azul/40 dark:border-gray-500">
+                        const html = document.documentElement;
+                        const isDark = html.classList.toggle('dark');
+                        localStorage.setItem('theme', isDark ? 'dark' : 'light');" class="relative inline-flex items-center w-12 h-6 rounded-full transition-colors
+                        bg-azul/20 dark:bg-slate-700 border border-azul/40 dark:border-gray-500">
 
                         <!-- CÍRCULO -->
                         <span class="absolute left-0 top-0 h-6 w-6 bg-white dark:bg-yellow-300 rounded-full shadow
-                 transform transition-transform duration-300
-                 dark:translate-x-6"></span>
+                                transform transition-transform duration-300
+                                dark:translate-x-6">
+                        </span>
 
                         <!-- ICONOS -->
                         <span class="absolute left-1 top-1 text-[10px] dark:hidden">🌙</span>
@@ -75,6 +75,7 @@
 
                 </div>
 
+                {{-- Dropdown de usuario admin --}}
                 @auth
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
@@ -97,11 +98,13 @@
 
                         <x-slot name="content">
 
+                            {{-- Perfil --}}
                             <x-dropdown-link :href="route('profile.edit')"
                                 class="hover:bg-azul/10 hover:text-azul dark:hover:bg-slate-800 dark:hover:text-beige2">
                                 {{ __('Perfil') }}
                             </x-dropdown-link>
 
+                            {{-- Cerrar sesión --}}
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-dropdown-link :href="route('logout')"
@@ -138,6 +141,7 @@
     {{-- MENU MÓVIL --}}
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden w-screen bg-beige dark:bg-slate-800">
 
+        {{-- Botón modo oscuro en móvil --}}
         <div class="px-4 py-2 border-b border-gray-100 dark:border-slate-700 flex justify-end">
             <button type="button"
                 onclick="(function(){const html=document.documentElement;const isDark=html.classList.toggle('dark');localStorage.setItem('theme', isDark? 'dark':'light');})()"
@@ -148,6 +152,7 @@
             </button>
         </div>
 
+        {{-- Enlaces en menú móvil admin --}}
         <div class="pt-2 pb-3 space-y-1">
 
             <x-responsive-nav-link :href="route('admin.bookings.index')"
@@ -175,6 +180,7 @@
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-slate-700">
 
             <div class="px-4">
+                {{-- Información del usuario admin --}}
                 @auth
                     <div class="font-medium text-base text-gray-800 dark:text-beige2">{{ auth()->user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500 dark:text-beige2/80">{{ auth()->user()->email }}</div>
@@ -184,6 +190,7 @@
                 @endauth
             </div>
 
+            {{-- Enlaces de perfil admin --}}
             <div class="mt-3 space-y-1 px-4">
                 @auth
                     <x-responsive-nav-link :href="route('profile.edit')" class="dark:text-beige2 dark:hover:text-white">

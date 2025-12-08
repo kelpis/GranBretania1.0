@@ -1,14 +1,12 @@
 <x-app-layout>
 
-    {{-- // Vista Admin: Reservas
-    // Propósito: gestionar reservas pendientes, confirmar, cancelar y ver reservas confirmadas.
-    // Notas: incluye modales y acciones POST para confirmar y reembolsar. --}}
+    {{-- Vista Admin: Reservas --}}
 
     <div class="bg-beige2 dark:bg-slate-950 -mx-4 sm:-mx-6 lg:-mx-8">
         <div class="pt-12 pb-8 max-w-6xl mx-auto space-y-16 px-4 sm:px-6 lg:px-8">
 
             {{--Muestra mensajes flash enviados desde el controlador (session('ok') / session('error')).
-            Usado para confirmar acciones administrativas como confirmación o cancelación de reservas.
+            Usado para confirmar acciones como confirmación o cancelación de reservas.
             --}}
             @if (session('ok'))
                 <div
@@ -25,8 +23,6 @@
             @endif
 
             {{--Listado de reservas recién recibidas que requieren acción del admin:
-            - Confirmar (especificando URL de videollamada)
-            - Cancelar y devolver (si corresponde) — abre modal con confirmación
             En móvil se muestran tarjetas; en escritorio se muestra una tabla con controles.--}}
 
             <div
@@ -36,7 +32,10 @@
                 </div>
 
                 <div>
-                    <!-- Movil: tarjetas apiladas -->
+
+                    {{-- RESPONSIVE MOVIL: tarjetas apiladas --}}
+
+                    {{-- Cada tarjeta incluye info de reserva, botones confirmar y cancelar --}}
                     <div class="md:hidden space-y-3">
                         @forelse ($pendientes as $b)
                             <div class="bg-white p-4 rounded-lg border shadow-sm dark:bg-slate-900 dark:text-slate-100">
@@ -83,6 +82,8 @@
                                 </div>
 
                                 <div class="mt-3 flex flex-col gap-2">
+
+                                    {{-- Formulario para confirmar reserva con URL de reunión --}}
                                     <form method="POST" action="{{ route('admin.bookings.confirm', $b) }}">
                                         @csrf
                                         @method('PATCH')
@@ -97,6 +98,7 @@
                                         </div>
                                     </form>
 
+                                    {{-- Botón cancelar y devolver --}}
                                     @php
                                         $fechaHoraClase = \Carbon\Carbon::parse($b->class_date . ' ' . substr($b->class_time, 0, 5));
                                     @endphp
@@ -115,7 +117,9 @@
                         @endforelse
                     </div>
 
-                    <!-- Desktop/tablet: tabla -->
+                    {{-- RESPONSIVE Desktop/tablet: tabla --}}
+
+                    {{-- Tabla con columnas: fecha, hora, nombre, email, notas, estado, acciones --}}
                     <div class="hidden md:block overflow-x-auto">
                         <table class="min-w-full text-sm dark:text-beige2">
                             <thead
@@ -134,14 +138,20 @@
                                 @forelse ($pendientes as $b)
                                     <tr
                                         class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition dark:odd:bg-slate-800 dark:even:bg-slate-900 dark:hover:bg-slate-700">
+                                        {{-- Columna fecha --}}
                                         <td class="py-3 px-4">{{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}
                                         </td>
+                                        {{-- Columna hora --}}
                                         <td class="py-3 px-4">{{ substr($b->class_time, 0, 5) }}</td>
+                                        {{-- Columna nombre --}}
                                         <td class="py-3 px-4">{{ $b->user->name ?? $b->name }}</td>
+                                        {{-- Columna email --}}
                                         <td class="py-3 px-4"><a href="mailto:{{ $b->user->email ?? $b->email }}"
                                                 class="underline text-azul dark:text-white hover:text-rojo dark:hover:text-rose-100">{{ $b->user->email ?? $b->email }}</a>
                                         </td>
+                                        {{-- Columna notas --}}
                                         <td class="py-3 px-4">{{ $b->notes }}</td>
+                                        {{-- Columna estado --}}
                                         <td class="py-3 px-4">
                                             @if($b->paid)
                                                 <span
@@ -152,8 +162,10 @@
                                                     class="inline-block px-2.5 py-1 text-xs rounded-full bg-info text-negro font-semibold">Devuelta</span>
                                             @endif
                                         </td>
+                                        {{-- Columna acciones --}}
                                         <td class="py-3 px-4">
                                             <div class="flex flex-col gap-2 items-end">
+                                                {{-- Formulario confirmar --}}
                                                 <form method="POST" action="{{ route('admin.bookings.confirm', $b) }}">
                                                     @csrf
                                                     @method('PATCH')
@@ -168,6 +180,7 @@
                                                     </div>
                                                 </form>
 
+                                                {{-- Botón cancelar si aplicable --}}
                                                 @php
                                                     $fechaHoraClase = \Carbon\Carbon::parse($b->class_date . ' ' . substr($b->class_time, 0, 5));
                                                 @endphp
@@ -194,16 +207,15 @@
                 </div>
             </div>
 
-            {{-- Sección de reservas que ya están confirmadas. Incluye:
-            - Información básica (fecha, hora, alumno)
-            - Estado de pago / reembolso
-            Esta lista  proviene de `$confirmadas` pasada desde el controlador.--}}
+            {{-- Sección de reservas que ya están confirmadas.
+            Esta lista proviene de `$confirmadas` pasada desde el controlador.--}}
             <div
                 class="rounded-2xl shadow-xl overflow-hidden border border-beige bg-beige2 dark:bg-slate-950 dark:border-slate-700">
                 <div class="bg-azul text-beige2 px-6 py-4">
                     <h3 class="font-semibold text-lg">Reservas confirmadas</h3>
                 </div>
 
+                {{-- Filtrar confirmadas --}}
                 @php
                     // Filtra las confirmadas por estado si $confirmadas es una colección
                     $ya_confirmadas = isset($confirmadas) && method_exists($confirmadas, 'where')
@@ -211,7 +223,8 @@
                         : (array_filter($confirmadas ?? [], fn($x) => (isset($x->status) ? $x->status === 'confirmed' : false)));
                 @endphp
 
-                <!-- Movil: tarjetas apiladas -->
+
+                {{-- RESPONSIVE MOVIL: tarjetas para confirmadas --}}
                 <div class="md:hidden space-y-3 p-4">
                     @forelse ($ya_confirmadas as $b)
                         <div class="bg-white p-4 rounded-lg border shadow-sm dark:bg-slate-900 dark:text-slate-100">
@@ -246,6 +259,7 @@
                             </div>
 
                             <div class="mt-3 flex flex-wrap gap-2">
+                                {{-- Botón cancelar --}}
                                 @php $fechaHoraClase = \Carbon\Carbon::parse($b->class_date . ' ' . substr($b->class_time, 0, 5)); @endphp
                                 @if($b->paid && !$b->refunded && $fechaHoraClase->isFuture())
                                     {{-- Botón que abre modal de cancelar y devolver --}}
@@ -258,6 +272,7 @@
                                     <span class="text-gray-500 text-xs">No aplicable</span>
                                 @endif
 
+                                {{-- Enlace a reunión si existe --}}
                                 @if(!empty($b->meeting_url))
                                     <a href="{{ route('bookings.join', $b) }}" target="_blank"
                                         class="px-3 py-1 rounded-full bg-azul text-beige2 text-xs font-medium">Unirse</a>
@@ -270,7 +285,9 @@
                     @endforelse
                 </div>
 
-                <!-- Desktop/tablet: tabla -->
+
+                {{-- RESPONSIVE Desktop/tablet: tabla para confirmadas --}}
+
                 <div class="hidden md:block overflow-x-auto">
                     <table class="min-w-full text-sm dark:text-beige2">
                         <thead
@@ -288,12 +305,17 @@
                             @forelse ($ya_confirmadas as $b)
                                 <tr
                                     class="odd:bg-beige2 even:bg-white hover:bg-azul/5 transition dark:odd:bg-slate-800 dark:even:bg-slate-900 dark:hover:bg-slate-700">
+                                    {{-- Columna fecha --}}
                                     <td class="py-3 px-4">{{ \Carbon\Carbon::parse($b->class_date)->format('d/m/Y') }}</td>
+                                    {{-- Columna hora --}}
                                     <td class="py-3 px-4">{{ substr($b->class_time, 0, 5) }}</td>
+                                    {{-- Columna nombre --}}
                                     <td class="py-3 px-4">{{ $b->user->name ?? $b->name }}</td>
+                                    {{-- Columna email --}}
                                     <td class="py-3 px-4"><a href="mailto:{{ $b->user->email ?? $b->email }}"
                                             class="underline text-azul dark:text-white hover:text-rojo dark:hover:text-rose-100">{{ $b->user->email ?? $b->email }}</a>
                                     </td>
+                                    {{-- Columna enlace reunión --}}
                                     <td class="py-3 px-4">
                                         @if(!empty($b->meeting_url))
                                             <a href="{{ route('bookings.join', $b) }}" target="_blank"
@@ -302,7 +324,9 @@
                                             <span class="text-gray-500 text-sm">Sin enlace</span>
                                         @endif
                                     </td>
+                                    {{-- Columna acciones --}}
                                     <td class="py-3 px-4">
+                                        {{-- Botón cancelar si aplicable --}}
                                         @php $fechaHoraClase = \Carbon\Carbon::parse($b->class_date . ' ' . substr($b->class_time, 0, 5)); @endphp
                                         @if($b->paid && !$b->refunded && $fechaHoraClase->isFuture())
                                             {{-- Botón que abre modal de cancelar y devolver --}}
@@ -328,6 +352,8 @@
             </div>
 
             {{-- CANCELADAS RECIENTES --}}
+
+            {{-- Lista simple de las últimas 5 canceladas --}}
             <div
                 class="rounded-2xl shadow-xl overflow-hidden border border-beige bg-beige2 dark:bg-slate-950 dark:border-slate-700">
                 <div class="bg-azul text-beige2 px-6 py-4">
@@ -359,10 +385,12 @@
     </div>
 
     {{-- MODAL ADMIN: cancelar y devolver --}}
+    
+    {{-- Modal oculto por defecto, mostrado por JS --}}
     <div id="adminCancelModal" class="fixed inset-0 hidden items-center justify-center bg-black/40 z-50">
         <div
             class="bg-white rounded-2xl p-6 max-w-sm mx-auto shadow-xl text-center border border-beige dark:bg-slate-900 dark:text-slate-100">
-            <h3 class="text-lg font-semibold text-azul mb-3">Cancelar y devolver</h3>
+            <h3 class="text-lg font-semibold text-azul dark:text-white mb-3">Cancelar y devolver</h3>
 
             <p class="text-gray-700 dark:text-slate-100 mb-6">
                 ¿Seguro que quieres <strong>cancelar esta reserva</strong> y <strong>devolver el pago al
@@ -370,11 +398,13 @@
             </p>
 
             <div class="flex justify-center gap-3">
+                {{-- Botón cancelar: cierra modal --}}
                 <button type="button" onclick="closeAdminCancelModal()"
                     class="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600">
                     No cancelar
                 </button>
 
+                {{-- Formulario para enviar cancelación --}}
                 <form id="adminCancelForm" method="POST" class="inline">
                     @csrf
                     <button type="submit" class="px-4 py-2 rounded-lg bg-rojo text-beige2 hover:bg-red-700 transition">
@@ -384,23 +414,7 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function openAdminCancelModal(formAction) {
-            const modal = document.getElementById('adminCancelModal');
-            const form = document.getElementById('adminCancelForm');
-
-            form.action = formAction;
-
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closeAdminCancelModal() {
-            const modal = document.getElementById('adminCancelModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-    </script>
+    {{-- JavaScript para el modal --}}
+    @vite(['resources/js/admin-booking.js'])
 
 </x-app-layout>

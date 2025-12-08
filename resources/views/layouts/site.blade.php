@@ -1,7 +1,6 @@
 {{--
-    Layout principal: site.blade.php
-    Propósito: layout global con header, footer, carga de Vite y manejo de tema oscuro.
-    Notas: usado por la mayoría de vistas; evitar duplicar navs en plantillas que extienden este layout.
+Layout principal: site.blade.php
+layout global con header, footer, carga de Vite y manejo de tema oscuro.
 --}}
 
 <!DOCTYPE html>
@@ -24,11 +23,15 @@
     @include('partials.favicons')
 
     {{-- Vite --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if(config('services.recaptcha.site'))
+        <script>window.recaptchaSiteKey = "{{ config('services.recaptcha.site') }}";</script>
+    @endif
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/recaptcha.js'])
 </head>
 
 <body class="min-h-dvh flex flex-col bg-beige2 px-4 md:px-8 lg:px-12">
 
+    {{-- Sección de header: incluye navegación principal con logo, enlaces y menú móvil --}}
     @section('header')
     <header
         class="sticky top-0 z-40 bg-beige/95 dark:bg-slate-800/90 backdrop-blur supports-[backdrop-filter]:bg-beige/80 shadow-sm -mx-4 md:-mx-8 lg:-mx-12">
@@ -37,7 +40,7 @@
             <div x-data="{ open: false }" @keydown.escape="open = false" @click.away="open = false"
                 class="h-20 flex items-center justify-between gap-4 relative">
 
-                {{-- LEFT: logo + enlaces --}}
+                {{-- Parte izquierda: logo y enlaces de navegación --}}
                 <div class="flex items-center gap-6">
                     {{-- LOGO --}}
                     <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
@@ -58,13 +61,13 @@
                         </div>
 
 
-                        
+
                     </nav>
                 </div>
 
-                {{-- RIGHT: botón Acceder y hamburguesa móvil --}}
+                {{-- Parte derecha: botón Acceder y hamburguesa móvil --}}
                 <div class="flex items-center gap-3">
-                     <div class="lg:hidden">
+                    <div class="lg:hidden">
                         <button @click="open = ! open" :aria-expanded="open.toString()" aria-controls="mobile-menu"
                             class="inline-flex items-center justify-center p-2 rounded-md text-azul border border-azul/20 bg-white/90">
                             <svg x-show="!open" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -78,83 +81,96 @@
                                     d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </button>
-                </div>
-
-                <div class="hidden lg:flex items-center gap-3">
-                    {{-- Botón modo oscuro --}}
-                    <button type="button" onclick="
-        const html = document.documentElement;
-        const isDark = html.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    " class="relative inline-flex items-center w-12 h-6 rounded-full transition-colors
-           bg-azul/20 dark:bg-slate-700 border border-azul/40 dark:border-gray-500">
-
-                        <!-- CÍRCULO -->
-                        <span class="absolute left-0 top-0 h-6 w-6 bg-white dark:bg-yellow-300 rounded-full shadow
-                 transform transition-transform duration-300
-                 dark:translate-x-6"></span>
-
-                        <!-- ICONOS -->
-                        <span class="absolute left-1 top-1 text-[10px] dark:hidden">🌙</span>
-                        <span class="absolute right-1 top-1 hidden dark:inline text-[10px]">☀️</span>
-                    </button>
-
-                    @auth
-                        <a href="{{ (auth()->check() && auth()->user()->is_admin) ? route('admin.index') : route('dashboard') }}" class="btn-three text-beige2 !py-2 !px-4 !mr-8">{{ auth()->user()->name }}</a>
-                    @else
-                        <a href="{{ route('login') }}" class="btn-three text-beige2 !py-2 !px-4 !mr-8">Acceder</a>
-                    @endauth
-                </div>
-            </div>
-
-            {{-- Mobile menu panel (aparece cuando open === true) --}}
-            <div x-show="open" x-cloak id="mobile-menu"
-                class="lg:hidden absolute inset-x-0 top-full z-50 bg-beige/95 backdrop-blur-sm shadow-sm dark:bg-slate-800/95">
-                <div class="px-4 py-4 text-lg max-h-[calc(100vh-5rem)] overflow-auto">
-                    <div class="flex items-center justify-start gap-3 mb-3">
-                        <button type="button"
-                            onclick="(function(){const html=document.documentElement;const isDark=html.classList.toggle('dark');localStorage.setItem('theme', isDark? 'dark':'light');})()"
-                            aria-label="Alternar modo oscuro"
-                            class="inline-flex items-center justify-center px-2 py-1 rounded-full border border-azul/40 dark:border-gray-500 text-lg text-azul dark:text-gray-100 bg-white/80 dark:bg-slate-800/80 shadow-sm">
-                            <span class="dark:hidden">🌙</span>
-                            <span class="hidden dark:inline">☀️</span>
-                        </button>
                     </div>
-                    <a href="{{ route('home') }}" @click="open = false" class="block py-2 hover:underline">Inicio</a>
-                    <a href="{{ route('clases') }}" @click="open = false" class="block py-2 hover:underline">Clases</a>
-                    <a href="{{ route('traducciones') }}" @click="open = false"
-                        class="block py-2 hover:underline">Traducciones</a>
-                    <a href="{{ route('sobremi') }}" @click="open = false" class="block py-2 hover:underline">Sobre
-                        mí</a>
-                    <a href="{{ route('faq') }}" @click="open = false" class="block py-2 hover:underline">FAQ</a>
-                    <a href="{{ route('contact.create') }}" @click="open = false"
-                        class="block py-2 hover:underline">Contacto</a>
 
+                    {{-- Botón de acceso y modo oscuro para escritorio --}}
 
+                    <div class="hidden lg:flex items-center gap-3">
+                        {{-- Botón modo oscuro --}}
+                        <button type="button" onclick="
+                            const html = document.documentElement;
+                            const isDark = html.classList.toggle('dark');
+                            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                        " class="relative inline-flex items-center w-12 h-6 rounded-full transition-colors
+                            bg-azul/20 dark:bg-slate-700 border border-azul/40 dark:border-gray-500">
 
-                    {{-- Acceder (visible en móvil dentro del menú) --}}
-                    @auth
-                        <a href="{{ (auth()->check() && auth()->user()->is_admin) ? route('admin.index') : route('dashboard') }}" @click="open = false"
-                            class="block w-full mt-3 btn-three text-beige2 text-center !py-2 !px-4">{{ auth()->user()->name }}</a>
+                            <!-- CÍRCULO -->
+                            <span class="absolute left-0 top-0 h-6 w-6 bg-white dark:bg-yellow-300 rounded-full shadow
+                                transform transition-transform duration-300
+                                dark:translate-x-6">
+                            </span>
 
-                        <form method="POST" action="{{ route('logout') }}" class="mt-2">
-                            @csrf
-                            <button type="submit" class="w-full text-left text-azul dark:text-beige2 hover:underline py-2">Cerrar sesión</button>
-                        </form>
-                    @else
-                        <a href="{{ route('login') }}" @click="open = false"
-                            class="block w-full mt-3 btn-three text-beige2 text-center !py-2 !px-4">Acceder</a>
-                    @endauth
+                            <!-- ICONOS -->
+                            <span class="absolute left-1 top-1 text-[10px] dark:hidden">🌙</span>
+                            <span class="absolute right-1 top-1 hidden dark:inline text-[10px]">☀️</span>
+                        </button>
+
+                        {{-- Botón de acceso --}}
+                        @auth
+                            <a href="{{ (auth()->check() && auth()->user()->is_admin) ? route('admin.index') : route('dashboard') }}"
+                                class="btn-three text-beige2 !py-2 !px-4 !mr-8">{{ auth()->user()->name }}</a>
+                        @else
+                            <a href="{{ route('login') }}" class="btn-three text-beige2 !py-2 !px-4 !mr-8">Acceder</a>
+                        @endauth
+                    </div>
                 </div>
-            </div>
 
-        </div>
+                {{-- Menú móvil: aparece cuando open === true --}}
+                <div x-show="open" x-cloak id="mobile-menu"
+                    class="lg:hidden absolute inset-x-0 top-full z-50 bg-beige/95 backdrop-blur-sm shadow-sm dark:bg-slate-800/95">
+                    <div class="px-4 py-4 text-lg max-h-[calc(100vh-5rem)] overflow-auto">
+                        {{-- Botón modo oscuro en móvil --}}
+                        <div class="flex items-center justify-start gap-3 mb-3">
+                            <button type="button"
+                                onclick="(function(){const html=document.documentElement;const isDark=html.classList.toggle('dark');localStorage.setItem('theme', isDark? 'dark':'light');})()"
+                                aria-label="Alternar modo oscuro"
+                                class="inline-flex items-center justify-center px-2 py-1 rounded-full border border-azul/40 dark:border-gray-500 text-lg text-azul dark:text-gray-100 bg-white/80 dark:bg-slate-800/80 shadow-sm">
+                                <span class="dark:hidden">🌙</span>
+                                <span class="hidden dark:inline">☀️</span>
+                            </button>
+                        </div>
+
+                        {{-- Enlaces de navegación en móvil --}}
+                        <a href="{{ route('home') }}" @click="open = false"
+                            class="block py-2 hover:underline">Inicio</a>
+                        <a href="{{ route('clases') }}" @click="open = false"
+                            class="block py-2 hover:underline">Clases</a>
+                        <a href="{{ route('traducciones') }}" @click="open = false"
+                            class="block py-2 hover:underline">Traducciones</a>
+                        <a href="{{ route('sobremi') }}" @click="open = false" class="block py-2 hover:underline">Sobre
+                            mí</a>
+                        <a href="{{ route('faq') }}" @click="open = false" class="block py-2 hover:underline">FAQ</a>
+                        <a href="{{ route('contact.create') }}" @click="open = false"
+                            class="block py-2 hover:underline">Contacto</a>
+
+
+
+                        {{-- Acceder (visible en móvil dentro del menú) --}}
+                        @auth
+                            <a href="{{ (auth()->check() && auth()->user()->is_admin) ? route('admin.index') : route('dashboard') }}"
+                                @click="open = false"
+                                class="block w-full mt-3 btn-three text-beige2 text-center !py-2 !px-4">{{ auth()->user()->name }}</a>
+
+                            <form method="POST" action="{{ route('logout') }}" class="mt-2">
+                                @csrf
+                                <button type="submit"
+                                    class="w-full text-left text-azul dark:text-beige2 hover:underline py-2">Cerrar
+                                    sesión</button>
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}" @click="open = false"
+                                class="block w-full mt-3 btn-three text-beige2 text-center !py-2 !px-4">Acceder</a>
+                        @endauth
+                    </div>
+                </div>
+
+            </div>
         </div>
     </header>
     @show
 
 
-    {{-- Contenido --}}
+    {{-- Contenido principal de la página --}}
     <main class="flex-1">
         @yield('content')
     </main>
@@ -164,10 +180,12 @@
 
         <div class="px-4 sm:px-6 lg:px-8">
             <div class="container mx-auto px-4 py-10 flex flex-col md:flex-row gap-8">
+                {{-- Información de la empresa --}}
                 <div class="md:basis-1/2">
                     <h3 class="font-semibold mb-3">Gran Bretania</h3>
                     <p class="text-sm opacity-80">Enseñanza de inglés y traducciones.</p>
                 </div>
+                {{-- Enlaces legales --}}
                 <div class="md:basis-1/4">
                     <ul class="space-y-2 text-sm">
                         <li><a href="{{ route('privacy') }}" class="hover:underline">Política de privacidad</a>
@@ -179,6 +197,7 @@
                         <li><a href="{{ route('aviso') }}" class="hover:underline">Aviso legal</a></li>
                     </ul>
                 </div>
+                {{-- Contacto e iconos sociales --}}
                 <div class="text-sm md:basis-1/4">
                     <p class="opacity-80">info@granbretania.com</p>
                     <p class="opacity-80">+34 000 000 000</p>
@@ -215,61 +234,8 @@
             </div>
         </div>
     </footer>
-        {{-- Banner de cookies: componente global incluido en el layout público --}}
-        @include('components.cookie-consent')
+    {{-- Banner de cookies: componente global incluido en el layout público --}}
+    @include('components.cookie-consent')
 </body>
 
 </html>
-@if(config('services.recaptcha.site'))
-    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site') }}"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const siteKey = "{{ config('services.recaptcha.site') }}";
-
-            document.querySelectorAll('form[data-grecaptcha="v3"]').forEach(function (form) {
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    grecaptcha.ready(function () {
-                        const action = form.getAttribute('data-recaptcha-action') || 'submit';
-                        grecaptcha.execute(siteKey, { action: action }).then(function (token) {
-                            let input = form.querySelector('input[name="g-recaptcha-response"]');
-                            if (!input) {
-                                input = document.createElement('input');
-                                input.type = 'hidden';
-                                input.name = 'g-recaptcha-response';
-                                form.appendChild(input);
-                            }
-                            input.value = token;
-                            form.submit();
-                        }).catch(function (err) {
-                            console.error('reCAPTCHA execute failed', err);
-                            let errEl = form.querySelector('.recaptcha-error');
-                            if (!errEl) {
-                                errEl = document.createElement('p');
-                                errEl.className = 'recaptcha-error text-red-600 text-sm mt-2';
-                                const submit = form.querySelector('[type="submit"]');
-                                if (submit && submit.parentNode) {
-                                    submit.parentNode.insertBefore(errEl, submit.nextSibling);
-                                } else {
-                                    form.appendChild(errEl);
-                                }
-                            }
-                            errEl.textContent = 'No se pudo verificar reCAPTCHA en tu navegador. Prueba en una ventana privada o desactiva extensiones que bloqueen scripts.';
-                        });
-                    });
-                });
-            });
-        });
-    </script>
-@endif
-
-@if(app()->environment('local'))
-    <script>
-        console.log('DEBUG: site layout reCAPTCHA key present?', {{ config('services.recaptcha.site') ? 'true' : 'false' }});
-        document.addEventListener('DOMContentLoaded', function () {
-            console.log('DEBUG: site layout grecaptcha defined?', (typeof grecaptcha !== 'undefined'));
-        });
-    </script>
-   
-@endif

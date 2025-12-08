@@ -20,32 +20,29 @@
 
 
 
-            {{--
-            CALCULADORA TRADUCCIÓN
-            No realiza ningún envío al servidor por sí misma; solo ayuda al administrador a fijar un precio.
-            --}}
-
+            {{-- CALCULADORA TRADUCCIÓN --}}
+            {{-- Herramienta cliente para estimar precio; no envía datos al servidor --}}
             <div id="translation-calculator"
                 class="mb-12 rounded-2xl border border-azul/20 bg-azul text-white shadow p-6">
                 <h3 class="text-white font-semibold text-lg mb-4">Calculadora rápida de traducción</h3>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 items-end">
 
-                    {{-- Palabras --}}
+                    {{-- Campo palabras --}}
                     <div>
                         <label class="block text-sm font-medium text-white">Número de palabras</label>
                         <input id="calc-words" type="number" min="0" step="1" value="0"
                             class="mt-1 block w-full rounded-lg border border-beige bg-white text-azul p-2 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700" />
                     </div>
 
-                    {{-- Precio por palabra --}}
+                    {{-- Campo precio por palabra --}}
                     <div>
                         <label class="block text-sm font-medium text-white">Precio por palabra (€)</label>
                         <input id="calc-price" type="number" min="0" step="0.01" value="0.10"
                             class="mt-1 block w-full rounded-lg border border-beige bg-white text-azul p-2 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700" />
                     </div>
 
-                    {{-- Resultado --}}
+                    {{-- Resultado calculado --}}
                     <div>
                         <label class="block text-sm font-medium text-white">Resultado</label>
                         <div id="calc-result"
@@ -55,6 +52,7 @@
                     </div>
                 </div>
 
+                {{-- Botón reset --}}
                 <div class="mt-4">
                     <button id="calc-reset" type="button"
                         class="px-4 py-1.5 rounded-full bg-rojo text-white text-sm font-medium hover:bg-red-700 transition">
@@ -65,12 +63,9 @@
 
 
 
-            {{--
-            TABLA DE TRADUCCIONES
-            Listado de solicitudes: en móvil mostramos tarjetas con acciones inline;
-            en escritorio mostramos una tabla completa con más columnas y acciones.
-            --}}
+            {{-- TABLA DE TRADUCCIONES --}}
 
+            {{-- Listado responsive: tarjetas en móvil, tabla en desktop --}}
             <div
                 class="rounded-2xl shadow-xl overflow-hidden border border-beige bg-beige2 dark:bg-slate-950 dark:border-slate-700">
                 <div class="bg-azul text-beige2 px-6 py-4">
@@ -79,11 +74,9 @@
 
                 <div class="rounded-lg border border-azul/20 overflow-hidden">
 
-                    {{--
-                    RESPONSIVE MOVIL / TABLET VERSION (CARDS)
-                    Tarjetas apiladas para pantallas pequeñas. Cada tarjeta contiene:
-                    Mantener esta sección ligera para evitar scroll horizontal en móviles.
-                    --}}
+
+                    {{-- RESPONSIVE MOVIL / TABLET VERSION (CARDS) --}}
+                    {{-- Tarjetas con info básica y acciones inline --}}
                     <div class="lg:hidden space-y-3 p-4">
                         @forelse($items as $tr)
                             <div class="bg-white rounded-lg p-4 border shadow-sm dark:bg-slate-900 dark:text-slate-100">
@@ -100,6 +93,7 @@
 
                                     <div class="text-right">
                                         <div class="text-xs text-gray-500">Urgencia</div>
+                                        {{-- Badge urgencia --}}
                                         @php
                                             $urgencyStyles = $tr->urgency === 'alta' ? 'bg-rojo text-beige2' : 'bg-ok text-white';
                                         @endphp
@@ -132,28 +126,30 @@
                                 </div>
 
                                 <div class="mt-3 flex flex-col gap-2">
-                                    {{-- Descargar archivo original --}}
+                                    {{-- Botón descargar archivo --}}
                                     <a href="{{ route('admin.translations.download', $tr->id) }}"
                                         class="inline-block px-3 py-1 rounded-full bg-azul text-beige2 text-xs font-medium">
                                         Descargar
                                     </a>
 
-                                    {{-- Precio asignado --}}
+                                    {{-- Mostrar precio si asignado --}}
                                     @if ($tr->final_price_cents)
                                         <div class="text-sm text-gray-700 dark:text-slate-300">
                                             Estado: <span class="font-semibold">{{ ucfirst($tr->status) }}</span><br>
-                                            Precio: <strong>{{ number_format($tr->final_price_cents / 100, 2, ',', '.') }} €</strong>
+                                            Precio: <strong>{{ number_format($tr->final_price_cents / 100, 2, ',', '.') }}
+                                                €</strong>
                                         </div>
                                     @endif
 
-                                    {{-- Formulario para precio --}}
+                                    {{-- Formulario asignar precio --}}
                                     @if (!$tr->final_price_cents)
                                         <form method="POST" action="{{ route('admin.translations.quote', $tr) }}"
                                             class="space-y-1">
                                             @csrf
                                             <label class="text-xs text-azul dark:text-white">Precio final (€)</label>
                                             <input type="number" name="amount_eur" step="0.01" min="1"
-                                                class="w-24 border rounded px-2 py-1 text-sm dark:text-black" placeholder="0.00">
+                                                class="w-24 border rounded px-2 py-1 text-sm dark:text-black"
+                                                placeholder="0.00">
 
                                             <button class="px-3 py-1 rounded-full bg-azul text-beige2 text-xs font-medium">
                                                 Guardar y generar pago
@@ -167,7 +163,8 @@
                                             enctype="multipart/form-data" class="space-y-1 mt-2">
                                             @csrf
 
-                                            <label class="block text-xs text-azul dark:text-white">Subir traducción final</label>
+                                            <label class="block text-xs text-azul dark:text-white">Subir traducción
+                                                final</label>
                                             <input type="file" name="output_file"
                                                 class="w-full text-xs border rounded p-1 bg-white dark:bg-slate-900 dark:text-beige2">
 
@@ -190,7 +187,8 @@
 
 
 
-                    {{-- DESKTOP (LG+) VERSION --}}
+                    {{-- DESKTOP (LG+) --}}
+                    {{-- Tabla completa con todas las columnas y acciones --}}
                     <div class="hidden lg:block overflow-x-auto">
                         <table class="w-full text-sm text-azul dark:text-beige2">
                             <thead
@@ -271,7 +269,8 @@
                                                     <form method="POST" action="{{ route('admin.translations.quote', $tr) }}"
                                                         class="space-y-1">
                                                         @csrf
-                                                        <label for="amount-{{ $tr->id }}" class="block text-xs text-azul dark:text-white">
+                                                        <label for="amount-{{ $tr->id }}"
+                                                            class="block text-xs text-azul dark:text-white">
                                                             Precio final (€)
                                                         </label>
                                                         <div class="flex items-center gap-2">
@@ -308,7 +307,8 @@
                                                         enctype="multipart/form-data" class="space-y-1">
                                                         @csrf
 
-                                                        <label class="block text-xs text-azul dark:text-white">Subir traducción final</label>
+                                                        <label class="block text-xs text-azul dark:text-white">Subir traducción
+                                                            final</label>
 
                                                         <input type="file" name="output_file"
                                                             class="w-full text-xs border rounded p-1 bg-white dark:bg-slate-900 dark:text-beige2">

@@ -1,7 +1,6 @@
 {{--
     Vista: user/bookings/edit.blade.php
-    Propósito: formulario para que el usuario edite una reserva existente (fecha, hora, datos).
-    Notas: usa `bookings.availability` para cargar franjas; incluye protección CSRF y validaciones server-side.
+    formulario para que el usuario edite una reserva existente (fecha, hora, datos).
 --}}
 
 @extends('layouts.site')
@@ -41,14 +40,14 @@
                 </div>
             @endif
 
-            {{-- Formulario de edición: envía PUT a user.bookings.update --}}
+            {{-- Formulario de edición: envía PUT a user.bookings.update con validación CSRF --}}
             <form id="booking-edit-form" method="POST" action="{{ route('user.bookings.update', $booking) }}" class="">
                 @csrf
                 @method('PUT')
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                    {{-- Fecha (full width) --}}
+                    {{-- Fecha  --}}
                     <div class="md:col-span-2">
                         <x-input-label for="class_date" class="text-beige2" :value="__('Fecha')" />
                         <select id="class_date" data-availability-url="{{ route('bookings.availability') }}" data-old-date="{{ old('class_date', $booking->class_date) }}" data-except="{{ $booking->id }}" name="class_date" class="block mt-1 w-full bg-white text-azul rounded p-2" required aria-describedby="date-help">
@@ -60,7 +59,7 @@
                         @enderror
                     </div>
 
-                    {{-- Hora (full width) --}}
+                    {{-- Hora --}}
                     <div class="md:col-span-2">
                         <x-input-label for="class_time" class="text-beige2" :value="__('Hora')" />
                         <select id="class_time" data-old-time="{{ old('class_time') ? substr(old('class_time'),0,5) : substr($booking->class_time,0,5) }}" name="class_time" class="block mt-1 w-full bg-white text-azul rounded p-2" required>
@@ -92,14 +91,14 @@
                         <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                     </div>
 
-                    {{-- Notas (full width) --}}
+                    {{-- Notas--}}
                     <div class="md:col-span-2">
                         <x-input-label for="notes" class="text-beige2" :value="__('Notas')" />
                         <textarea id="notes" name="notes" class="block mt-1 w-full bg-white text-azul rounded p-2" rows="3">{{ old('notes', $booking->notes) }}</textarea>
                         <x-input-error :messages="$errors->get('notes')" class="mt-2" />
                     </div>
 
-                    {{-- Botón (full width) --}}
+                    {{-- Botón --}}
                     <div class="md:col-span-2 flex items-center justify-center mt-2">
                         <button type="submit" class="btn-secondary hover:!bg-beige hover:!text-negro">Guardar cambios</button>
                     </div>
@@ -111,6 +110,7 @@
         </div>
     </div>
 
+    {{-- Scripts: carga user-bookings.js para manejo de disponibilidad en edición --}}
     @vite(['resources/js/user-bookings.js'])
 
 @endsection

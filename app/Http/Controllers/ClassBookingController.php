@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Notification;
 use Stripe\StripeClient;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+//CONTROLADOR RESERVA CLASE USER
 class ClassBookingController extends Controller
 {
     // Formulario público
@@ -28,15 +28,15 @@ class ClassBookingController extends Controller
     // Guardar reserva
     public function store(StoreClassBookingRequest $request)
     {
-        // 1) Datos validados
+        //Datos validados
 
 
         $data = $request->validated();
         $currentUserId = Auth::id();
 
 
-        // 2) Evitar franja ocupada: no permitir si ya existe otra reserva para la misma
-        //    fecha/hora cuyo estado NO sea 'cancelled' o 'rejected' 
+        //Evitar franja ocupada: no permitir si ya existe otra reserva para la misma
+        //fecha/hora cuyo estado NO sea 'cancelled' o 'rejected' 
         $exists = ClassBooking::where('class_date', $data['class_date'])
             ->where('class_time', $data['class_time'])
             ->whereNotIn('status', ['cancelled', 'rejected'])
@@ -103,7 +103,7 @@ class ClassBookingController extends Controller
 
         $booking = ClassBooking::create($payload);
 
-        // Marcar un hold temporal para evitar overbooking (configurable via .env)
+        // Marcar un hold temporal para evitar overbooking (configurado .env)
         try {
             if (env('ENABLE_RESERVATION_HOLDS', true)) {
                 $minutes = (int) env('RESERVATION_HOLD_MINUTES', 30);
@@ -146,7 +146,7 @@ class ClassBookingController extends Controller
             ]);
             $booking->stripe_session_id = $session->id;
             $booking->save();
-            // Log session details for traceability (no datos sensibles)
+            // Log de control
             try {
                 Log::info('Stripe Checkout created', [
                     'session_id' => $session->id ?? null,
