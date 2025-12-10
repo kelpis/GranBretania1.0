@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\TranslationReceived;
 use App\Notifications\TranslationAdminAlert;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TranslationRequestController extends Controller
 {
@@ -25,6 +26,9 @@ class TranslationRequestController extends Controller
         $path = $request->file('file')->store('translations');
 
         $data = $request->safe()->except('file');
+        // Asegurar un valor por defecto para 'status' para evitar errores
+        // si la columna en la BD no tiene default. Valores: submitted, quoted, paid, delivered
+        $data['status'] = $data['status'] ?? 'submitted';
         // El usuario debe estar autenticado (ver StoreTranslationRequest::authorize).
         // Vincular la solicitud a la cuenta del usuario.
         if (Auth::check()) {
@@ -58,5 +62,41 @@ class TranslationRequestController extends Controller
         }
 
         return back()->with('ok', 'Solicitud enviada. Revisa tu correo para el acuse.');
+    }
+
+    /**
+     * Listado de traducciones del usuario autenticado.
+     */
+    public function index()
+    {
+        $user = auth()->user();
+        $items = TranslationRequest::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('user.translations.index', compact('items'));
+    }
+
+    
+      //Descargar el archivo perteneciente a la solicitud de traducción del usuario autenticado.
+      //Prioriza el archivo final (`output_file_path`) si existe; si no, usa `file_path`.
+     
+    public function download($id)
+    {
+        $tr = TranslationRequest::findOrFail($id);
+
+        $user = auth()->user();
+        if (! $tr->user_id || $tr->user_id !== $user->id) {
+            abort(403);
+        }
+
+        $path = $tr->output_file_path ?: $tr->file_path;
+
+        if (! $path || ! Storage::disk('local')->exists($path)) {
+            abort(404, 'Archivo no encontrado en el servidor.');
+        }
+
+        $filename = basename($path);
+        return Storage::disk('local')->download($path, $filename);
     }
 }

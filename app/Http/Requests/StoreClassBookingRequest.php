@@ -24,6 +24,7 @@ class StoreClassBookingRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
+            'email' => $this->email ? trim($this->email) : null,
             'phone' => $this->phone ? trim(strip_tags($this->phone)) : null,
             'notes' => $this->notes ? trim(strip_tags($this->notes)) : null,
         ]);
@@ -35,6 +36,9 @@ class StoreClassBookingRequest extends FormRequest
         return [
             'class_date' => ['required', 'date', 'after_or_equal:today'], // Fecha obligatoria, >= hoy.
             'class_time' => ['required', 'date_format:H:i'], // Hora obligatoria en formato HH:MM.
+            // Email del alumno: validar con regex simple.
+            // Acepta: letras/dígitos y símbolos básicos antes de @, dominio con punto y TLD >= 2
+            'email'      => ['required', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/'],
             // Teléfono opcional con regex para caracteres permitidos.
             'phone'      => ['nullable', 'string', 'max:30', 'regex:/^[0-9+\s\-()]+$/'],
             'notes'      => ['nullable', 'string', 'max:255'], // Notas opcionales.
@@ -119,6 +123,8 @@ class StoreClassBookingRequest extends FormRequest
             'availability_slot_id.exists'   => 'La franja no está disponible o incumple las reglas (L–V, 09:00–21:00).',
             'class_date.required' => 'Selecciona una fecha válida.',
             'class_date.date' => 'La fecha no tiene un formato válido.',
+            'email.required' => 'Indica un correo electrónico válido.',
+            'email.regex' => 'El formato del correo no es válido.',
             'phone.regex' => 'El teléfono solo puede contener dígitos, espacios, +, paréntesis y guiones.',
             'phone.max' => 'El teléfono es demasiado largo.',
             'g-recaptcha-response.required' => 'Por favor completa el reCAPTCHA antes de enviar el formulario.',

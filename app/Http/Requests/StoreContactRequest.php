@@ -41,7 +41,8 @@ class StoreContactRequest extends FormRequest
     {
         return [
             'name'    => 'required|string|max:100', // Nombre obligatorio, string, máximo 100 caracteres.
-            'email'   => 'required|email|max:150', // Email obligatorio, válido, máximo 150 caracteres.
+            // Email obligatorio, validado por regex (offline, sin DNS)
+            'email'   => ['required', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/', 'max:150'],
             'subject' => 'nullable|string|max:160', // Asunto opcional, string, máximo 160 caracteres.
             'message' => 'required|string|max:2000', // Mensaje obligatorio, string, máximo 2000 caracteres.
             'gdpr'    => 'accepted', // Aceptación de GDPR obligatoria.
@@ -56,6 +57,7 @@ class StoreContactRequest extends FormRequest
         return [
             'name.required' => 'Por favor indica tu nombre.',
             'email.required' => 'Por favor indica un correo válido.',
+            'email.regex' => 'El formato del correo no es válido.',
             'message.required' => 'Escribe tu mensaje antes de enviarlo.',
             'gdpr.accepted' => 'Debes aceptar la política de protección de datos para continuar.',
             'g-recaptcha-response.required' => 'Por favor completa el reCAPTCHA antes de enviar el formulario.',

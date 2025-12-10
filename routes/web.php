@@ -108,43 +108,15 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/mis-reservas/{booking}', [UserBookingController::class, 'destroy'])->name('user.bookings.destroy');
 
-    // Permitir al usuario descargar su propio archivo de traducción (si subió uno)
-    // Permitir al usuario descargar su archivo de traducción
-    // Si existe traducción final (output_file_path), se descarga esa.
-    // Si no, se descarga el archivo original subido.
-    Route::get('/mis-traducciones/{id}/archivo', function ($id) {
-        $tr = TranslationRequest::findOrFail($id);
-
-        // Asegurar que la traducción pertenece al usuario loggeado
-        $user = auth()->user();
-        // Usamos user_id como fuente de la verdad; si no existe, denegamos acceso
-        if (! $tr->user_id || $tr->user_id !== $user->id) {
-            abort(403);
-        }
-
-        // Priorizar archivo traducido final
-        $path = $tr->output_file_path ?: $tr->file_path;
-
-        if (!$path || !Storage::disk('local')->exists($path)) {
-            abort(404, 'Archivo no encontrado en el servidor.');
-        }
-
-        $filename = basename($path);
-
-        return Storage::disk('local')->download($path, $filename);
-    })->name('user.translations.download');
+  
+    Route::get('/mis-traducciones/{id}/archivo', [TranslationRequestController::class, 'download'])
+        ->name('user.translations.download');
 
 
 
     // Página dedicada: Mis traducciones (lista del usuario)
-    Route::get('/mis-traducciones', function () {
-        $user = auth()->user();
-        $items = TranslationRequest::where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return view('user.translations.index', compact('items'));
-    })->name('user.translations.index');
+    Route::get('/mis-traducciones', [TranslationRequestController::class, 'index'])
+        ->name('user.translations.index');
 });
 
 
@@ -171,23 +143,11 @@ Route::middleware(['auth', AdminMiddleware::class])
     ->prefix('admin')->name('admin.')->group(function () {
 
         // Traducciones (panel admin)
-        Route::get('/traducciones', function () {
-            $items = TranslationRequest::latest()->paginate(20);
-            return view('admin.translation', compact('items'));
-        })->name('translations.index');
+        Route::get('/traducciones', [AdminTranslationController::class, 'index'])
+            ->name('translations.index');
 
-        Route::get('/traducciones/{id}/archivo', function ($id) {
-            $tr = TranslationRequest::findOrFail($id);
-
-            // Comprueba que exista en el disco "local"
-            if (!Storage::disk('local')->exists($tr->file_path)) {
-                abort(404, 'Archivo no encontrado en el servidor.');
-            }
-
-            // Descarga usando Storage (mejor que construir la ruta a mano)
-            $filename = basename($tr->file_path); // o guarda nombre original en BD
-            return Storage::disk('local')->download($tr->file_path, $filename);
-        })->name('translations.download');
+        Route::get('/traducciones/{id}/archivo', [AdminTranslationController::class, 'download'])
+            ->name('translations.download');
 
         //TRADUCCION: asignar precio y generar enlace de pago
         Route::post('/traducciones/{translation}/presupuesto', [AdminTranslationController::class, 'quote'])

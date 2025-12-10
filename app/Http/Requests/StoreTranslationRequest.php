@@ -24,6 +24,7 @@ class StoreTranslationRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
+            'email' => $this->email ? trim($this->email) : null,
             'source_lang' => trim(strip_tags($this->source_lang)), // Limpia idioma origen.
             'target_lang' => trim(strip_tags($this->target_lang)), // Limpia idioma destino.
             'urgency' => $this->urgency ? trim(strip_tags($this->urgency)) : null, // Limpia urgencia si existe.
@@ -39,6 +40,8 @@ class StoreTranslationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // Email opcional si el usuario no está enlazado (mantener por coherencia aunque authorize requiere auth)
+            'email' => ['nullable', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/', 'max:150'],
             'source_lang' => 'required|string|max:10', // Idioma origen obligatorio, string, máximo 10 caracteres.
             'target_lang' => 'required|string|max:10|different:source_lang', // Idioma destino obligatorio, diferente al origen.
             'urgency' => 'nullable|in:normal,alta', // Urgencia opcional, valores permitidos: normal o alta.
@@ -54,6 +57,7 @@ class StoreTranslationRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'email.regex' => 'El formato del correo no es válido.',
             'file.mimes' => 'Formato de archivo no soportado. Tipos permitidos: PDF, DOC, DOCX, ODT, TXT, RTF.',
             'file.max' => 'El archivo es demasiado grande. Tamaño máximo permitido: 10MB.',
             'g-recaptcha-response.required' => 'Por favor completa el reCAPTCHA antes de enviar el formulario.',

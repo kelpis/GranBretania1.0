@@ -11,9 +11,19 @@ use App\Models\TranslationRequest;
 use Illuminate\Http\Request;
 use Stripe\StripeClient;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 //CONTRALADOR ACCIONES TRANDUCCIONES ADMINISTRADOR
 class AdminTranslationController extends Controller
 {
+
+    /**
+     * Listado admin de traducciones.
+     */
+    public function index()
+    {
+        $items = TranslationRequest::latest()->paginate(20);
+        return view('admin.translation', compact('items'));
+    }
 
     // Asigna un precio final a la traducción y crea una sesión de Stripe Checkout.
     //Devuelve un enlace de pago que la admin puede copiar y enviar al cliente.
@@ -146,5 +156,20 @@ class AdminTranslationController extends Controller
         }
 
         return back()->with('ok', 'Traducción final subida y marcada como entregada.');
+    }
+
+    /**
+     * Descargar el archivo original subido por el usuario (solo admin).
+     */
+    public function download($id)
+    {
+        $tr = TranslationRequest::findOrFail($id);
+
+        if (! Storage::disk('local')->exists($tr->file_path)) {
+            abort(404, 'Archivo no encontrado en el servidor.');
+        }
+
+        $filename = basename($tr->file_path);
+        return Storage::disk('local')->download($tr->file_path, $filename);
     }
 }
