@@ -8,7 +8,7 @@
             Regístrate para acceder a tu área personal y gestionar tus clases, presupuestos de traducción y todos tus servicios en un solo lugar.
         </p>
     </div>
-    {{-- Copiado estilo del login: contenedor + card azul con texto beige --}}
+ 
     <div class="container mx-auto px-4">
         <div class="max-w-md mx-auto mt-6 bg-azul text-beige2 rounded-lg shadow-lg p-8">
 

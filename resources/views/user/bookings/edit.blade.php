@@ -1,6 +1,6 @@
 {{--
     Vista: user/bookings/edit.blade.php
-    formulario para que el usuario edite una reserva existente (fecha, hora, datos).
+    Formulario para que el usuario edite una reserva existente (fecha, hora, datos).
 --}}
 
 @extends('layouts.site')

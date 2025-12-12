@@ -1,6 +1,6 @@
 {{--
 Vistas de `bookings` create.blade.php
-formulario para crear una reserva (fecha, hora, datos de contacto)
+Formulario para crear una reserva (fecha, hora, datos de contacto)
 --}}
 
 @extends('layouts.site')

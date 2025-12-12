@@ -16,4 +16,4 @@ use App\Http\Controllers\StripeWebhookController;
 */
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
 ->name('stripe.webhook');
-// No API routes defined. See routes/web.php for the Stripe webhook endpoint.
+// See routes/web.php for the Stripe webhook endpoint.

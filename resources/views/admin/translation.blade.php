@@ -21,7 +21,7 @@
 
 
             {{-- CALCULADORA TRADUCCIÓN --}}
-            {{-- Herramienta cliente para estimar precio; no envía datos al servidor --}}
+            {{-- Herramienta  para estimar precio; no envía datos al servidor --}}
             <div id="translation-calculator"
                 class="mb-12 rounded-2xl border border-azul/20 bg-azul text-white shadow p-6">
                 <h3 class="text-white font-semibold text-lg mb-4">Calculadora rápida de traducción</h3>

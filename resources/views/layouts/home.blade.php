@@ -1,7 +1,7 @@
 {{--
 Layout: home.blade.php
-Propósito: página principal (hero, carrusel, CTA, secciones resumen).
-Notas: carga contenido dinámico y componentes Alpine; mantener imágenes optimizadas.
+Página principal (hero, carrusel, CTA, secciones resumen).
+Carga contenido dinámico y componentes Alpine; mantener imágenes optimizadas.
 --}}
 
 

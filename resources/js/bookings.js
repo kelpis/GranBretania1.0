@@ -127,7 +127,7 @@ if (dateSelect && dateSelect.value) loadTimesFor(dateSelect.value);
     if (node && node.classList && node.classList.contains('client-error')) node.remove();
   }
 
-  
+
   if (phone) {
     // Validación en tiempo real mientras el usuario escribe
     phone.addEventListener('input', function () {

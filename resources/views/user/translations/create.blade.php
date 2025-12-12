@@ -1,6 +1,6 @@
 {{--
   Vista: user/translations/create.blade.php
-  formulario para solicitar una traducción; adjuntar archivo y datos de contacto.
+  Formulario para solicitar una traducción; adjuntar archivo y datos de contacto.
  --}}
 
 @extends('layouts.site')

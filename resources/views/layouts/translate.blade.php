@@ -1,6 +1,6 @@
 {{--
     Layout: translate.blade.php
-    página de servicios de traducción (idiomas, tipos y tarifas).
+    Página de servicios de traducción (idiomas, tipos y tarifas).
    
 --}}
 

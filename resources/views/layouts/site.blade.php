@@ -11,7 +11,6 @@ layout global con header, footer, carga de Vite y manejo de tema oscuro.
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@yield('title', 'Gran Bretania')</title>
-    {{-- Script del tema movido a `resources/js/theme.js` y cargado desde Vite (import en `app.js`) --}}
     {{-- Fuentes --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

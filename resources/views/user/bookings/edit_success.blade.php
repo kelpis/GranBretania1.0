@@ -1,7 +1,7 @@
 
 {{--
   Vista: user/bookings/edit_success.blade.php
-  mensaje de éxito tras actualizar una reserva por parte del usuario.
+  Mensaje de éxito tras actualizar una reserva por parte del usuario.
 --}}
 
 @extends('layouts.site')

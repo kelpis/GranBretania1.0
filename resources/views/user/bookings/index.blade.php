@@ -1,6 +1,6 @@
 {{--
     Vista: user/bookings/index.blade.php
-    lista de reservas del usuario, separa próximas de historial y permite acciones (editar, cancelar, unirse).
+    Lista de reservas del usuario, separa próximas de historial y permite acciones (editar, cancelar, unirse).
 --}}
 
 @extends('layouts.site')

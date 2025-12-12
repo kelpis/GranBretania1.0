@@ -1,8 +1,7 @@
 
 {{--
-  Vistas de `bookings` → success.blade.php
-  Propósito: mostrar confirmación tras el envío/compra de una reserva.
-  Notas: vista estática; evita lógica JS. Mantener enlaces seguros hacia `dashboard`.
+  Vistas de `bookings` : success.blade.php
+  Muestra confirmacion confirmación tras el envío/compra de una reserva.
 --}}
 
 @extends('layouts.site')

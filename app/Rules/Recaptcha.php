@@ -4,7 +4,7 @@ namespace App\Rules;
 
 /** @noinspection PhpDeprecationInspection */
 
-use Illuminate\Contracts\Validation\Rule; // Deprecada (marca vistibleual en vendor)
+use Illuminate\Contracts\Validation\Rule; // Deprecada 
 use Illuminate\Support\Facades\Http;
 
 // Regla de validación para reCAPTCHA (v3).

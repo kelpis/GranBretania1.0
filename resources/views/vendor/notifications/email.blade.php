@@ -63,7 +63,7 @@
             line-height: 1.4;
         }
 
-        /* Responsive tweaks for narrow clients */
+        
         @media only screen and (max-width: 480px) {
             .wrapper {
                 padding: 0 10px;
@@ -84,11 +84,11 @@
 <body>
     <div class="wrapper">
 
-        {{-- Preheader text (hidden but visible in inbox preview) --}}
+        
         <span
             style="display:none!important;visibility:hidden;mso-hide:all;opacity:0;color:transparent;height:0;width:0;overflow:hidden;">{{ $preheader ?? (strip_tags(implode(' ', $introLines ?? [])) ?: config('app.name')) }}</span>
 
-        {{-- HEADER: título con subtítulo --}}
+        {{-- HEADER --}}
         <div class="header"
             style="background: linear-gradient(90deg,#01256b 0%,#011a6b 100%); padding: 20px 18px; text-align: center; border-top-left-radius:14px; border-top-right-radius:14px;">
             <div style="max-width:560px; margin:0 auto;">
@@ -152,8 +152,8 @@
         </div>
 
 
-        {{-- Footer: dentro del wrapper para que coincida con la anchura del header --}}
-        {{-- Footer: dentro del wrapper para que coincida con la anchura del header --}}
+       
+        {{-- Footer: --}}
                 <div class="footer" style="
                 padding:26px 18px;
                 display:block;
